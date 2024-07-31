@@ -1,0 +1,25 @@
+#header {
+  padding: 20px;
+  background: 	#E6E6FA;
+  border-bottom: 1px solid #e0e4e8;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.copyright {
+  color: black;
+  font-size: 0.9em;
+}
+
+.description p i {
+    font-family: 'Gill Sans';
+    font-weight: bold;
+    font-size: 18px;
+    text-transform: uppercase;
+    color:darkslateblue
+    }
+
+.description img {
+        vertical-align: top;
+    }
