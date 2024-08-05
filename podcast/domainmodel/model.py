@@ -325,5 +325,60 @@ class Review:
 
 
 class Playlist:
-    # TODO: Complete the implementation of the Playlist class.
-    pass
+    def __init__(self, playlist_id: int, name: str = "Untitled", user: User):
+        validate_non_negative_int(playlist_id)
+        self._id = playlist_id
+        self._name = name
+        self._user = user
+        self._episodes = []
+
+    @property
+    def id(self) -> int:
+        return self._id
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @name.setter
+    def name(self, new_name: str):
+        validate_non_empty_string(new_name, "New name")
+        self._name = new_name.strip()
+
+    @property
+    def user(self) -> User:
+        return self._user
+
+    def add_episode(self, episode: Episode):
+        if not isinstance(episode, Episode):
+            raise TypeError("Expected an Episode instance.")
+        if episode not in self._episodes:
+            self._episodes.append(episode)
+
+    def remove_episode(self, episode: Episode):
+        if episode in self._episodes:
+            self._episodes.remove(episode)
+
+    def __repr__(self) -> str:
+        return f"<Playlist {self._id}: {self._name}>"
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Playlist):
+            return False
+        return self.id == other.id
+
+    def __lt__(self, other: object) -> bool:
+        if not isinstance(other, Playlist):
+            return False
+        return self.name < other.name
+
+    def __hash__(self) -> int:
+        return hash(self.id)
+
+
+
+
+
+
+
+
