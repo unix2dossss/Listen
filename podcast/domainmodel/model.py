@@ -351,49 +351,49 @@ class Episode:
         return self.episode_id
 
     @episode_id.setter
-    def episode_id(self, episode_id: int):
-        validate_non_negative_int(episode_id)
-        self.episode_id = episode_id
+    def episode_id(self, new_episode_id: int):
+        validate_non_negative_int(new_episode_id)
+        self.episode_id = new_episode_id
 
     @property
     def episode_title(self) -> str:
         return self.episode_title
 
     @episode_title.setter
-    def episode_title(self, episode_title: str):
-        self.episode_title = episode_title
+    def episode_title(self, new_episode_title: str):
+        self.episode_title = new_episode_title
 
     @property
     def episode_audio_link(self) -> str:
         return self.episode_audio_link
 
     @episode_audio_link.setter
-    def episode_audio_link(self, episode_audio_link: str):
-        self.episode_audio_link = episode_audio_link
+    def episode_audio_link(self, new_episode_audio_link: str):
+        self.episode_audio_link = new_episode_audio_link
 
     @property
     def episode_audio_length(self) -> str:
         return str(self.episode_audio_length)
 
     @episode_audio_length.setter
-    def episode_audio_length(self, episode_audio_length: AudioTime):
-        self.episode_audio_length = episode_audio_length
+    def episode_audio_length(self, new_episode_audio_length: AudioTime):
+        self.episode_audio_length = new_episode_audio_length
 
     @property
     def episode_description(self) -> str:
         return self.episode_description
 
     @episode_description.setter
-    def episode_description(self, episode_description: str):
-        self.episode_description = episode_description
+    def episode_description(self, new_episode_description: str):
+        self.episode_description = new_episode_description
 
     @property
     def episode_publish_date(self) -> datetime:
         return self.episode_publish_date
 
     @episode_publish_date.setter
-    def episode_publish_date(self, episode_publish_date: datetime):
-        self.episode_publish_date = episode_publish_date
+    def episode_publish_date(self, new_episode_publish_date: datetime):
+        self.episode_publish_date = new_episode_publish_date
 
 
 class Review:
