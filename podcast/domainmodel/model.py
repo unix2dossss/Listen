@@ -418,15 +418,15 @@ class Episode:
 
 
 class Review:
-    def __init__(self, review_id: int, owner: User, content: str):
+    def __init__(self, review_id: int, owner: User, comment: str):
         validate_non_negative_int(review_id)
         if not isinstance(owner, User):
             raise TypeError("Owner must be a User object.")
-        validate_non_empty_string(content, "New content")
+        validate_non_empty_string(comment, "New comment")
         self._id = review_id
         self._owner = owner
         self._rating = ""
-        self._content = content
+        self._comment = comment
 
     @property
     def id(self) -> int:
@@ -452,13 +452,13 @@ class Review:
         self._rating = new_rating.strip()
 
     @property
-    def content(self) -> str:
-        return self._content
+    def comment(self) -> str:
+        return self._comment
 
-    @content.setter
-    def content(self, new_content: str):
-        validate_non_empty_string(new_content, "New content")
-        self._content = new_content.strip()
+    @comment.setter
+    def comment(self, new_comment: str):
+        validate_non_empty_string(new_comment, "New comment")
+        self._comment = new_comment.strip()
 
     def __repr__(self) -> str:
         return f"<Review {self._id}: Owned by {self.owner.username}>"
@@ -473,7 +473,6 @@ class Review:
             return False
         return self._rating < other.rating
 
-    # Use to group reviews by rating
     def __hash__(self):
         return None
 
