@@ -1,0 +1,16 @@
+
+#content-2 h3 {
+    font-size: 50px;
+}
+
+.description p i {
+    font-weight: bold;
+}
+
+.copyright {
+  color: black;
+  font-size: 0.3em;
+}
+#image-url{
+    color: blue;
+}
