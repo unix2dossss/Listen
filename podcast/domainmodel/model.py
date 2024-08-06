@@ -418,7 +418,7 @@ class Episode:
 
 
 class Comment:
-    def __init__(self, comment_id: int, owner: User, comment_text: str, comment_data: datetime):
+    def __init__(self, comment_id: int, owner: User, comment_text: str, comment_date: datetime):
         validate_non_negative_int(comment_id)
         if not isinstance(owner, User):
             raise TypeError("Owner must be a User object.")
@@ -426,11 +426,38 @@ class Comment:
         self._id = comment_id
         self._owner = owner
         self._comment_text = comment_text
-        self._comment_data = comment_data
+        self._comment_date = comment_date
 
+    @property
+    def id(self) -> int:
+        return self._id
 
+    @property
+    def owner(self) -> User:
+        return self._owner
 
+    @owner.setter
+    def owner(self, new_owner: User):
+        if not isinstance(new_owner, User):
+            raise TypeError("Owner must be a User object.")
+        self._owner = new_owner
 
+    @property
+    def comment_text(self) -> str:
+        return self._comment_text
+
+    @comment_text.setter
+    def comment_text(self, new_comment_text: str):
+        validate_non_empty_string(new_comment_text, "New text")
+        self._comment_text = new_comment_text.strip()
+
+    @property
+    def comment_date(self) -> datetime:
+        return self._comment_date
+
+    @comment_date.setter
+    def comment_date(self, new_comment_date: datetime):
+        self._comment_date = new_comment_date
 
 
 
