@@ -381,7 +381,7 @@ class Review:
 
 
 class Playlist:
-    def __init__(self, playlist_id: int, name: str = "Untitled", user: User):
+    def __init__(self, playlist_id: int, user: User, name: str = "Untitled"):
         validate_non_negative_int(playlist_id)
         self._id = playlist_id
         self._name = name
