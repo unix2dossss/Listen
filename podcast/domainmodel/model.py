@@ -320,8 +320,64 @@ class Episode:
 
 
 class Review:
-    # TODO: Complete the implementation of the Review class.
-    pass
+    def __init__(self, review_id: int, owner: User, content: str):
+        validate_non_negative_int(review_id)
+        if not isinstance(owner, User):
+            raise TypeError("Owner must be a User object.")
+        validate_non_empty_string(content, "New content")
+        self._id = review_id
+        self._owner = owner
+        self._rating = ""
+        self._content = content
+
+    @property
+    def id(self) -> int:
+        return self._id
+
+    @property
+    def owner(self) -> User:
+        return self._owner
+
+    @owner.setter
+    def owner(self, new_owner: User):
+        if not isinstance(new_owner, User):
+            raise TypeError("Owner must be a User object.")
+        self._owner = new_owner
+
+    @property
+    def rating(self) -> str:
+        return self._rating
+
+    @rating.setter
+    def rating(self, new_rating: str):
+        validate_non_empty_string(new_rating, "New rating")
+        self._rating = new_rating.strip()
+
+    @property
+    def content(self) -> str:
+        return self._content
+
+    @content.setter
+    def content(self, new_content: str):
+        validate_non_empty_string(new_content, "New content")
+        self._content = new_content.strip()
+
+    def __repr__(self) -> str:
+        return f"<Review {self._id}: Owned by {self.owner.username}>"
+
+    def __eq__(self, other):
+        if not isinstance(other, Review):
+            return False
+        return self.id == other.id
+
+    def __lt__(self, other):
+        if not isinstance(other, Review):
+            return False
+        return self._rating < other.rating
+
+    # Use to group reviews by rating
+    def __hash__(self):
+        return None
 
 
 class Playlist:
