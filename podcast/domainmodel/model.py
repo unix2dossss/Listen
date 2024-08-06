@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import datetime
+
 
 def validate_non_negative_int(value):
     if not isinstance(value, int) or value < 0:
@@ -9,6 +11,15 @@ def validate_non_negative_int(value):
 def validate_non_empty_string(value, field_name="value"):
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"{field_name} must be a non-empty string.")
+
+
+def validate_time(hours, minutes, seconds):
+    if not isinstance(hours, int) or hours < 0:
+        raise ValueError("Hours must be a non-negative integer")
+    if not isinstance(minutes, int) or minutes < 0 or minutes > 60:
+        raise ValueError("Minutes must be between 0 and 59")
+    if not isinstance(seconds, int) or seconds < 0 or seconds > 60:
+        raise ValueError("Seconds must be between 0 and 59")
 
 
 class Author:
@@ -314,16 +325,267 @@ class PodcastSubscription:
         return hash((self.id, self.owner, self.podcast))
 
 
+class AudioTime:
+    def __init__(self, hours: int, minutes: int, seconds: int):
+        validate_time(hours, minutes, seconds)
+        self.audio_hours: int = hours
+        self.audio_minutes: int = minutes
+        self.audio_seconds: int = seconds
+
+    def __str__(self):
+        return f"{self.audio_hours}h {self.audio_minutes}m {self.audio_seconds}s"
+
+
 class Episode:
-    # TODO: Complete the implementation of the Episode class.
-    pass
+    def __init__(self, episode_id: int, episode_title: str, episode_audio_link: str, episode_audio_length: AudioTime,
+                 episode_description: str, episode_publish_date: datetime):
+        self._episode_id: int = episode_id
+        self._episode_title: str = episode_title
+        self._episode_audio_link: str = episode_audio_link
+        self._episode_audio_length: AudioTime = episode_audio_length
+        self._episode_description: str = episode_description
+        self._episode_publish_date: datetime = episode_publish_date
+
+    @property
+    def episode_id(self) -> int:
+        return self._episode_id
+
+    @episode_id.setter
+    def episode_id(self, new_episode_id: int):
+        validate_non_negative_int(new_episode_id)
+        self._episode_id = new_episode_id
+
+    @property
+    def episode_title(self) -> str:
+        return self._episode_title
+
+    @episode_title.setter
+    def episode_title(self, new_episode_title: str):
+        self._episode_title = new_episode_title
+
+    @property
+    def episode_audio_link(self) -> str:
+        return self._episode_audio_link
+
+    @episode_audio_link.setter
+    def episode_audio_link(self, new_episode_audio_link: str):
+        self._episode_audio_link = new_episode_audio_link
+
+    @property
+    def episode_audio_length(self) -> str:
+        return str(self._episode_audio_length)
+
+    @episode_audio_length.setter
+    def episode_audio_length(self, new_episode_audio_length: AudioTime):
+        self._episode_audio_length = new_episode_audio_length
+
+    @property
+    def episode_description(self) -> str:
+        return self._episode_description
+
+    @episode_description.setter
+    def episode_description(self, new_episode_description: str):
+        self._episode_description = new_episode_description
+
+    @property
+    def episode_publish_date(self) -> datetime:
+        return self._episode_publish_date
+
+    @episode_publish_date.setter
+    def episode_publish_date(self, new_episode_publish_date: datetime):
+        self._episode_publish_date = new_episode_publish_date
+
+    def __repr__(self) -> str:
+        return f"<Episode {self._episode_id}: {self._episode_title}, {self._episode_audio_length}>"
+
+    def __str__(self) -> str:
+        return f"""
+            Episode ID: {self._episode_id}
+            Episode Title: {self._episode_title}
+            Episode Description: {self._episode_description}
+            Episode Publish Date: {self._episode_publish_date}
+            Episode Length: {str(self._episode_audio_length)}
+            Episode Link: {self._episode_audio_link}
+        """
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Episode):
+            return False
+        return self._episode_id == other._episode_id
+
+    def __hash__(self) -> int:
+        return hash(self._episode_id)
+
+
+class Comment:
+    def __init__(self, comment_id: int, owner: User, comment_text: str, comment_date: datetime):
+        validate_non_negative_int(comment_id)
+        if not isinstance(owner, User):
+            raise TypeError("Owner must be a User object.")
+        validate_non_empty_string(comment_text, "New text")
+        self._id = comment_id
+        self._owner = owner
+        self._comment_text = comment_text
+        self._comment_date = comment_date
+
+    @property
+    def id(self) -> int:
+        return self._id
+
+    @property
+    def owner(self) -> User:
+        return self._owner
+
+    @owner.setter
+    def owner(self, new_owner: User):
+        if not isinstance(new_owner, User):
+            raise TypeError("Owner must be a User object.")
+        self._owner = new_owner
+
+    @property
+    def comment_text(self) -> str:
+        return self._comment_text
+
+    @comment_text.setter
+    def comment_text(self, new_comment_text: str):
+        validate_non_empty_string(new_comment_text, "New text")
+        self._comment_text = new_comment_text.strip()
+
+    @property
+    def comment_date(self) -> datetime:
+        return self._comment_date
+
+    @comment_date.setter
+    def comment_date(self, new_comment_date: datetime):
+        self._comment_date = new_comment_date
+
+    def __str__(self) -> str:
+        return f"""
+            Comment ID: {self._id}
+            Comment Owner: {self._owner}
+            Commented Date: {self._comment_date}
+            Comment Text: {self._comment_text}
+        """
+
+    def __repr__(self) -> str:
+        return f"<Comment {self._id}: Owned by {self.owner.username}>"
+
+    def __eq__(self, other):
+        if not isinstance(other, Comment):
+            return False
+        return self.id == other.id
+
+    def __hash__(self):
+        return None
 
 
 class Review:
-    # TODO: Complete the implementation of the Review class.
-    pass
+    def __init__(self, review_id: int, owner: User, comment: str):
+        validate_non_negative_int(review_id)
+        if not isinstance(owner, User):
+            raise TypeError("Owner must be a User object.")
+        validate_non_empty_string(comment, "New comment")
+        self._id = review_id
+        self._owner = owner
+        self._rating = ""
+        self._comment = comment
+
+    @property
+    def id(self) -> int:
+        return self._id
+
+    @property
+    def owner(self) -> User:
+        return self._owner
+
+    @owner.setter
+    def owner(self, new_owner: User):
+        if not isinstance(new_owner, User):
+            raise TypeError("Owner must be a User object.")
+        self._owner = new_owner
+
+    @property
+    def rating(self) -> str:
+        return self._rating
+
+    @rating.setter
+    def rating(self, new_rating: str):
+        validate_non_empty_string(new_rating, "New rating")
+        self._rating = new_rating.strip()
+
+    @property
+    def comment(self) -> str:
+        return self._comment
+
+    @comment.setter
+    def comment(self, new_comment: str):
+        validate_non_empty_string(new_comment, "New comment")
+        self._comment = new_comment.strip()
+
+    def __repr__(self) -> str:
+        return f"<Review {self._id}: Owned by {self.owner.username}>"
+
+    def __eq__(self, other):
+        if not isinstance(other, Review):
+            return False
+        return self.id == other.id
+
+    def __lt__(self, other):
+        if not isinstance(other, Review):
+            return False
+        return self._rating < other.rating
+
+    def __hash__(self):
+        return None
 
 
 class Playlist:
-    # TODO: Complete the implementation of the Playlist class.
-    pass
+    def __init__(self, playlist_id: int, user: User, name: str = "Untitled"):
+        validate_non_negative_int(playlist_id)
+        self._id = playlist_id
+        self._name = name
+        self._user = user
+        self._episodes = []
+
+    @property
+    def id(self) -> int:
+        return self._id
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @name.setter
+    def name(self, new_name: str):
+        validate_non_empty_string(new_name, "New name")
+        self._name = new_name.strip()
+
+    @property
+    def user(self) -> User:
+        return self._user
+
+    def add_episode(self, episode: Episode):
+        if not isinstance(episode, Episode):
+            raise TypeError("Expected an Episode instance.")
+        if episode not in self._episodes:
+            self._episodes.append(episode)
+
+    def remove_episode(self, episode: Episode):
+        if episode in self._episodes:
+            self._episodes.remove(episode)
+
+    def __repr__(self) -> str:
+        return f"<Playlist {self._id}: {self._name}>"
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Playlist):
+            return False
+        return self.id == other.id
+
+    def __lt__(self, other: object) -> bool:
+        if not isinstance(other, Playlist):
+            return False
+        return self.name < other.name
+
+    def __hash__(self) -> int:
+        return hash(self.id)
