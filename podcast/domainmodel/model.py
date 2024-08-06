@@ -337,13 +337,38 @@ class AudioTime:
 
 
 class Episode:
-    def __init__(self, episode_title: str, episode_audio_link: str, episode_audio_length: AudioTime,
+    def __init__(self, episode_id: int, episode_title: str, episode_audio_link: str, episode_audio_length: AudioTime,
                  episode_description: str, episode_publish_date: datetime):
+        self.episode_id: int = episode_id
         self.episode_title: str = episode_title
         self.episode_audio_link: str = episode_audio_link
         self.episode_audio_length: AudioTime = episode_audio_length
         self.episode_description: str = episode_description
         self.episode_publish_date: datetime = episode_publish_date
+
+    @property
+    def get_episode_id(self) -> int:
+        return self.episode_id
+
+    @property
+    def get_episode_title(self) -> str:
+        return self.episode_title
+
+    @property
+    def get_episode_audio_link(self) -> str:
+        return self.episode_audio_link
+
+    @property
+    def get_episode_audio_length(self) -> str:
+        return str(self.episode_audio_length)
+
+    @property
+    def get_episode_description(self) -> str:
+        return self.episode_description
+
+    @property
+    def get_episode_publish_date(self) -> datetime:
+        return self.episode_publish_date
 
 
 class Review:
