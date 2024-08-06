@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import datetime
+
 
 def validate_non_negative_int(value):
     if not isinstance(value, int) or value < 0:
@@ -9,6 +11,15 @@ def validate_non_negative_int(value):
 def validate_non_empty_string(value, field_name="value"):
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"{field_name} must be a non-empty string.")
+
+
+def validate_time(hours, minutes, seconds):
+    if not isinstance(hours, int) or hours < 0:
+        raise ValueError("Hours must be a non-negative integer")
+    if not isinstance(minutes, int) or minutes < 0 or minutes > 60:
+        raise ValueError("Minutes must be between 0 and 59")
+    if not isinstance(seconds, int) or seconds < 0 or seconds > 60:
+        raise ValueError("Seconds must be between 0 and 59")
 
 
 class Author:
@@ -314,9 +325,23 @@ class PodcastSubscription:
         return hash((self.id, self.owner, self.podcast))
 
 
+class AudioTime:
+    def __init__(self, hours: int, minutes: int, seconds: int):
+        validate_time(hours, minutes, seconds)
+        self.hours = hours
+        self.minutes = minutes
+        self.seconds = seconds
+
+    def __str__(self):
+        return f"{self.hours}h {self.minutes}m {self.seconds}s"
+
+
 class Episode:
-    # TODO: Complete the implementation of the Episode class.
-    pass
+    def __init__(self, episode_title: str, episode_audio_link: str, episode_audio_length: AudioTime,
+                 episode_description: str, episode_publish_date: datetime):
+        pass
+
+
 
 
 class Review:
