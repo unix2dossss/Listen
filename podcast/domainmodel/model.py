@@ -459,6 +459,24 @@ class Comment:
     def comment_date(self, new_comment_date: datetime):
         self._comment_date = new_comment_date
 
+    def __str__(self) -> str:
+        return f"""
+            Comment ID: {self._id}
+            Comment Owner: {self._owner}
+            Commented Date: {self._comment_date}
+            Comment Text: {self._comment_text}
+        """
+
+    def __repr__(self) -> str:
+        return f"<Comment {self._id}: Owned by {self.owner.username}>"
+
+    def __eq__(self, other):
+        if not isinstance(other, Comment):
+            return False
+        return self.id == other.id
+
+    def __hash__(self):
+        return None
 
 
 class Review:
