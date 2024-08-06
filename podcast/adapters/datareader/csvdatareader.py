@@ -6,7 +6,7 @@ from podcast.domainmodel.model import Podcast, Episode, Author, Category
 class CSVDataReader:
     def __init__(self):
         self._podcasts, self._episodes = [], []
-        self._authors, self._categories = set(), set()
+        self._authors, self._categories = set(), dict()
 
         self.create_podcasts()
 
@@ -40,5 +40,24 @@ class CSVDataReader:
                 itunes_id= pc_itunes_id
             )
 
+
+
+
+            c_id = 1
+            for c in pc_categories.split(' | '):
+                category: Category = None
+                if c in self._categories:
+                    category = self._categories[c]
+                else:
+                    category = Category(
+                        category_id=c_id,
+                        name=c
+                    )
+                    c += 1
+                    self._categories[c] = category
+
+                new_podcast.add_category(category)
+
+            self._podcasts.append(new_podcast)
 
 a = CSVDataReader()
