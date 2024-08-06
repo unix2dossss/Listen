@@ -328,20 +328,22 @@ class PodcastSubscription:
 class AudioTime:
     def __init__(self, hours: int, minutes: int, seconds: int):
         validate_time(hours, minutes, seconds)
-        self.hours = hours
-        self.minutes = minutes
-        self.seconds = seconds
+        self.audio_hours: int = hours
+        self.audio_minutes: int = minutes
+        self.audio_seconds: int = seconds
 
     def __str__(self):
-        return f"{self.hours}h {self.minutes}m {self.seconds}s"
+        return f"{self.audio_hours}h {self.audio_minutes}m {self.audio_seconds}s"
 
 
 class Episode:
     def __init__(self, episode_title: str, episode_audio_link: str, episode_audio_length: AudioTime,
                  episode_description: str, episode_publish_date: datetime):
-        pass
-
-
+        self.episode_title: str = episode_title
+        self.episode_audio_link: str = episode_audio_link
+        self.episode_audio_length: AudioTime = episode_audio_length
+        self.episode_description: str = episode_description
+        self.episode_publish_date: datetime = episode_publish_date
 
 
 class Review:
@@ -455,11 +457,3 @@ class Playlist:
 
     def __hash__(self) -> int:
         return hash(self.id)
-
-
-
-
-
-
-
-
