@@ -395,6 +395,27 @@ class Episode:
     def episode_publish_date(self, new_episode_publish_date: datetime):
         self.episode_publish_date = new_episode_publish_date
 
+    def __repr__(self) -> str:
+        return f"<Episode {self.episode_id}: {self.episode_title}, {self.episode_audio_length}>"
+
+    def __str__(self) -> str:
+        return f"""
+            Episode ID: {self.episode_id}
+            Episode Title: {self.episode_title}
+            Episode Description: {self.episode_description}
+            Episode Publish Date: {self.episode_publish_date}
+            Episode Length: {str(self.episode_audio_length)}
+            Episode Link: {self.episode_audio_link}
+        """
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Episode):
+            return False
+        return self.episode_id == other.episode_id
+
+    def __hash__(self) -> int:
+        return hash(self.episode_id)
+
 
 class Review:
     def __init__(self, review_id: int, owner: User, content: str):
