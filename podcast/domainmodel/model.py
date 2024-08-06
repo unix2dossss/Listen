@@ -417,6 +417,23 @@ class Episode:
         return hash(self._episode_id)
 
 
+class Comment:
+    def __init__(self, comment_id: int, owner: User, comment_text: str, comment_data: datetime):
+        validate_non_negative_int(comment_id)
+        if not isinstance(owner, User):
+            raise TypeError("Owner must be a User object.")
+        validate_non_empty_string(comment_text, "New text")
+        self._id = comment_id
+        self._owner = owner
+        self._comment_text = comment_text
+        self._comment_data = comment_data
+
+
+
+
+
+
+
 class Review:
     def __init__(self, review_id: int, owner: User, comment: str):
         validate_non_negative_int(review_id)
