@@ -339,82 +339,82 @@ class AudioTime:
 class Episode:
     def __init__(self, episode_id: int, episode_title: str, episode_audio_link: str, episode_audio_length: AudioTime,
                  episode_description: str, episode_publish_date: datetime):
-        self.episode_id: int = episode_id
-        self.episode_title: str = episode_title
-        self.episode_audio_link: str = episode_audio_link
-        self.episode_audio_length: AudioTime = episode_audio_length
-        self.episode_description: str = episode_description
-        self.episode_publish_date: datetime = episode_publish_date
+        self._episode_id: int = episode_id
+        self._episode_title: str = episode_title
+        self._episode_audio_link: str = episode_audio_link
+        self._episode_audio_length: AudioTime = episode_audio_length
+        self._episode_description: str = episode_description
+        self._episode_publish_date: datetime = episode_publish_date
 
     @property
     def episode_id(self) -> int:
-        return self.episode_id
+        return self._episode_id
 
     @episode_id.setter
     def episode_id(self, new_episode_id: int):
         validate_non_negative_int(new_episode_id)
-        self.episode_id = new_episode_id
+        self._episode_id = new_episode_id
 
     @property
     def episode_title(self) -> str:
-        return self.episode_title
+        return self._episode_title
 
     @episode_title.setter
     def episode_title(self, new_episode_title: str):
-        self.episode_title = new_episode_title
+        self._episode_title = new_episode_title
 
     @property
     def episode_audio_link(self) -> str:
-        return self.episode_audio_link
+        return self._episode_audio_link
 
     @episode_audio_link.setter
     def episode_audio_link(self, new_episode_audio_link: str):
-        self.episode_audio_link = new_episode_audio_link
+        self._episode_audio_link = new_episode_audio_link
 
     @property
     def episode_audio_length(self) -> str:
-        return str(self.episode_audio_length)
+        return str(self._episode_audio_length)
 
     @episode_audio_length.setter
     def episode_audio_length(self, new_episode_audio_length: AudioTime):
-        self.episode_audio_length = new_episode_audio_length
+        self._episode_audio_length = new_episode_audio_length
 
     @property
     def episode_description(self) -> str:
-        return self.episode_description
+        return self._episode_description
 
     @episode_description.setter
     def episode_description(self, new_episode_description: str):
-        self.episode_description = new_episode_description
+        self._episode_description = new_episode_description
 
     @property
     def episode_publish_date(self) -> datetime:
-        return self.episode_publish_date
+        return self._episode_publish_date
 
     @episode_publish_date.setter
     def episode_publish_date(self, new_episode_publish_date: datetime):
-        self.episode_publish_date = new_episode_publish_date
+        self._episode_publish_date = new_episode_publish_date
 
     def __repr__(self) -> str:
-        return f"<Episode {self.episode_id}: {self.episode_title}, {self.episode_audio_length}>"
+        return f"<Episode {self._episode_id}: {self._episode_title}, {self._episode_audio_length}>"
 
     def __str__(self) -> str:
         return f"""
-            Episode ID: {self.episode_id}
-            Episode Title: {self.episode_title}
-            Episode Description: {self.episode_description}
-            Episode Publish Date: {self.episode_publish_date}
-            Episode Length: {str(self.episode_audio_length)}
-            Episode Link: {self.episode_audio_link}
+            Episode ID: {self._episode_id}
+            Episode Title: {self._episode_title}
+            Episode Description: {self._episode_description}
+            Episode Publish Date: {self._episode_publish_date}
+            Episode Length: {str(self._episode_audio_length)}
+            Episode Link: {self._episode_audio_link}
         """
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Episode):
             return False
-        return self.episode_id == other.episode_id
+        return self._episode_id == other._episode_id
 
     def __hash__(self) -> int:
-        return hash(self.episode_id)
+        return hash(self._episode_id)
 
 
 class Review:
