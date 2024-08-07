@@ -123,5 +123,21 @@ class CSVDataReader:
 
         # print(self._episodes[10].episode_podcast == self._episodes[11].episode_podcast)
 
+    @property
+    def podcasts(self):
+        return self._podcasts
+
+    @property
+    def episodes(self):
+        return self._episodes
+
+    @property
+    def authors(self):
+        return self._authors
+
+    @property
+    def categories(self):
+        return self._categories
+
 
 a = CSVDataReader()
