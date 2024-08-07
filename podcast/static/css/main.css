@@ -15,8 +15,8 @@ body, html {
 }
 
 .sidebar {
-    width: 350px;
-    background-color: #353744;
+    width: 320px;
+    background-color: #2d303d;
     color: white;
     display: flex;
     flex-direction: column;
@@ -25,6 +25,8 @@ body, html {
     padding: 20px;
     padding-left: 40px;
     padding-top: 100px;
+    /* white border on the rhs of the sidebar */
+    /* margin-right: 2px; */
 }
 
 .sidebar-title {
@@ -75,7 +77,6 @@ body, html {
 .hero {
     width: 100%;
     height: auto;
-    /* background-color: #22242c; */
     background: linear-gradient(to right, #18281e, #252a36);
     display: flex;
     align-items: center;
@@ -83,6 +84,7 @@ body, html {
     color: white;
     margin-top: 15px;
     padding: 0px;
+    /* border-bottom: 1px solid #fff; */
 }
 
 .hero-content {
@@ -129,6 +131,7 @@ body, html {
 .about {
     color: white;
     padding: 40px;
+    padding-bottom: 0;
 }
 
 .about-header {
@@ -155,7 +158,7 @@ body, html {
 }
 
 .tag {
-    background-color: #444;
+    background-color: #353744;
     padding: 7px 10px;
     border-radius: 100px;
     display: flex;
@@ -175,10 +178,46 @@ body, html {
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.7s, color 0.7s;
 }
 
 .add-playlist-btn:hover {
     background-color: white;
     color: #282c34;
+}
+
+.about-separator  {
+    border: none;
+    height: 1px;
+    background-color: #404248;
+    margin: 35px 0;
+    margin-bottom: 10px;
+}
+
+.episodes {
+    color: white;
+    padding: 40px;
+}
+
+.episodes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.episodes-title {
+    font-size: 1.7em;
+}
+
+.episodes-sort-btn {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.episodes-sort-btn i {
+    margin-left: 10px;
 }
