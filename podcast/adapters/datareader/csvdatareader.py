@@ -139,5 +139,8 @@ class CSVDataReader:
     def categories(self):
         return self._categories
 
+    @property
+    def podcasts_by_category(self):
+        return self._podcasts_by_category
 
 a = CSVDataReader()
