@@ -7,6 +7,7 @@ class CSVDataReader:
     def __init__(self):
         self._podcasts, self._episodes = [], []
         self._authors, self._categories = dict(), dict()
+        self._podcasts_by_category = {}
 
         self.create_podcasts()
 
@@ -48,9 +49,6 @@ class CSVDataReader:
                 itunes_id=pc_itunes_id
             )
 
-            # Add podcast to authors podcast list
-            self._authors[pc_author].add_podcast(new_podcast)
-
             # Create Categories
             c_id = 1
             for c in pc_categories.split(' | '):
@@ -65,13 +63,17 @@ class CSVDataReader:
                     c_id += 1
                     self._categories[c] = category
 
+                if c in self._podcasts_by_category:
+                    self._podcasts_by_category[c].append(new_podcast)
+                else:
+                    self._podcasts_by_category[c] = [new_podcast]
+
                 # Add Category to Podcast
                 new_podcast.add_category(category)
 
+            # Add podcast to authors podcast list
+            self._authors[pc_author].add_podcast(new_podcast)
             self._podcasts.append(new_podcast)
-
-        for at in self._authors:
-            print(repr(at))
 
 
 a = CSVDataReader()

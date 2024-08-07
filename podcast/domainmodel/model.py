@@ -480,7 +480,7 @@ class Comment:
 
 
 class Review:
-    def __init__(self, review_id: int, owner: User, comment: str):
+    def __init__(self, review_id: int, owner: User, comment: Comment):
         validate_non_negative_int(review_id)
         if not isinstance(owner, User):
             raise TypeError("Owner must be a User object.")
