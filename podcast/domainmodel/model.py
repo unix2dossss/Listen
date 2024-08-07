@@ -337,9 +337,12 @@ class AudioTime:
 
 
 class Episode:
-    def __init__(self, episode_id: int, episode_title: str, episode_audio_link: str, episode_audio_length: AudioTime,
+    def __init__(self, episode_id: int, episode_podcast: Podcast, episode_title: str, episode_audio_link: str, episode_audio_length: AudioTime,
                  episode_description: str, episode_publish_date: datetime):
+        validate_non_empty_string(episode_title, field_name="Episode ID")
         self._episode_id: int = episode_id
+        validate_non_empty_string(episode_title, field_name="Podcast ID")
+        self.episode_podcast: Podcast = episode_podcast
         self._episode_title: str = episode_title
         self._episode_audio_link: str = episode_audio_link
         self._episode_audio_length: AudioTime = episode_audio_length
@@ -362,6 +365,14 @@ class Episode:
     @episode_title.setter
     def episode_title(self, new_episode_title: str):
         self._episode_title = new_episode_title
+
+    @property
+    def episode_podcast(self) -> Podcast:
+        return self._episode_podcast
+
+    @episode_podcast.setter
+    def episode_podcast(self, new_episode_podcast: Podcast):
+        self._episode_podcast = new_episode_podcast
 
     @property
     def episode_audio_link(self) -> str:
@@ -401,6 +412,7 @@ class Episode:
     def __str__(self) -> str:
         return f"""
             Episode ID: {self._episode_id}
+            Episode Podcast: {self._episode_podcast}
             Episode Title: {self._episode_title}
             Episode Description: {self._episode_description}
             Episode Publish Date: {self._episode_publish_date}
@@ -484,7 +496,6 @@ class Review:
         validate_non_negative_int(review_id)
         if not isinstance(owner, User):
             raise TypeError("Owner must be a User object.")
-        validate_non_empty_string(comment, "New comment")
         self._id = review_id
         self._owner = owner
         self._rating = ""
@@ -514,13 +525,16 @@ class Review:
         self._rating = new_rating.strip()
 
     @property
-    def comment(self) -> str:
+    def comment(self) -> Comment:
         return self._comment
 
+    @property
+    def comment_text(self) -> str:
+        return self._comment.comment_text
+
     @comment.setter
-    def comment(self, new_comment: str):
-        validate_non_empty_string(new_comment, "New comment")
-        self._comment = new_comment.strip()
+    def comment(self, new_comment: Comment):
+        self._comment = new_comment
 
     def __repr__(self) -> str:
         return f"<Review {self._id}: Owned by {self.owner.username}>"

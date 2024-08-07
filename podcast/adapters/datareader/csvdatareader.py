@@ -12,7 +12,7 @@ class CSVDataReader:
         self._podcasts_by_category = {}
 
         self.create_podcasts("../data/podcasts.csv")
-        self.create_episodes("../data/podcasts.csv")
+        self.create_episodes("../data/episodes.csv")
 
     def read_csv(self, input_file: str):
         with open(input_file, mode='r') as file_in:
@@ -86,11 +86,12 @@ class CSVDataReader:
         try:
             for row in self.read_csv(episode_file):
                 # ep = episode
-                ep_id, pc_id = int(row[0]), row[1]
+                ep_id, pc_id = int(row[0]), int(row[1])
                 ep_title, ep_audio_link = row[2], row[3]
                 ep_audio_length = row[4]
                 ep_description, ep_pub_date = row[5], row[6]
 
+                ep_pub_date = ep_pub_date.replace('+00', '+0000')
                 ep_pub_date_object = datetime.strptime(ep_pub_date, "%Y-%m-%d %H:%M:%S%z")
 
                 hours = int(ep_audio_length) // 3600
@@ -98,16 +99,29 @@ class CSVDataReader:
                 seconds = int(ep_audio_length) % 60
                 ep_audio_length_object = AudioTime(hours, minutes, seconds)
 
+                for pcast in self._podcasts:
+                    if pcast.id == pc_id:
+                        episode_pcast = pcast
+
                 # Create Episode Object
-                new_podcast = Episode(
-                    episode_id=ep_id, episode_title=ep_title,
+                new_episode = Episode(
+                    episode_id=ep_id, episode_podcast=episode_pcast,
+                    episode_title=ep_title,
                     episode_audio_link=ep_audio_link,
                     episode_audio_length=ep_audio_length_object,
                     episode_description=ep_description,
                     episode_publish_date=ep_pub_date_object
                 )
 
+                self._episodes.append(new_episode)
+
         except Exception as e:
             print(f"Skipping row (invalid data): {e}")
+
+        # for ep in range(0, 12):
+        #     print(self._episodes[ep])
+
+        # print(self._episodes[10].episode_podcast == self._episodes[11].episode_podcast)
+
 
 a = CSVDataReader()
