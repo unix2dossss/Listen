@@ -8,22 +8,28 @@
     />
 </head>
 <body>
-
-      <header id="header">
-              <h1>CS235 Pod Library</h1>
-              <div class="copyright"> VBHA650 | TRAJ161 | DTAL477 </div>
-            </header>
-            <div id="container">
-              <main id="main">
-                <div class="description">
-                  <br>
-                    <h2>{{ podcast.title }}</h2>
-                     <p><i>Author:</i> {{ podcast.author.name }} </p>
-                    <p><i>About:</i> {{ podcast.description }} </p>
-                    <p><i>Image URL: </i><img src="{{ podcast.image_url }}" alt="podcast image"> </p>
+    <div class="container">
+        <nav class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <header class="hero">
+                <div class="hero-content">
+                    <img src="http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg" alt="The Reservoir Tapes" class="hero-image">
+                    <div class="hero-text">
+                        <h1 class="hero-title">The Reservoir Tapes</h1>
+                        <p class="hero-subtitle">BBC</p>
+                        <p class="hero-category">Performing Arts</p>
+                        <p class="hero-category">Arts</p>
+                    </div>
                 </div>
-              </main>
-            </div>
-
+            </header>
+        </main>
+    </div>
 </body>
 </html>

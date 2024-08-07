@@ -1,25 +1,109 @@
-#header {
-  padding: 20px;
-  background: 	#E6E6FA;
-  border-bottom: 1px solid #e0e4e8;
-  font-size: 25px;
-  font-weight: bold;
-  text-align: center;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.copyright {
-  color: black;
-  font-size: 0.9em;
+body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
 }
 
-.description p i {
-    font-family: 'Gill Sans';
-    font-weight: bold;
-    font-size: 18px;
-    text-transform: uppercase;
-    color:darkslateblue
-    }
+.container {
+    display: flex;
+    height: 100vh;
+}
 
-.description img {
-        vertical-align: top;
-    }
+.sidebar {
+    width: 200px;
+    background-color: #353744;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.sidebar-menu li {
+    width: 100%;
+}
+
+.sidebar-menu li a {
+    display: block;
+    padding: 15px;
+    color: white;
+    text-decoration: none;
+    width: 100%;
+    text-align: center;
+}
+
+.sidebar-menu li a:hover {
+    background-color: #444;
+}
+
+.main-content {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    align-items: flex-start; /* Aligns items to the start of the main content */
+    background-color: #272930;
+}
+
+.hero {
+    width: 100%;
+    height: auto; /* Makes the height automatic to fit content */
+    background-color: #22242c;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.hero-image {
+    width: 300px;
+    margin-right: 20px;
+}
+
+.hero-image {
+    width: 300px;
+    margin-right: 20px;
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+}
+
+.hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-title {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.hero-subtitle {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.hero-category {
+    font-size: 1em;
+    margin-bottom: 5px;
+    color: #a0a0a0;
+}
