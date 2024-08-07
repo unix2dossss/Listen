@@ -30,8 +30,8 @@ body, html {
 .sidebar-title {
     font-size: 3em;
     margin-bottom: 25px;
-    text-align: left; /* Align text to the left */
-    width: 100%; /* Ensure it takes full width */
+    text-align: left;
+    width: 100%;
 }
 
 .sidebar-menu {
@@ -66,9 +66,10 @@ body, html {
 .main-content {
     flex: 1;
     padding: 0px;
-    display: flex;
-    align-items: flex-start; /* Aligns items to the start of the main content */
+    /* display: flex; */
+    align-items: flex-start;
     background-color: #272930;
+    overflow-y: auto;
 }
 
 .hero {
@@ -123,4 +124,61 @@ body, html {
     font-size: 1em;
     margin-bottom: 5px;
     color: #a0a0a0;
+}
+
+.about {
+    color: white;
+    padding: 40px;
+}
+
+.about-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.about-title {
+    font-size: 2em;
+}
+
+.about-description, .about-details {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+.about-tags {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tag {
+    background-color: #444;
+    padding: 7px 10px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75em;
+}
+
+.tag i {
+    margin-right: 5px;
+}
+
+.add-playlist-btn {
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.add-playlist-btn:hover {
+    background-color: white;
+    color: #282c34;
 }
