@@ -15,7 +15,7 @@ body, html {
 }
 
 .sidebar {
-    width: 200px;
+    width: 350px;
     background-color: #353744;
     color: white;
     display: flex;
@@ -50,7 +50,7 @@ body, html {
 
 .main-content {
     flex: 1;
-    padding: 10px;
+    padding: 0px;
     display: flex;
     align-items: flex-start; /* Aligns items to the start of the main content */
     background-color: #272930;
@@ -64,8 +64,8 @@ body, html {
     align-items: center;
     justify-content: flex-start;
     color: white;
-    padding: 20px;
-    border-radius: 10px;
+    margin-top: 15px;
+    padding: 0px;
 }
 
 .hero-content {
@@ -82,8 +82,8 @@ body, html {
 .hero-image {
     width: 300px;
     margin-right: 20px;
-    border-radius: 3px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+    /* border-radius: 3px; */
+    /* box-shadow: 0 0 10px rgba(255, 255, 255, 0.25); */
 }
 
 .hero-text {
