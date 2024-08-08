@@ -3,8 +3,34 @@
     font-size: 50px;
 }
 
+#main {
+  max-width: 1175px;
+}
+
+#container {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.description {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+#podcast-logo {
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+    border: 2px solid black;
+    padding: 10px;
+}
+
 .description p i {
     font-weight: bold;
+}
+
+.description p {
+    width: 100%;
 }
 
 .copyright {
