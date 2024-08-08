@@ -95,7 +95,7 @@ body, html {
     flex: 1;
     padding: 0px;
     /* display: flex; */
-    align-items: flex-start;
+    align-items: center;
     background-color: #272930;
     overflow-y: auto;
 }
@@ -106,7 +106,7 @@ body, html {
     background: linear-gradient(to right, #18281e, #252a36);
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     color: white;
     margin-top: 15px;
     padding: 0px;
@@ -114,9 +114,10 @@ body, html {
 }
 
 .hero-content {
+    margin: 40px;
     display: flex;
     align-items: center;
-    text-align: left;
+    text-align: center;
 }
 
 .hero-image {
@@ -145,6 +146,7 @@ body, html {
 .hero-subtitle {
     font-size: 1.5em;
     font-weight: bold;
+    margin-top: 10px;
     margin-bottom: 20px;
 }
 
@@ -152,4 +154,38 @@ body, html {
     font-size: 1em;
     margin-bottom: 5px;
     color: #a0a0a0;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: #1f1f1f;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.search-input {
+    width: 200px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #333;
+}
+
+.search-input::placeholder {
+    color: #888;
+}
+
+.search-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #45a049;
 }
