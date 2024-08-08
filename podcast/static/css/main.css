@@ -37,7 +37,7 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('http://is2.mzstatic.com/image/thumb/Music71/v4/9b/dc/ce/9bdcce66-1b01-6df4-a0b5-568eda9840a6/source/600x600bb.jpg') no-repeat center center;
+    background: url('http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg') no-repeat center center;
     background-size: cover;
     filter: blur(50px);
     z-index: -1; /* Make sure the pseudo-element is behind the content */
