@@ -24,8 +24,6 @@ body, html {
     padding: 20px;
     padding-left: 40px;
     padding-top: 100px;
-    /* white border on the rhs of the sidebar */
-    /* margin-right: 2px; */
     position: relative;
     overflow: hidden;
 }
@@ -40,8 +38,8 @@ body, html {
     background: url('http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg') no-repeat center center;
     background-size: cover;
     filter: blur(50px);
-    z-index: -1; /* Make sure the pseudo-element is behind the content */
-    opacity: 1; /* Adjust the opacity to darken the image */
+    z-index: -1;
+    opacity: 1;
 }
 
 .sidebar::after {
@@ -51,8 +49,8 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.85); /* Adjust the opacity to make it darker */
-    z-index: -1; /* Ensure the overlay is behind the content but in front of the background image */
+    background: rgba(0, 0, 0, 0.85);
+    z-index: -1;
 }
 
 .sidebar-title {
@@ -93,11 +91,12 @@ body, html {
 
 .main-content {
     flex: 1;
-    padding: 0px;
-    /* display: flex; */
-    align-items: center;
     background-color: #272930;
     overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .hero {
@@ -105,60 +104,24 @@ body, html {
     height: auto;
     background: linear-gradient(to right, #18281e, #252a36);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     color: white;
-    margin-top: 15px;
-    padding: 0px;
-    /* border-bottom: 1px solid #fff; */
+    padding: 20px;
 }
 
 .hero-content {
-    margin: 40px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-}
-
-.hero-image {
-    width: 300px;
-    margin-right: 20px;
-}
-
-.hero-image {
-    width: 225px;
-    margin-right: 30px;
-    /* border-radius: 3px; */
-    /* box-shadow: 0 0 10px rgba(255, 255, 255, 0.25); */
-}
-
-.hero-text {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-}
-
-.hero-title {
-    font-size: 4em;
-    margin-bottom: 10px;
-}
-
-.hero-subtitle {
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
-.hero-category {
-    font-size: 1em;
-    margin-bottom: 5px;
-    color: #a0a0a0;
+    align-items: center;
+    text-align: center;
 }
 
 .search-container {
     display: flex;
     align-items: center;
+    margin-top: 20px;
     background-color: #1f1f1f;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -189,3 +152,65 @@ body, html {
 .search-button:hover {
     background-color: #45a049;
 }
+
+.hero-title {
+    font-size: 4em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.hero-subtitle {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.hero-category {
+    font-size: 1em;
+    margin-bottom: 5px;
+    color: #a0a0a0;
+}
+
+
+#podcast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 20px auto;
+  padding: 0 20px;
+  max-width: 1200px;
+}
+
+.podcast-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #005953;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.podcast-item img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.podcast-info {
+  padding: 10px;
+}
+
+.podcast-info h3 {
+  margin: 10px 0;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: floralwhite;
+}
+
+.podcast-info p {
+  font-size: 0.7em;
+  color: #ccc; /* Slightly lighter text */
+}
+/*---------------------------------------------------------*/
