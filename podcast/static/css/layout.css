@@ -166,7 +166,7 @@ nav ul li a:hover {
   gap: 60px;
   margin: 40px auto;
   padding: 0 20px;
-  max-width: 1100px;
+  max-width: 1050px;
 }
 
 .podcast-item {
@@ -177,7 +177,8 @@ nav ul li a:hover {
   border-radius: 10px;
   overflow: hidden;
   text-align: center;
-  height: 400px;
+  height: 420px;
+  border: 3px solid #e5e5ea;
 }
 
 .podcast-item img {
