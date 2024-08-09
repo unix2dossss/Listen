@@ -98,3 +98,112 @@ body, html {
     align-items: center;
     flex-direction: column;
 }
+
+.hero {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 20px;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    background-color: #1f1f1f;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.search-input {
+    width: 200px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #333;
+}
+
+.search-input::placeholder {
+    color: #888;
+}
+
+.search-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #45a049;
+}
+
+.hero-title {
+    font-size: 4em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.hero-subtitle {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.hero-category {
+    font-size: 1em;
+    margin-bottom: 5px;
+    color: #a0a0a0;
+}
+
+/*For a simple list of podcasts*/
+.podcast-list {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between image and text */
+}
+
+.podcast-list img {
+    width: 150px; /* Adjust the size as needed */
+    height: auto;
+}
+
+.podcast-list span {
+    font-size: 25px;
+    color: black;
+}
+
+#podcast ul {
+    list-style-type: none;
+}
+
+#podcast ul li {
+    background-color: white;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 400px;
+}
+
+#podcast ul li a {
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
