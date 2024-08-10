@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime
-from podcast.domainmodel.model import Author, Podcast, Category, User, PodcastSubscription, Episode, AudioTime
+from podcast.domainmodel.model import Author, Podcast, Category, User, PodcastSubscription, Episode, AudioTime, Comment, Review
 from podcast.adapters.datareader.csvdatareader import CSVDataReader
 
 
@@ -160,6 +160,11 @@ def my_audio_time():
 @pytest.fixture
 def my_date_time():
     return datetime.strptime("2017-12-11 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z")
+
+@pytest.fixture
+def my_comment(my_user, my_date_time):
+    return Comment(1, my_user, "Good!", my_date_time)
+
 
 def test_podcast_initialization():
     author1 = Author(1, "Doctor Squee")
@@ -530,3 +535,23 @@ def test_episode_setters(my_podcast, my_audio_time, my_date_time):
             Episode Length: 4h 20m 24s
             Episode Link: https://testlink.com
         """
+
+def test_comment_initialization(my_user, my_date_time):
+    comment1 = Comment(1, my_user, "Good!", my_date_time)
+    assert repr(comment1) == "<Comment 1: Owned by shyamli>"
+    assert comment1.comment_text == "Good!"
+
+    # test with passing invalid values
+
+    # pass an invalid ID
+    with pytest.raises(ValueError):
+        comment2 = Comment(-2, my_user, "Good!", my_date_time)
+
+    # pass an Author object instead of User object
+    with pytest.raises(TypeError):
+        comment3 = Comment(3, my_author, "Good!", my_date_time)
+
+    # pass an empty string for comment_text
+    with pytest.raises(ValueError):
+        comment3 = Comment(3, my_user, "", my_date_time)
+
