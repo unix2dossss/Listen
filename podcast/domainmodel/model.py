@@ -388,8 +388,8 @@ class Episode:
         self._episode_audio_link = new_episode_audio_link
 
     @property
-    def episode_audio_length(self) -> str:
-        return str(self._episode_audio_length)
+    def episode_audio_length(self) -> AudioTime:
+        return self._episode_audio_length
 
     @episode_audio_length.setter
     def episode_audio_length(self, new_episode_audio_length: AudioTime):

@@ -484,6 +484,7 @@ def test_episode_lt(my_podcast, my_audio_time, my_date_time):
     user_list = [episode1, episode2, episode3]
     assert sorted(user_list) == [episode1, episode2, episode3]
 
+
 def test_episode_setters(my_podcast, my_audio_time, my_date_time):
     episode1 = Episode(1,
                        my_podcast, "1: Festive food and farming",
@@ -497,6 +498,35 @@ def test_episode_setters(my_podcast, my_audio_time, my_date_time):
     episode1.episode_id = 2
     assert episode1.episode_id == 2
 
-    # test new invalid str attribute (Title) - just need to test validate once.
+    # test new invalid str attribute setter (Title) - just need to test validate once.
     with pytest.raises(ValueError):
         episode1.episode_title = ""
+
+    # test getter
+    assert episode1.episode_title == "1: Festive food and farming"
+    # test valid str attribute setter
+    episode1.episode_title = "The Forbidden Tomb"
+    assert episode1.episode_title == "The Forbidden Tomb"
+    episode1.episode_audio_link = "https://testlink.com"
+    assert episode1.episode_audio_link == "https://testlink.com"
+
+    new_audio_length = AudioTime(4, 20, 24)
+    episode1.episode_audio_length = new_audio_length
+    assert str(episode1.episode_audio_length) == "4h 20m 24s"
+
+    episode1.episode_description = "This is the new episode description"
+    assert episode1.episode_description == "This is the new episode description"
+
+    new_date_time_obj = datetime.strptime("2012-12-12 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z")
+    episode1.episode_publish_date = new_date_time_obj
+    assert episode1.episode_publish_date == new_date_time_obj
+    # test str(Episode)
+    assert str(episode1) == """
+            Episode ID: 2
+            Episode Podcast: <Podcast 100: 'Joe Toste Podcast - Sales Training Expert' by Joe Toste>
+            Episode Title: The Forbidden Tomb
+            Episode Description: This is the new episode description
+            Episode Publish Date: 2012-12-12 15:00:00+00:00
+            Episode Length: 4h 20m 24s
+            Episode Link: https://testlink.com
+        """
