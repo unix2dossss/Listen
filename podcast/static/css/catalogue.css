@@ -259,3 +259,106 @@ nav ul li a:hover {
 .editor-card:last-child {
     margin-right: 0;
 }
+
+
+.podcast-list {
+    margin-left: 25px;
+    margin-right: 25px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 10px;
+}
+
+.filter {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    background-color: #dcdcde;
+    border-radius: 20px;
+}
+.search-input{
+    width: 850px;
+    border: none;
+    background-color: #dcdcde;
+    font-size: 15px;
+}
+
+.filter button {
+    background-color: #dcdcde;
+    margin-right: 5px;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: black;
+    border: none;
+}
+
+.podcasts {
+    background: linear-gradient(to right , #dae6f7, #dcdcde, #dcdcde, #eddde6); /* Radial gradient from the center */
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.podcast {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.podcast-info {
+    display: flex;
+    justify-content: left;
+    align-items: center;  /*Vertically centers items */
+    width: 450px;
+    font-weight: bold;
+}
+.podcast-info img{
+    height: 50px;
+    margin-right: 30px;
+    border-radius: 5px;
+}
+.podcast-info .podcast-name-owner{
+    width: 370px;
+    font-size: 14px;
+
+}
+.podcast-name-owner .name{
+    margin-bottom: 10px;
+}
+.podcast-name-owner .owner{
+
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.podcast-category {
+    flex-basis: 400px; /* Set a fixed width to align text properly */
+    text-align: center;
+    color: gray;
+    font-style: italic;
+    font-size: 13px;
+}
+
+.podcast-duration {
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+.podcast-list .show-all-container {
+    display: flex;
+    justify-content: flex-end; /* Align to the left */
+    margin-top: 5px;
+    margin-right: 35px;
+    width: 98%;
+    font-size: 13px;
+
+
+}
+.podcast-list .show-all-container a{
+    color: #d2d5d9;
+}
+.show-all-container a:hover{
+    border-bottom: 1px solid white;
+}
