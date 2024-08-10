@@ -1,5 +1,6 @@
 import pytest
-from podcast.domainmodel.model import Author, Podcast, Category, User, PodcastSubscription
+from datetime import datetime
+from podcast.domainmodel.model import Author, Podcast, Category, User, PodcastSubscription, Episode, AudioTime
 from podcast.adapters.datareader.csvdatareader import CSVDataReader
 
 
@@ -152,6 +153,13 @@ def my_user():
 def my_subscription(my_user, my_podcast):
     return PodcastSubscription(1, my_user, my_podcast)
 
+@pytest.fixture
+def my_audio_time():
+    return AudioTime(5, 36, 0)
+
+@pytest.fixture
+def my_date_time():
+    return datetime.strptime("2017-12-11 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z")
 
 def test_podcast_initialization():
     author1 = Author(1, "Doctor Squee")
@@ -349,3 +357,41 @@ def test_podcast_subscription_hash(my_user, my_podcast):
     assert len(sub_set) == 1
 
 # TODO : Write Unit Tests for CSVDataReader, Episode, Review, Playlist classes
+
+# def test_user_initialization():
+#     user1 = User(1, "Shyamli", "pw12345")
+#     user2 = User(2, "asma", "pw67890")
+#     user3 = User(3, "JeNNy  ", "pw87465")
+#     assert repr(user1) == "<User 1: shyamli>"
+#     assert repr(user2) == "<User 2: asma>"
+#     assert repr(user3) == "<User 3: jenny>"
+#     assert user2.password == "pw67890"
+#     with pytest.raises(ValueError):
+#         user4 = User(4, "xyz  ", "")
+#     with pytest.raises(ValueError):
+#         user4 = User(5, "    ", "qwerty12345")
+
+
+def test_episode_initialization(my_podcast, my_audio_time, my_date_time):
+    episode1 = Episode(1,
+                       my_podcast,
+                       "1: Festive food and farming",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time,
+                       """
+                       <p>John Bates hosts this festive special from the AHDB consumer insights team looking at how the 
+                       season of goodwill changes what and how we buy, how Brexit might impact our favourite festive 
+                       foods and what farmers and growers need to think about to gear up for Christmas future.</p><p>
+                       <a href="https://ahdb.org.uk/">https://ahdb.org.uk/</a></p><p>Photo by Keenan Loo on Unsplash</p>
+                       """, my_date_time)
+
+    # Random Episode 2 for same Podcast as episode1
+    episode2 = Episode(2,
+                       my_podcast,
+                       "2: Episode 2 Under Same Podcast",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time,
+                       "This is a test episode. Episode 2", my_date_time)
+
+    assert repr(episode1) == "<Episode 1: 1: Festive food and farming, 5h 36m 0s>"
+    assert repr(episode2) == "<Episode 2: 2: Episode 2 Under Same Podcast, 5h 36m 0s>"
