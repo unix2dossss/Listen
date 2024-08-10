@@ -429,6 +429,11 @@ class Episode:
             return False
         return self._episode_id == other._episode_id
 
+    def __lt__(self, other: object) -> bool:
+        if not isinstance(other, Episode):
+            return False
+        return self.episode_id < other.episode_id
+
     def __hash__(self) -> int:
         return hash(self._episode_id)
 

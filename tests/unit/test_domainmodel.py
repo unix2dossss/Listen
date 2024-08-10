@@ -404,11 +404,82 @@ def test_episode_initialization(my_podcast, my_audio_time, my_date_time):
         episode3 = Episode(-3,
                            my_podcast,"2: Episode 2 Under Same Podcast",
                            "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                           my_audio_time, "This is a test episode. Episode 2", my_date_time)
+                           my_audio_time, "This is a test episode. Episode 3", my_date_time)
 
     # test validate_non_empty_string
     with pytest.raises(ValueError):
         episode4 = Episode(4,
                            my_podcast, "",
                            "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                           my_audio_time, "This is a test episode. Episode 2", my_date_time)
+                           my_audio_time, "This is a test episode. Episode 4", my_date_time)
+
+
+def test_episode_eq(my_podcast, my_audio_time, my_date_time):
+    episode1 = Episode(1,
+                       my_podcast, "4 Spaces",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 1", my_date_time)
+
+    episode2 = Episode(1,
+                       my_podcast, "4 Spaces",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 1", my_date_time)
+
+    episode3 = Episode(3,
+                       my_podcast, "A different Episode",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 3", my_date_time)
+
+    assert episode1 == episode2
+    assert episode1 != episode3
+    assert episode2 != episode3
+
+def test_episode_hash(my_podcast, my_audio_time, my_date_time):
+    episode1 = Episode(1,
+                       my_podcast, "Test Episode 1",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 1", my_date_time)
+
+    episode2 = Episode(2,
+                       my_podcast, "Test Episode 2",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 2", my_date_time)
+
+    episode3 = Episode(3,
+                       my_podcast, "Test Episode 3",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 3", my_date_time)
+
+    episode_set = set()
+    episode_set.add(episode1)
+    episode_set.add(episode2)
+    episode_set.add(episode3)
+
+    assert sorted(episode_set) == [episode1, episode2, episode3]
+
+    episode_set.discard(episode1)
+    episode_set.discard(episode2)
+    assert list(episode_set) == [episode3]
+
+
+def test_episode_lt(my_podcast, my_audio_time, my_date_time):
+    episode1 = Episode(1,
+                       my_podcast, "Test Episode 1",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 1", my_date_time)
+
+    episode2 = Episode(2,
+                       my_podcast, "Test Episode 2",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 2", my_date_time)
+
+    episode3 = Episode(3,
+                       my_podcast, "Test Episode 3",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 3", my_date_time)
+
+    assert episode1 < episode2
+    assert episode2 < episode3
+    assert episode3 > episode1
+    user_list = [episode1, episode2, episode3]
+    assert sorted(user_list) == [episode1, episode2, episode3]
