@@ -615,6 +615,23 @@ def test_comment_getters(my_user, my_date_time):
     assert comment1.comment_date == my_date_time
 
 
+def test_review_initialization(my_user, my_comment, my_author):
+    review1 = Review(1, my_user, my_comment)
+    assert repr(review1) == "<Review 1: Owned by shyamli>"
+
+    # test with passing invalid values
+
+    # pass an invalid ID
+    with pytest.raises(ValueError):
+        review2 = Review(-2, my_user, my_comment)
+
+    # pass an Author object instead of User object
+    with pytest.raises(TypeError):
+        review3 = Review(3, my_author, my_comment)
+
+    # # pass an empty string for comment_text
+    # with pytest.raises(TypeError):
+    #     review4 = Review(4, my_user, my_comment)
 
 
 
