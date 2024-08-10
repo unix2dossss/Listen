@@ -5,14 +5,14 @@
     list-style: none;
     text-decoration: none;
     color: white;
-    /* border: 2.5px solid red; */
+    border: 2.5px solid red;
 }
 
 body,
 html {
   height: 100%;
   color: white;
-  background-color: #2d303d;
+  background-color: #222423;
   font-family: 'League Spartan', Arial, sans-serif;
 }
 
@@ -21,12 +21,12 @@ html {
 }
 
 nav {
-    width: 25%;
+    width: 20%;
     height: 100%;
     position: fixed;
     float: left;
     padding: 30px 0px;
-    background-color: #353744;
+    background-color: #171a18;
 
 }
 
@@ -45,9 +45,6 @@ nav {
 }
 
 .pages {
-    /* display: inline;
-    list-style: none;
-    position: relative; */
     text-align: center;
     padding: 0;
     margin-top: 15%;
@@ -76,35 +73,58 @@ nav {
     margin-bottom: 30px;
 }
 
-.top-section {
-    width: 75%;
-    text-align: center;
+.right-side {
+    width: 80%;
+    border: 5px solid purple;
     position: absolute;
     right: 0;
 }
 
+.top-section {
+    text-align: center;
+}
+
 .top-section h1 {
     color: white;
-    font-size: 2em;
-    padding-top: 2%;
+    font-size: 2.5em;
+    padding-top: 3%;
+    padding-left: 70px;
+    text-align: left;
 }
 
 .header {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     text-align: center;
     margin-top: 10px;
+    padding-left: 40px;
     width: auto;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 0.8em;
 }
 
 .header div {
     margin: 0 20px;
+    padding: 10px 20px;
+}
+
+.header div:hover {
+    background-color: #353744;
+    border-radius: 100px;
+}
+
+.show-all {
+    position: absolute;
+    right: 0;
+    padding-right: 20px;
 }
 
 .podcast-cards {
+    border: 2px solid blue;
     display: flex;
     gap: 40px;
-    margin: 20px 0;
+    margin-top: 20px;
     justify-content: center;
 }
 
@@ -120,12 +140,12 @@ nav {
 }
 
 .bottom-section {
-    /* border: 2px solid white; */
-    width: 75%;
+    border: 2px solid white;
+    /* width: 80%;
     text-align: center;
     position: absolute;
-    right: 0;
-    margin-top: 25%;
+    right: 0; */
+    /* margin-top: 25%; */
     display: flex;
     gap: 0px;
 }
