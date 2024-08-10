@@ -4,22 +4,63 @@
     box-sizing: border-box;
     list-style: none;
     text-decoration: none;
-    font-family: 'Roboto', sans-serif;
     color: white;
-  }
+    /* border: 2.5px solid red; */
+}
 
 body,
 html {
   height: 100%;
   color: white;
   background-color: #2d303d;
+  font-family: 'League Spartan', Arial, sans-serif;
 }
 
 nav {
-    width: 20%;
+    width: 300px;
     height: 100%;
     position: fixed;
     float: left;
     padding: 30px 0px;
     background-color: #353744;
+
 }
+
+.sidebar-title {
+    font-size: 2.5em;
+    margin-bottom: 25px;
+    text-align: center;
+    width: 100%;
+    padding-top: 20%;
+}
+
+.divider {
+    margin: 0% 10% 5% 10%;
+    border-bottom: 2.5px solid white;
+
+}
+
+.pages {
+    /* display: inline;
+    list-style: none;
+    position: relative; */
+    text-align: center;
+    padding: 0;
+    margin-top: 15%;
+}
+
+.pages li {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.pages li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    color: white;
+    font-size: 1.2em;
+}
+
+
