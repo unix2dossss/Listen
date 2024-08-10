@@ -605,6 +605,15 @@ def test_comment_setters(my_user, my_date_time, my_author):
     comment1.comment_date = new_date_time_obj
     assert comment1.comment_date == new_date_time_obj
 
+# Test getters
+def test_comment_getters(my_user, my_date_time):
+    comment1 = Comment(1, my_user, "Good!", my_date_time)
+
+    assert comment1.id == 1
+    assert comment1.owner == my_user
+    assert comment1.comment_text == "Good!"
+    assert comment1.comment_date == my_date_time
+
 
 
 
