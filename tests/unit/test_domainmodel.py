@@ -483,3 +483,20 @@ def test_episode_lt(my_podcast, my_audio_time, my_date_time):
     assert episode3 > episode1
     user_list = [episode1, episode2, episode3]
     assert sorted(user_list) == [episode1, episode2, episode3]
+
+def test_episode_setters(my_podcast, my_audio_time, my_date_time):
+    episode1 = Episode(1,
+                       my_podcast, "1: Festive food and farming",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "Temporary shortened test description", my_date_time)
+
+    # set new invalid ID
+    with pytest.raises(ValueError):
+        episode1.episode_id = -2
+    # set new valid ID
+    episode1.episode_id = 2
+    assert episode1.episode_id == 2
+
+    # test new invalid str attribute (Title) - just need to test validate once.
+    with pytest.raises(ValueError):
+        episode1.episode_title = ""

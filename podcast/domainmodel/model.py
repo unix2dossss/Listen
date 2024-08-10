@@ -368,6 +368,7 @@ class Episode:
 
     @episode_title.setter
     def episode_title(self, new_episode_title: str):
+        validate_non_empty_string(new_episode_title, field_name="Episode Title")
         self._episode_title = new_episode_title
 
     @property
