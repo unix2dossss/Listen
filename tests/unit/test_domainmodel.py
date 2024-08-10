@@ -555,3 +555,32 @@ def test_comment_initialization(my_user, my_date_time):
     with pytest.raises(ValueError):
         comment3 = Comment(3, my_user, "", my_date_time)
 
+    # Do later
+    # comment4 = Comment(4, my_user, "  Good!  ", my_date_time)
+    # assert comment4.comment_text == "Good!"
+
+
+def test_comment_eq(my_user, my_date_time):
+    comment1 = Comment(1, my_user, "Good!", my_date_time)
+    comment2 = Comment(1, my_user, "Nice!", my_date_time)
+    comment3 = Comment(3, my_user, "Awesome!", my_date_time)
+    assert comment1 == comment2
+    assert comment1 != comment3
+    assert comment3 != comment2
+    assert comment3 == comment3
+
+
+def test_comment_str(my_user, my_date_time):
+    comment1 = Comment(1, my_user, "Good!", my_date_time)
+    assert str(comment1) == """
+            Comment ID: 1
+            Comment Owner: <User 1: shyamli>
+            Commented Date: 2017-12-11 15:00:00+00:00
+            Comment Text: Good!
+        """
+
+
+
+
+
+
