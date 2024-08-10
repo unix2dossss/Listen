@@ -579,6 +579,31 @@ def test_comment_str(my_user, my_date_time):
             Comment Text: Good!
         """
 
+# Test setters
+def test_comment_setters(my_user, my_date_time, my_author):
+    comment1 = Comment(1, my_user, "Good!", my_date_time)
+
+    # set new invalid Owner by setting an Author object instead of User object
+    with pytest.raises(TypeError):
+        comment1.owner = my_author
+    # set new valid object type for Owner
+    user1 = User(1, "John", "123")
+    comment1.owner = user1
+    assert comment1.owner == user1
+
+
+    # test new invalid str attribute for comment_text
+    with pytest.raises(ValueError):
+        comment1.comment_text = ""
+
+    user1 = User(1, "John", "123")
+    comment1.owner = user1
+    assert comment1.owner == user1
+
+    # set new comment_date
+    new_date_time_obj = datetime.strptime("2024-11-01 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z")
+    comment1.comment_date = new_date_time_obj
+    assert comment1.comment_date == new_date_time_obj
 
 
 
