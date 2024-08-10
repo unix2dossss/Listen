@@ -339,9 +339,13 @@ class AudioTime:
 class Episode:
     def __init__(self, episode_id: int, episode_podcast: Podcast, episode_title: str, episode_audio_link: str,
                  episode_audio_length: AudioTime, episode_description: str, episode_publish_date: datetime):
-        validate_non_empty_string(episode_title, field_name="Episode ID")
+
+        validate_non_negative_int(episode_id)
+        validate_non_empty_string(episode_title, field_name="Episode Title")
+        validate_non_empty_string(episode_audio_link, field_name="Episode Audio Link")
+        validate_non_empty_string(episode_description, field_name="Episode Description")
+
         self._episode_id: int = episode_id
-        validate_non_empty_string(episode_title, field_name="Podcast ID")
         self.episode_podcast: Podcast = episode_podcast
         self._episode_title: str = episode_title
         self._episode_audio_link: str = episode_audio_link

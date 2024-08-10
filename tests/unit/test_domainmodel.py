@@ -395,3 +395,20 @@ def test_episode_initialization(my_podcast, my_audio_time, my_date_time):
 
     assert repr(episode1) == "<Episode 1: 1: Festive food and farming, 5h 36m 0s>"
     assert repr(episode2) == "<Episode 2: 2: Episode 2 Under Same Podcast, 5h 36m 0s>"
+
+    assert episode2.episode_description == "This is a test episode. Episode 2"
+    assert episode2.episode_audio_link == "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1"
+
+    # test validate_non_negative_int
+    with pytest.raises(ValueError):
+        episode3 = Episode(-3,
+                           my_podcast,"2: Episode 2 Under Same Podcast",
+                           "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                           my_audio_time, "This is a test episode. Episode 2", my_date_time)
+
+    # test validate_non_empty_string
+    with pytest.raises(ValueError):
+        episode4 = Episode(4,
+                           my_podcast, "",
+                           "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                           my_audio_time, "This is a test episode. Episode 2", my_date_time)
