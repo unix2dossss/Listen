@@ -337,6 +337,19 @@ class AudioTime:
     def __str__(self):
         return f"{self.audio_hours}h {self.audio_minutes}m {self.audio_seconds}s"
 
+    def __eq__(self, other):
+        if not isinstance(other, AudioTime):
+            return NotImplemented
+        return (self.audio_hours == other.audio_hours and
+                self.audio_minutes == other.audio_minutes and
+                self.audio_seconds == other.audio_seconds)
+
+    def __lt__(self, other):
+        if not isinstance(other, AudioTime):
+            return False
+        return ((self.audio_hours, self.audio_minutes, self.audio_seconds) <
+                (other.audio_hours, other.audio_minutes, other.audio_seconds))
+
 
 class Episode:
     def __init__(self, episode_id: int, episode_podcast: Podcast, episode_title: str, episode_audio_link: str,

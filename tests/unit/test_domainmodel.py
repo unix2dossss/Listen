@@ -395,6 +395,37 @@ def test_audiotime_initialization():
         audiotime_obj2 = AudioTime(0, 0, 0)
 
 
+def test_audiotime_str(my_audio_time):
+    assert str(my_audio_time) == "5h 36m 0s"
+
+
+def test_audiotime_lt():
+    time1 = AudioTime(2, 30, 15)
+    time2 = AudioTime(3, 25, 10)
+    time3 = AudioTime(2, 29, 59)
+    time4 = AudioTime(2, 30, 15)
+    time5 = AudioTime(0, 0, 2)
+    time6 = AudioTime(0, 0, 1)
+
+    assert time1 < time2  # time1 < time2 (hours)
+    assert time3 < time1  # time3 < time1 (minutes)
+    assert time6 < time5  # time6 < time5 (seconds)
+
+    assert not time1 < time4
+    assert time5 > time6
+
+    # Edge Cases
+    time1 = AudioTime(2, 0, 0)
+    time2 = AudioTime(1, 59, 59)
+
+    # Test hours comparison
+    assert time2 < time1
+
+    time3 = AudioTime(3, 0, 0)
+    time4 = AudioTime(2, 59, 59)
+
+    assert not time3 < time4
+
 # Episode Class Tests
 def test_episode_initialization(my_podcast, my_audio_time, my_date_time):
     episode1 = Episode(1,
