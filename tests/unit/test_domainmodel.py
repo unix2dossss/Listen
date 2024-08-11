@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime
-from podcast.domainmodel.model import Author, Podcast, Category, User, PodcastSubscription, Episode, AudioTime, Comment, Review
+from podcast.domainmodel.model import Author, Podcast, Category, User, PodcastSubscription, Episode, AudioTime, Comment, Review, Playlist
 from podcast.adapters.datareader.csvdatareader import CSVDataReader
 
 
@@ -745,5 +745,34 @@ def test_review_getters(my_user, my_comment, my_author):
 
     review1.rating = "***"
     assert review1.rating == "***"
+
+
+# Playlist Class Tests
+def test_podcast_initialisation(my_user):
+    playlist1 = Playlist(1, my_user)
+    assert playlist1.id == 1
+    assert playlist1.user == my_user
+    assert playlist1.name == "Untitled"
+
+    assert repr(playlist1) == "<Playlist 1: Untitled>"
+
+    # Invalid values entered
+    with pytest.raises(ValueError):
+        playlist2 = Playlist(-3, my_user)
+
+    with pytest.raises(TypeError):
+        playlist3 = Playlist(3, my_author)
+
+    playlist4 = Playlist(4, my_user, "History for Weirdos")
+    assert playlist4.name == "History for Weirdos"
+
+    playlist5 = Playlist(5, my_user, "   PodName   ")
+    assert playlist5.name == "PodName"
+
+
+
+
+
+
 
 
