@@ -363,20 +363,39 @@ def test_podcast_subscription_hash(my_user, my_podcast):
 
 # TODO : Write Unit Tests for CSVDataReader, Episode, Review, Playlist classes
 
-# def test_user_initialization():
-#     user1 = User(1, "Shyamli", "pw12345")
-#     user2 = User(2, "asma", "pw67890")
-#     user3 = User(3, "JeNNy  ", "pw87465")
-#     assert repr(user1) == "<User 1: shyamli>"
-#     assert repr(user2) == "<User 2: asma>"
-#     assert repr(user3) == "<User 3: jenny>"
-#     assert user2.password == "pw67890"
-#     with pytest.raises(ValueError):
-#         user4 = User(4, "xyz  ", "")
-#     with pytest.raises(ValueError):
-#         user4 = User(5, "    ", "qwerty12345")
+
+# Audio Class Tests
+def test_audiotime_initialization():
+    # test negative hours, minutes and seconds
+    with pytest.raises(ValueError):
+        audiotime_obj1 = AudioTime(-1, 20, 30)
+    with pytest.raises(ValueError):
+        audiotime_obj1 = AudioTime(1, -20, 30)
+    with pytest.raises(ValueError):
+        audiotime_obj1 = AudioTime(1, 20, -30)
+
+    # test string hours, minutes, seconds
+    with pytest.raises(ValueError):
+        audiotime_obj1 = AudioTime("2", 20, 30)
+    with pytest.raises(ValueError):
+        audiotime_obj1 = AudioTime(2, "20", 30)
+    with pytest.raises(ValueError):
+        audiotime_obj1 = AudioTime(2, 20, "30")
+
+    # test 0 hours, minutes, seconds
+    zero_hours_obj = AudioTime(0, 20, 30)
+    zero_minutes_obj = AudioTime(20, 0, 30)
+    zero_seconds_obj = AudioTime(20, 30, 0)
+    assert zero_hours_obj.audio_hours == 0
+    assert zero_minutes_obj.audio_minutes == 0
+    assert zero_seconds_obj.audio_seconds == 0
+
+    # test 0 hours, 0 minutes, 0 seconds all together (invalid)
+    with pytest.raises(ValueError):
+        audiotime_obj2 = AudioTime(0, 0, 0)
 
 
+# Episode Class Tests
 def test_episode_initialization(my_podcast, my_audio_time, my_date_time):
     episode1 = Episode(1,
                        my_podcast,
@@ -536,6 +555,7 @@ def test_episode_setters(my_podcast, my_audio_time, my_date_time):
             Episode Link: https://testlink.com
         """
 
+# Comment Class Tests
 def test_comment_initialization(my_user, my_date_time):
     comment1 = Comment(1, my_user, "Good!", my_date_time)
     assert repr(comment1) == "<Comment 1: Owned by shyamli>"
@@ -613,7 +633,7 @@ def test_comment_getters(my_user, my_date_time):
     assert comment1.comment_text == "Good!"
     assert comment1.comment_date == my_date_time
 
-
+# Review Class Tests
 def test_review_initialization(my_user, my_comment, my_author):
     review1 = Review(1, my_user, my_comment)
     assert repr(review1) == "<Review 1: Owned by shyamli>"
@@ -694,6 +714,5 @@ def test_review_getters(my_user, my_comment, my_author):
 
     review1.rating = "***"
     assert review1.rating == "***"
-
 
 

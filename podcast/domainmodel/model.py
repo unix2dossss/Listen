@@ -20,6 +20,8 @@ def validate_time(hours, minutes, seconds):
         raise ValueError("Minutes must be between 0 and 59")
     if not isinstance(seconds, int) or seconds < 0 or seconds > 60:
         raise ValueError("Seconds must be between 0 and 59")
+    if hours == 0 and minutes == 0 and seconds == 0:
+        raise ValueError("Invalid time: AudioTime object unnecessary for 0h 0m 0s")
 
 
 class Author:
