@@ -811,6 +811,16 @@ def test_playlist_name_setter(my_user):
     with pytest.raises(ValueError):
         my_podcast.title = ""
 
+def test_playlist_user_setter(my_user, my_author):
+    playlist1 = Playlist(1, my_user)
+
+    with pytest.raises(TypeError):
+        playlist1.user = my_author;
+
+    user1 = User(1, "Jane", "1111")
+    playlist1.user = user1
+    assert playlist1.user == user1
+
 
 
 
