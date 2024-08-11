@@ -1,9 +1,11 @@
 import pytest
 from datetime import datetime
-from podcast.domainmodel.model import Author, Podcast, Category, User, PodcastSubscription, Episode, AudioTime, Comment, Review, Playlist
 from podcast.adapters.datareader.csvdatareader import CSVDataReader
+from podcast.domainmodel.model import (Author, Podcast, Category, User, PodcastSubscription, Episode, AudioTime,
+                                       Comment, Review, Playlist)
 
 
+# noinspection PyTypeChecker
 def test_author_initialization():
     author1 = Author(1, "Brian Denny")
     assert repr(author1) == "<Author 1: Brian Denny>"
@@ -70,6 +72,7 @@ def test_author_name_setter():
         author.name = 123
 
 
+# noinspection PyTypeChecker
 def test_category_initialization():
     category1 = Category(1, "Comedy")
     assert repr(category1) == "<Category 1: Comedy>"
@@ -86,6 +89,7 @@ def test_category_initialization():
         category1 = Category(4, "")
 
 
+# noinspection PyTypeChecker
 def test_category_name_setter():
     category1 = Category(6, "Category A")
     assert category1.name == "Category A"
@@ -148,41 +152,49 @@ def my_podcast(my_author):
 def my_user():
     return User(1, "Shyamli", "pw12345")
 
+
 @pytest.fixture
 def my_episode(my_podcast, my_audio_time, my_date_time):
     return Episode(1,
-                       my_podcast,
-                       "1: Festive food and farming",
-                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                       my_audio_time,
-                       """
+                   my_podcast,
+                   "1: Festive food and farming",
+                   "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                   my_audio_time,
+                   """
                        <p>John Bates hosts this festive special from the AHDB consumer insights team looking at how the 
                        season of goodwill changes what and how we buy, how Brexit might impact our favourite festive 
                        foods and what farmers and growers need to think about to gear up for Christmas future.</p><p>
                        <a href="https://ahdb.org.uk/">https://ahdb.org.uk/</a></p><p>Photo by Keenan Loo on Unsplash</p>
                        """, my_date_time)
 
+
 @pytest.fixture
 def my_subscription(my_user, my_podcast):
     return PodcastSubscription(1, my_user, my_podcast)
+
 
 @pytest.fixture
 def my_audio_time():
     return AudioTime(5, 36, 0)
 
+
 @pytest.fixture
 def my_date_time():
     return datetime.strptime("2017-12-11 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z")
 
+
 @pytest.fixture
 def my_comment(my_user, my_date_time):
     return Comment(1, my_user, "Good!", my_date_time)
+
 
 @pytest.fixture
 def my_csv_data_reader():
     return CSVDataReader("../podcast/adapters/data/podcasts.csv",
                          "../podcast/adapters/data/episodes.csv")
 
+
+# noinspection PyTypeChecker
 def test_podcast_initialization():
     author1 = Author(1, "Doctor Squee")
     podcast1 = Podcast(2, author1, "My First Podcast")
@@ -378,10 +390,12 @@ def test_podcast_subscription_hash(my_user, my_podcast):
     sub_set = {sub1, sub2}  # Should only contain one element since hash should be the same
     assert len(sub_set) == 1
 
+
 # TODO : Write Unit Tests for CSVDataReader, Episode, Review, Playlist classes
 
 
 # Audio Class Tests
+# noinspection PyTypeChecker
 def test_audiotime_initialization():
     # test negative hours, minutes and seconds
     with pytest.raises(ValueError):
@@ -443,6 +457,7 @@ def test_audiotime_lt():
 
     assert not time3 < time4
 
+
 # Episode Class Tests
 def test_episode_initialization(my_podcast, my_audio_time, my_date_time):
     episode1 = Episode(1,
@@ -474,7 +489,7 @@ def test_episode_initialization(my_podcast, my_audio_time, my_date_time):
     # test validate_non_negative_int
     with pytest.raises(ValueError):
         episode3 = Episode(-3,
-                           my_podcast,"2: Episode 2 Under Same Podcast",
+                           my_podcast, "2: Episode 2 Under Same Podcast",
                            "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
                            my_audio_time, "This is a test episode. Episode 3", my_date_time)
 
@@ -505,6 +520,7 @@ def test_episode_eq(my_podcast, my_audio_time, my_date_time):
     assert episode1 == episode2
     assert episode1 != episode3
     assert episode2 != episode3
+
 
 def test_episode_hash(my_podcast, my_audio_time, my_date_time):
     episode1 = Episode(1,
@@ -603,7 +619,9 @@ def test_episode_setters(my_podcast, my_audio_time, my_date_time):
             Episode Link: https://testlink.com
         """
 
+
 # Comment Class Tests
+# noinspection PyTypeChecker
 def test_comment_initialization(my_user, my_date_time, my_author):
     comment1 = Comment(1, my_user, "Good!", my_date_time)
     assert repr(comment1) == "<Comment 1: Owned by shyamli>"
@@ -646,6 +664,7 @@ def test_comment_str(my_user, my_date_time):
             Comment Text: Good!
         """
 
+
 # Test setters
 def test_comment_setters(my_user, my_date_time, my_author):
     comment1 = Comment(1, my_user, "Good!", my_date_time)
@@ -657,7 +676,6 @@ def test_comment_setters(my_user, my_date_time, my_author):
     user1 = User(1, "John", "123")
     comment1.owner = user1
     assert comment1.owner == user1
-
 
     # test new invalid str attribute for comment_text
     with pytest.raises(ValueError):
@@ -672,6 +690,7 @@ def test_comment_setters(my_user, my_date_time, my_author):
     comment1.comment_date = new_date_time_obj
     assert comment1.comment_date == new_date_time_obj
 
+
 # Test getters
 def test_comment_getters(my_user, my_date_time):
     comment1 = Comment(1, my_user, "Good!", my_date_time)
@@ -681,7 +700,9 @@ def test_comment_getters(my_user, my_date_time):
     assert comment1.comment_text == "Good!"
     assert comment1.comment_date == my_date_time
 
+
 # Review Class Tests
+# noinspection PyTypeChecker
 def test_review_initialization(my_user, my_comment, my_author):
     review1 = Review(1, my_user, my_comment)
     assert repr(review1) == "<Review 1: Owned by shyamli>"
@@ -724,6 +745,7 @@ def test_review_lt(my_user, my_comment):
     assert review2 < review3
     assert review3 > review1
 
+
 # Test setters
 def test_review_setters(my_user, my_comment, my_author, my_date_time):
     review1 = Review(1, my_user, my_comment)
@@ -735,7 +757,6 @@ def test_review_setters(my_user, my_comment, my_author, my_date_time):
     user1 = User(1, "John", "123")
     review1.owner = user1
     assert review1.owner == user1
-
 
     # test new invalid str attribute for rating
     with pytest.raises(ValueError):
@@ -756,7 +777,7 @@ def test_review_getters(my_user, my_comment, my_author):
 
     assert review1.id == 3
     assert review1.owner == my_user
-    assert review1.rating == ""       # initially rating is an empty string
+    assert review1.rating == ""  # initially rating is an empty string
     assert review1.comment == my_comment
     assert review1.comment_text == "Good!"
 
@@ -765,6 +786,7 @@ def test_review_getters(my_user, my_comment, my_author):
 
 
 # Playlist Class Tests
+# noinspection PyTypeChecker
 def test_podcast_initialisation(my_user, my_author):
     playlist1 = Playlist(1, my_user)
     assert playlist1.id == 1
@@ -858,6 +880,7 @@ def test_playlist_user_setter(my_user, my_author):
     assert playlist1.user == user1
 
 
+# noinspection PyTypeChecker
 def test_playlist_add_episode(my_user, my_episode, my_podcast):
     playlist1 = Playlist(1, my_user)
 
@@ -896,30 +919,12 @@ def test_csvdatareader_return_types(my_csv_data_reader):
     assert isinstance(my_csv_data_reader.categories, dict)
     assert isinstance(my_csv_data_reader.podcasts_by_category, dict)
 
-    bool = True
-    for podcast in my_csv_data_reader.podcasts:
-        if not isinstance(podcast, Podcast):
-            bool = False
-            break
-    assert bool
+    # test all objects inside the above data types is of the correct type
+    assert all(isinstance(podcast, Podcast) for podcast in my_csv_data_reader.podcasts)
+    assert all(isinstance(episode, Episode) for episode in my_csv_data_reader.episodes)
+    assert all(isinstance(author_obj, Author) for author_obj in my_csv_data_reader.authors.values())
+    assert all(isinstance(category, Category) for category in my_csv_data_reader.categories.values())
 
-    bool = True
-    for episode in my_csv_data_reader.episodes:
-        if not isinstance(episode, Episode):
-            bool = False
-            break
-    assert bool
-
-    bool = True
-    for (author_name, author_obj) in my_csv_data_reader.authors.items():
-        if not isinstance(author_obj, Author):
-            bool = False
-            break
-    assert bool
-
-    bool = True
-    for (author_name, author_obj) in my_csv_data_reader.authors.items():
-        if not isinstance(author_obj, Author):
-            bool = False
-            break
-    assert bool
+    # print()
+    # for (category, podcast_c) in my_csv_data_reader.podcasts_by_category.items():
+    #     print(category, podcast_c)

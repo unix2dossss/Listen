@@ -1,4 +1,3 @@
-import os
 import csv
 from datetime import datetime
 
@@ -14,10 +13,11 @@ class CSVDataReader:
         self.create_podcasts(relative_podcastcsv_path)
         self.create_episodes(relative_episodecsv_path)
 
-    def read_csv(self, input_file: str):
+    @staticmethod
+    def read_csv(input_file: str):
         with open(input_file, mode='r') as file_in:
             csv_data = csv.reader(file_in, delimiter=',')
-            headers = next(csv_data)  # read the headers
+            next(csv_data)  # read the headers
 
             for row in csv_data:
                 # Strip any leading/trailing white space.
@@ -56,7 +56,7 @@ class CSVDataReader:
                 # Create Categories
                 c_id = 1
                 for c in pc_categories.split(' | '):
-                    category: Category = None
+                    category: Category
                     if c in self._categories:
                         category = self._categories[c]
                     else:
@@ -82,7 +82,6 @@ class CSVDataReader:
             print(f"Skipping row (invalid data): {e}")
 
     def create_episodes(self, episode_file: str):
-        a_id = 1
         try:
             for row in self.read_csv(episode_file):
                 # ep = episode
