@@ -20,6 +20,8 @@ def validate_time(hours, minutes, seconds):
         raise ValueError("Minutes must be between 0 and 59")
     if not isinstance(seconds, int) or seconds < 0 or seconds > 60:
         raise ValueError("Seconds must be between 0 and 59")
+    if hours == 0 and minutes == 0 and seconds == 0:
+        raise ValueError("Invalid time: AudioTime object unnecessary for 0h 0m 0s")
 
 
 class Author:
@@ -335,13 +337,30 @@ class AudioTime:
     def __str__(self):
         return f"{self.audio_hours}h {self.audio_minutes}m {self.audio_seconds}s"
 
+    def __eq__(self, other):
+        if not isinstance(other, AudioTime):
+            return NotImplemented
+        return (self.audio_hours == other.audio_hours and
+                self.audio_minutes == other.audio_minutes and
+                self.audio_seconds == other.audio_seconds)
+
+    def __lt__(self, other):
+        if not isinstance(other, AudioTime):
+            return False
+        return ((self.audio_hours, self.audio_minutes, self.audio_seconds) <
+                (other.audio_hours, other.audio_minutes, other.audio_seconds))
+
 
 class Episode:
-    def __init__(self, episode_id: int, episode_podcast: Podcast, episode_title: str, episode_audio_link: str, episode_audio_length: AudioTime,
-                 episode_description: str, episode_publish_date: datetime):
-        validate_non_empty_string(episode_title, field_name="Episode ID")
+    def __init__(self, episode_id: int, episode_podcast: Podcast, episode_title: str, episode_audio_link: str,
+                 episode_audio_length: AudioTime, episode_description: str, episode_publish_date: datetime):
+
+        validate_non_negative_int(episode_id)
+        validate_non_empty_string(episode_title, field_name="Episode Title")
+        validate_non_empty_string(episode_audio_link, field_name="Episode Audio Link")
+        validate_non_empty_string(episode_description, field_name="Episode Description")
+
         self._episode_id: int = episode_id
-        validate_non_empty_string(episode_title, field_name="Podcast ID")
         self.episode_podcast: Podcast = episode_podcast
         self._episode_title: str = episode_title
         self._episode_audio_link: str = episode_audio_link
@@ -364,6 +383,7 @@ class Episode:
 
     @episode_title.setter
     def episode_title(self, new_episode_title: str):
+        validate_non_empty_string(new_episode_title, field_name="Episode Title")
         self._episode_title = new_episode_title
 
     @property
@@ -383,8 +403,8 @@ class Episode:
         self._episode_audio_link = new_episode_audio_link
 
     @property
-    def episode_audio_length(self) -> str:
-        return str(self._episode_audio_length)
+    def episode_audio_length(self) -> AudioTime:
+        return self._episode_audio_length
 
     @episode_audio_length.setter
     def episode_audio_length(self, new_episode_audio_length: AudioTime):
@@ -425,6 +445,11 @@ class Episode:
             return False
         return self._episode_id == other._episode_id
 
+    def __lt__(self, other: object) -> bool:
+        if not isinstance(other, Episode):
+            return False
+        return self.episode_id < other.episode_id
+
     def __hash__(self) -> int:
         return hash(self._episode_id)
 
@@ -437,7 +462,7 @@ class Comment:
         validate_non_empty_string(comment_text, "New text")
         self._id = comment_id
         self._owner = owner
-        self._comment_text = comment_text
+        self._comment_text = comment_text.strip()
         self._comment_date = comment_date
 
     @property
@@ -556,8 +581,10 @@ class Review:
 class Playlist:
     def __init__(self, playlist_id: int, user: User, name: str = "Untitled"):
         validate_non_negative_int(playlist_id)
+        if not isinstance(user, User):
+            raise TypeError("User must be a User object.")
         self._id = playlist_id
-        self._name = name
+        self._name = name.strip()
         self._user = user
         self._episodes = []
 
@@ -577,6 +604,12 @@ class Playlist:
     @property
     def user(self) -> User:
         return self._user
+
+    @user.setter
+    def user(self, new_user: User):
+        if not isinstance(new_user, User):
+            raise TypeError("User must be a User object.")
+        self._user = new_user
 
     def add_episode(self, episode: Episode):
         if not isinstance(episode, Episode):

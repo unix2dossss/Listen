@@ -1,8 +1,11 @@
 import pytest
-from podcast.domainmodel.model import Author, Podcast, Category, User, PodcastSubscription
+from datetime import datetime
 from podcast.adapters.datareader.csvdatareader import CSVDataReader
+from podcast.domainmodel.model import (Author, Podcast, Category, User, PodcastSubscription, Episode, AudioTime,
+                                       Comment, Review, Playlist)
 
 
+# noinspection PyTypeChecker
 def test_author_initialization():
     author1 = Author(1, "Brian Denny")
     assert repr(author1) == "<Author 1: Brian Denny>"
@@ -69,6 +72,7 @@ def test_author_name_setter():
         author.name = 123
 
 
+# noinspection PyTypeChecker
 def test_category_initialization():
     category1 = Category(1, "Comedy")
     assert repr(category1) == "<Category 1: Comedy>"
@@ -85,6 +89,7 @@ def test_category_initialization():
         category1 = Category(4, "")
 
 
+# noinspection PyTypeChecker
 def test_category_name_setter():
     category1 = Category(6, "Category A")
     assert category1.name == "Category A"
@@ -149,10 +154,47 @@ def my_user():
 
 
 @pytest.fixture
+def my_episode(my_podcast, my_audio_time, my_date_time):
+    return Episode(1,
+                   my_podcast,
+                   "1: Festive food and farming",
+                   "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                   my_audio_time,
+                   """
+                       <p>John Bates hosts this festive special from the AHDB consumer insights team looking at how the 
+                       season of goodwill changes what and how we buy, how Brexit might impact our favourite festive 
+                       foods and what farmers and growers need to think about to gear up for Christmas future.</p><p>
+                       <a href="https://ahdb.org.uk/">https://ahdb.org.uk/</a></p><p>Photo by Keenan Loo on Unsplash</p>
+                       """, my_date_time)
+
+
+@pytest.fixture
 def my_subscription(my_user, my_podcast):
     return PodcastSubscription(1, my_user, my_podcast)
 
 
+@pytest.fixture
+def my_audio_time():
+    return AudioTime(5, 36, 0)
+
+
+@pytest.fixture
+def my_date_time():
+    return datetime.strptime("2017-12-11 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z")
+
+
+@pytest.fixture
+def my_comment(my_user, my_date_time):
+    return Comment(1, my_user, "Good!", my_date_time)
+
+
+@pytest.fixture
+def my_csv_data_reader():
+    return CSVDataReader("../podcast/adapters/data/podcasts.csv",
+                         "../podcast/adapters/data/episodes.csv")
+
+
+# noinspection PyTypeChecker
 def test_podcast_initialization():
     author1 = Author(1, "Doctor Squee")
     podcast1 = Podcast(2, author1, "My First Podcast")
@@ -348,4 +390,541 @@ def test_podcast_subscription_hash(my_user, my_podcast):
     sub_set = {sub1, sub2}  # Should only contain one element since hash should be the same
     assert len(sub_set) == 1
 
+
 # TODO : Write Unit Tests for CSVDataReader, Episode, Review, Playlist classes
+
+
+# Audio Class Tests
+# noinspection PyTypeChecker
+def test_audiotime_initialization():
+    # test negative hours, minutes and seconds
+    with pytest.raises(ValueError):
+        audiotime_obj1 = AudioTime(-1, 20, 30)
+    with pytest.raises(ValueError):
+        audiotime_obj1 = AudioTime(1, -20, 30)
+    with pytest.raises(ValueError):
+        audiotime_obj1 = AudioTime(1, 20, -30)
+
+    # test string hours, minutes, seconds
+    with pytest.raises(ValueError):
+        audiotime_obj1 = AudioTime("2", 20, 30)
+    with pytest.raises(ValueError):
+        audiotime_obj1 = AudioTime(2, "20", 30)
+    with pytest.raises(ValueError):
+        audiotime_obj1 = AudioTime(2, 20, "30")
+
+    # test 0 hours, minutes, seconds
+    zero_hours_obj = AudioTime(0, 20, 30)
+    zero_minutes_obj = AudioTime(20, 0, 30)
+    zero_seconds_obj = AudioTime(20, 30, 0)
+    assert zero_hours_obj.audio_hours == 0
+    assert zero_minutes_obj.audio_minutes == 0
+    assert zero_seconds_obj.audio_seconds == 0
+
+    # test 0 hours, 0 minutes, 0 seconds all together (invalid)
+    with pytest.raises(ValueError):
+        audiotime_obj2 = AudioTime(0, 0, 0)
+
+
+def test_audiotime_str(my_audio_time):
+    assert str(my_audio_time) == "5h 36m 0s"
+
+
+def test_audiotime_lt():
+    time1 = AudioTime(2, 30, 15)
+    time2 = AudioTime(3, 25, 10)
+    time3 = AudioTime(2, 29, 59)
+    time4 = AudioTime(2, 30, 15)
+    time5 = AudioTime(0, 0, 2)
+    time6 = AudioTime(0, 0, 1)
+
+    assert time1 < time2  # time1 < time2 (hours)
+    assert time3 < time1  # time3 < time1 (minutes)
+    assert time6 < time5  # time6 < time5 (seconds)
+
+    assert not time1 < time4
+    assert time5 > time6
+
+    # Edge Cases
+    time1 = AudioTime(2, 0, 0)
+    time2 = AudioTime(1, 59, 59)
+
+    # Test hours comparison
+    assert time2 < time1
+
+    time3 = AudioTime(3, 0, 0)
+    time4 = AudioTime(2, 59, 59)
+
+    assert not time3 < time4
+
+
+# Episode Class Tests
+def test_episode_initialization(my_podcast, my_audio_time, my_date_time):
+    episode1 = Episode(1,
+                       my_podcast,
+                       "1: Festive food and farming",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time,
+                       """
+                       <p>John Bates hosts this festive special from the AHDB consumer insights team looking at how the 
+                       season of goodwill changes what and how we buy, how Brexit might impact our favourite festive 
+                       foods and what farmers and growers need to think about to gear up for Christmas future.</p><p>
+                       <a href="https://ahdb.org.uk/">https://ahdb.org.uk/</a></p><p>Photo by Keenan Loo on Unsplash</p>
+                       """, my_date_time)
+
+    # Random Episode 2 for same Podcast as episode1
+    episode2 = Episode(2,
+                       my_podcast,
+                       "2: Episode 2 Under Same Podcast",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time,
+                       "This is a test episode. Episode 2", my_date_time)
+
+    assert repr(episode1) == "<Episode 1: 1: Festive food and farming, 5h 36m 0s>"
+    assert repr(episode2) == "<Episode 2: 2: Episode 2 Under Same Podcast, 5h 36m 0s>"
+
+    assert episode2.episode_description == "This is a test episode. Episode 2"
+    assert episode2.episode_audio_link == "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1"
+
+    # test validate_non_negative_int
+    with pytest.raises(ValueError):
+        episode3 = Episode(-3,
+                           my_podcast, "2: Episode 2 Under Same Podcast",
+                           "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                           my_audio_time, "This is a test episode. Episode 3", my_date_time)
+
+    # test validate_non_empty_string
+    with pytest.raises(ValueError):
+        episode4 = Episode(4,
+                           my_podcast, "",
+                           "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                           my_audio_time, "This is a test episode. Episode 4", my_date_time)
+
+
+def test_episode_eq(my_podcast, my_audio_time, my_date_time):
+    episode1 = Episode(1,
+                       my_podcast, "4 Spaces",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 1", my_date_time)
+
+    episode2 = Episode(1,
+                       my_podcast, "4 Spaces",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 1", my_date_time)
+
+    episode3 = Episode(3,
+                       my_podcast, "A different Episode",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 3", my_date_time)
+
+    assert episode1 == episode2
+    assert episode1 != episode3
+    assert episode2 != episode3
+
+
+def test_episode_hash(my_podcast, my_audio_time, my_date_time):
+    episode1 = Episode(1,
+                       my_podcast, "Test Episode 1",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 1", my_date_time)
+
+    episode2 = Episode(2,
+                       my_podcast, "Test Episode 2",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 2", my_date_time)
+
+    episode3 = Episode(3,
+                       my_podcast, "Test Episode 3",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 3", my_date_time)
+
+    episode_set = set()
+    episode_set.add(episode1)
+    episode_set.add(episode2)
+    episode_set.add(episode3)
+
+    assert sorted(episode_set) == [episode1, episode2, episode3]
+
+    episode_set.discard(episode1)
+    episode_set.discard(episode2)
+    assert list(episode_set) == [episode3]
+
+
+def test_episode_lt(my_podcast, my_audio_time, my_date_time):
+    episode1 = Episode(1,
+                       my_podcast, "Test Episode 1",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 1", my_date_time)
+
+    episode2 = Episode(2,
+                       my_podcast, "Test Episode 2",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 2", my_date_time)
+
+    episode3 = Episode(3,
+                       my_podcast, "Test Episode 3",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 3", my_date_time)
+
+    assert episode1 < episode2
+    assert episode2 < episode3
+    assert episode3 > episode1
+    user_list = [episode1, episode2, episode3]
+    assert sorted(user_list) == [episode1, episode2, episode3]
+
+
+def test_episode_setters(my_podcast, my_audio_time, my_date_time):
+    episode1 = Episode(1,
+                       my_podcast, "1: Festive food and farming",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "Temporary shortened test description", my_date_time)
+
+    # set new invalid ID
+    with pytest.raises(ValueError):
+        episode1.episode_id = -2
+    # set new valid ID
+    episode1.episode_id = 2
+    assert episode1.episode_id == 2
+
+    # test new invalid str attribute setter (Title) - just need to test validate once.
+    with pytest.raises(ValueError):
+        episode1.episode_title = ""
+
+    # test getter
+    assert episode1.episode_title == "1: Festive food and farming"
+    # test valid str attribute setter
+    episode1.episode_title = "The Forbidden Tomb"
+    assert episode1.episode_title == "The Forbidden Tomb"
+    episode1.episode_audio_link = "https://testlink.com"
+    assert episode1.episode_audio_link == "https://testlink.com"
+
+    new_audio_length = AudioTime(4, 20, 24)
+    episode1.episode_audio_length = new_audio_length
+    assert str(episode1.episode_audio_length) == "4h 20m 24s"
+
+    episode1.episode_description = "This is the new episode description"
+    assert episode1.episode_description == "This is the new episode description"
+
+    new_date_time_obj = datetime.strptime("2012-12-12 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z")
+    episode1.episode_publish_date = new_date_time_obj
+    assert episode1.episode_publish_date == new_date_time_obj
+    # test str(Episode)
+    assert str(episode1) == """
+            Episode ID: 2
+            Episode Podcast: <Podcast 100: 'Joe Toste Podcast - Sales Training Expert' by Joe Toste>
+            Episode Title: The Forbidden Tomb
+            Episode Description: This is the new episode description
+            Episode Publish Date: 2012-12-12 15:00:00+00:00
+            Episode Length: 4h 20m 24s
+            Episode Link: https://testlink.com
+        """
+
+
+# Comment Class Tests
+# noinspection PyTypeChecker
+def test_comment_initialization(my_user, my_date_time, my_author):
+    comment1 = Comment(1, my_user, "Good!", my_date_time)
+    assert repr(comment1) == "<Comment 1: Owned by shyamli>"
+    assert comment1.comment_text == "Good!"
+
+    # test with passing invalid values
+
+    # pass an invalid ID
+    with pytest.raises(ValueError):
+        comment2 = Comment(-2, my_user, "Good!", my_date_time)
+
+    # pass an Author object instead of User object
+    with pytest.raises(TypeError):
+        comment3 = Comment(3, my_author, "Good!", my_date_time)
+
+    # pass an empty string for comment_text
+    with pytest.raises(ValueError):
+        comment3 = Comment(3, my_user, "", my_date_time)
+
+    comment4 = Comment(4, my_user, "  Good!  ", my_date_time)
+    assert comment4.comment_text == "Good!"
+
+
+def test_comment_eq(my_user, my_date_time):
+    comment1 = Comment(1, my_user, "Good!", my_date_time)
+    comment2 = Comment(1, my_user, "Nice!", my_date_time)
+    comment3 = Comment(3, my_user, "Awesome!", my_date_time)
+    assert comment1 == comment2
+    assert comment1 != comment3
+    assert comment3 != comment2
+    assert comment3 == comment3
+
+
+def test_comment_str(my_user, my_date_time):
+    comment1 = Comment(1, my_user, "Good!", my_date_time)
+    assert str(comment1) == """
+            Comment ID: 1
+            Comment Owner: <User 1: shyamli>
+            Commented Date: 2017-12-11 15:00:00+00:00
+            Comment Text: Good!
+        """
+
+
+# Test setters
+def test_comment_setters(my_user, my_date_time, my_author):
+    comment1 = Comment(1, my_user, "Good!", my_date_time)
+
+    # set new invalid Owner by setting an Author object instead of User object
+    with pytest.raises(TypeError):
+        comment1.owner = my_author
+    # set new valid object type for Owner
+    user1 = User(1, "John", "123")
+    comment1.owner = user1
+    assert comment1.owner == user1
+
+    # test new invalid str attribute for comment_text
+    with pytest.raises(ValueError):
+        comment1.comment_text = ""
+
+    user1 = User(1, "John", "123")
+    comment1.owner = user1
+    assert comment1.owner == user1
+
+    # set new comment_date
+    new_date_time_obj = datetime.strptime("2024-11-01 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z")
+    comment1.comment_date = new_date_time_obj
+    assert comment1.comment_date == new_date_time_obj
+
+
+# Test getters
+def test_comment_getters(my_user, my_date_time):
+    comment1 = Comment(1, my_user, "Good!", my_date_time)
+
+    assert comment1.id == 1
+    assert comment1.owner == my_user
+    assert comment1.comment_text == "Good!"
+    assert comment1.comment_date == my_date_time
+
+
+# Review Class Tests
+# noinspection PyTypeChecker
+def test_review_initialization(my_user, my_comment, my_author):
+    review1 = Review(1, my_user, my_comment)
+    assert repr(review1) == "<Review 1: Owned by shyamli>"
+
+    # test with passing invalid values
+
+    # pass an invalid ID
+    with pytest.raises(ValueError):
+        review2 = Review(-2, my_user, my_comment)
+
+    # pass an Author object instead of User object
+    with pytest.raises(TypeError):
+        review3 = Review(3, my_author, my_comment)
+
+    # # pass an empty string for comment_text
+    # with pytest.raises(TypeError):
+    #     review4 = Review(4, my_user, my_comment)
+
+
+def test_review_eq(my_user, my_comment):
+    review1 = Review(1, my_user, my_comment)
+    review2 = Review(1, my_user, my_comment)
+    review3 = Review(2, my_user, my_comment)
+    assert review1 == review2
+    assert review1 != review3
+    assert review3 != review2
+    assert review3 == review3
+
+
+def test_review_lt(my_user, my_comment):
+    review1 = Review(1, my_user, my_comment)
+    review2 = Review(1, my_user, my_comment)
+    review3 = Review(2, my_user, my_comment)
+
+    review1.rating = "*"
+    review2.rating = "**"
+    review3.rating = "***"
+
+    assert review1 < review2
+    assert review2 < review3
+    assert review3 > review1
+
+
+# Test setters
+def test_review_setters(my_user, my_comment, my_author, my_date_time):
+    review1 = Review(1, my_user, my_comment)
+
+    # set new invalid Owner by setting an Author object instead of User object
+    with pytest.raises(TypeError):
+        review1.owner = my_author
+    # set new valid object type for Owner
+    user1 = User(1, "John", "123")
+    review1.owner = user1
+    assert review1.owner == user1
+
+    # test new invalid str attribute for rating
+    with pytest.raises(ValueError):
+        review1.rating = ""
+
+    review1.rating = " ** "
+    assert review1.rating == "**"
+
+    # set new comment
+    comment1 = Comment(2, my_user, "So Good!", my_date_time)
+    review1.comment = comment1
+    assert review1.comment == comment1
+
+
+# Test getters
+def test_review_getters(my_user, my_comment, my_author):
+    review1 = Review(3, my_user, my_comment)
+
+    assert review1.id == 3
+    assert review1.owner == my_user
+    assert review1.rating == ""  # initially rating is an empty string
+    assert review1.comment == my_comment
+    assert review1.comment_text == "Good!"
+
+    review1.rating = "***"
+    assert review1.rating == "***"
+
+
+# Playlist Class Tests
+# noinspection PyTypeChecker
+def test_podcast_initialisation(my_user, my_author):
+    playlist1 = Playlist(1, my_user)
+    assert playlist1.id == 1
+    assert playlist1.user == my_user
+    assert playlist1.name == "Untitled"
+
+    assert repr(playlist1) == "<Playlist 1: Untitled>"
+
+    # Invalid values entered
+    with pytest.raises(ValueError):
+        playlist2 = Playlist(-3, my_user)
+
+    with pytest.raises(TypeError):
+        playlist3 = Playlist(3, my_author)
+
+    playlist4 = Playlist(4, my_user, "History for Weirdos")
+    assert playlist4.name == "History for Weirdos"
+
+    playlist5 = Playlist(5, my_user, "   PodName   ")
+    assert playlist5.name == "PodName"
+
+
+def test_playlist_eq(my_user):
+    playlist1 = Playlist(1, my_user)
+    playlist2 = Playlist(2, my_user)
+    playlist3 = Playlist(1, my_user, "Once Upon a Time")
+    playlist4 = Playlist(3, my_user, "ABC")
+    assert playlist1 == playlist1
+    assert playlist1 == playlist3
+    assert playlist2 != playlist3
+    assert playlist2 != playlist3
+    assert playlist3 != playlist4
+
+
+def test_playlist_lt(my_user):
+    playlist1 = Playlist(1, my_user, "ABC")
+    playlist2 = Playlist(2, my_user, "BCD")
+    playlist3 = Playlist(3, my_user, "CDE")
+    assert playlist1 < playlist2
+    assert playlist2 < playlist3
+    assert playlist1 < playlist3
+    playlist_list = [playlist3, playlist2, playlist1]
+    assert sorted(playlist_list) == [playlist1, playlist2, playlist3]
+
+
+def test_playlist_hash(my_user):
+    playlist1 = Playlist(1, my_user, "A")
+    playlist2 = Playlist(2, my_user, "B")
+    playlist3 = Playlist(3, my_user, "C")
+    playlist_set = set()
+    playlist_set.add(playlist1)
+    playlist_set.add(playlist2)
+    playlist_set.add(playlist3)
+    assert sorted(playlist_set) == [playlist1, playlist2, playlist3]
+    playlist_set.discard(playlist2)
+    playlist_set.discard(playlist1)
+    assert sorted(playlist_set) == [playlist3]
+
+
+def test_playlist_getters(my_user):
+    playlist1 = Playlist(1, my_user, "ABC")
+    assert playlist1.id == 1
+    assert playlist1.name == "ABC"
+    assert playlist1.user == my_user
+
+
+def test_playlist_name_setter(my_user):
+    playlist1 = Playlist(1, my_user, "ABC")
+    playlist1.name = "XYZ"
+    assert playlist1.name == "XYZ"
+
+    playlist2 = Playlist(2, my_user)
+    playlist2.name = "  AAA  "
+    assert playlist2.name == "AAA"
+
+    with pytest.raises(ValueError):
+        playlist1.name = " "
+
+    with pytest.raises(ValueError):
+        playlist1.name = ""
+
+
+def test_playlist_user_setter(my_user, my_author):
+    playlist1 = Playlist(1, my_user)
+
+    with pytest.raises(TypeError):
+        playlist1.user = my_author
+
+    user1 = User(1, "Jane", "1111")
+    playlist1.user = user1
+    assert playlist1.user == user1
+
+
+# noinspection PyTypeChecker
+def test_playlist_add_episode(my_user, my_episode, my_podcast):
+    playlist1 = Playlist(1, my_user)
+
+    with pytest.raises(TypeError):
+        playlist1.add_episode(my_podcast)
+
+    playlist1.add_episode(my_episode)
+    assert my_episode in playlist1._episodes
+    assert len(playlist1._episodes) == 1
+
+    playlist1.add_episode(my_episode)
+    playlist1.add_episode(my_episode)
+    assert len(playlist1._episodes) == 1
+
+
+def test_playlist_remove_episode(my_user, my_episode, my_podcast, my_date_time, my_audio_time):
+    playlist1 = Playlist(1, my_user)
+    playlist1.add_episode(my_episode)
+    playlist1.remove_episode(my_episode)
+    assert len(playlist1._episodes) == 0
+
+    episode2 = Episode(2,
+                       my_podcast, "Test Episode 2",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 2", my_date_time)
+    playlist1.add_episode(my_episode)
+    playlist1.remove_episode(episode2)
+    assert len(playlist1._episodes) == 1
+
+
+def test_csvdatareader_return_types(my_csv_data_reader):
+    # podcasts attribute should be list
+    assert isinstance(my_csv_data_reader.podcasts, list)
+    assert isinstance(my_csv_data_reader.episodes, list)
+    assert isinstance(my_csv_data_reader.authors, dict)
+    assert isinstance(my_csv_data_reader.categories, dict)
+    assert isinstance(my_csv_data_reader.podcasts_by_category, dict)
+
+    # test all objects inside the above data types is of the correct type
+    assert all(isinstance(podcast, Podcast) for podcast in my_csv_data_reader.podcasts)
+    assert all(isinstance(episode, Episode) for episode in my_csv_data_reader.episodes)
+    assert all(isinstance(author_obj, Author) for author_obj in my_csv_data_reader.authors.values())
+    assert all(isinstance(category, Category) for category in my_csv_data_reader.categories.values())
+
+    # print()
+    # for (category, podcast_c) in my_csv_data_reader.podcasts_by_category.items():
+    #     print(category, podcast_c)
