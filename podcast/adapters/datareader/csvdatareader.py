@@ -6,13 +6,13 @@ from podcast.domainmodel.model import Podcast, Episode, Author, Category, AudioT
 
 
 class CSVDataReader:
-    def __init__(self):
+    def __init__(self, relative_podcastcsv_path: str, relative_episodecsv_path: str):
         self._podcasts, self._episodes = [], []
         self._authors, self._categories = dict(), dict()
         self._podcasts_by_category = {}
 
-        self.create_podcasts("../data/podcasts.csv")
-        self.create_episodes("../data/episodes.csv")
+        self.create_podcasts(relative_podcastcsv_path)
+        self.create_episodes(relative_episodecsv_path)
 
     def read_csv(self, input_file: str):
         with open(input_file, mode='r') as file_in:

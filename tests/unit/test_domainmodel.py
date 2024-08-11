@@ -178,6 +178,10 @@ def my_date_time():
 def my_comment(my_user, my_date_time):
     return Comment(1, my_user, "Good!", my_date_time)
 
+@pytest.fixture
+def my_csv_data_reader():
+    return CSVDataReader("../podcast/adapters/data/podcasts.csv",
+                         "../podcast/adapters/data/episodes.csv")
 
 def test_podcast_initialization():
     author1 = Author(1, "Doctor Squee")
@@ -800,7 +804,7 @@ def test_playlist_lt(my_user):
     playlist2 = Playlist(2, my_user, "BCD")
     playlist3 = Playlist(3, my_user, "CDE")
     assert playlist1 < playlist2
-    assert playlist2 > playlist3
+    assert playlist2 < playlist3
     assert playlist1 < playlist3
     playlist_list = [playlist3, playlist2, playlist1]
     assert sorted(playlist_list) == [playlist1, playlist2, playlist3]
@@ -837,10 +841,10 @@ def test_playlist_name_setter(my_user):
     assert playlist2.name == "AAA"
 
     with pytest.raises(ValueError):
-        playlist1.title = " "
+        playlist1.name = " "
 
     with pytest.raises(ValueError):
-        playlist1.title = ""
+        playlist1.name = ""
 
 
 def test_playlist_user_setter(my_user, my_author):
@@ -884,22 +888,38 @@ def test_playlist_remove_episode(my_user, my_episode, my_podcast, my_date_time, 
     assert len(playlist1._episodes) == 1
 
 
+def test_csvdatareader_return_types(my_csv_data_reader):
+    # podcasts attribute should be list
+    assert isinstance(my_csv_data_reader.podcasts, list)
+    assert isinstance(my_csv_data_reader.episodes, list)
+    assert isinstance(my_csv_data_reader.authors, dict)
+    assert isinstance(my_csv_data_reader.categories, dict)
+    assert isinstance(my_csv_data_reader.podcasts_by_category, dict)
 
+    bool = True
+    for podcast in my_csv_data_reader.podcasts:
+        if not isinstance(podcast, Podcast):
+            bool = False
+            break
+    assert bool
 
+    bool = True
+    for episode in my_csv_data_reader.episodes:
+        if not isinstance(episode, Episode):
+            bool = False
+            break
+    assert bool
 
+    bool = True
+    for (author_name, author_obj) in my_csv_data_reader.authors.items():
+        if not isinstance(author_obj, Author):
+            bool = False
+            break
+    assert bool
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    bool = True
+    for (author_name, author_obj) in my_csv_data_reader.authors.items():
+        if not isinstance(author_obj, Author):
+            bool = False
+            break
+    assert bool
