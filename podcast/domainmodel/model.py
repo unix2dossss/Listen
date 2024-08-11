@@ -581,8 +581,10 @@ class Review:
 class Playlist:
     def __init__(self, playlist_id: int, user: User, name: str = "Untitled"):
         validate_non_negative_int(playlist_id)
+        if not isinstance(user, User):
+            raise TypeError("User must be a User object.")
         self._id = playlist_id
-        self._name = name
+        self._name = name.strip()
         self._user = user
         self._episodes = []
 
