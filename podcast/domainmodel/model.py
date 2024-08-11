@@ -605,6 +605,12 @@ class Playlist:
     def user(self) -> User:
         return self._user
 
+    @user.setter
+    def user(self, new_user: User):
+        if not isinstance(new_user, User):
+            raise TypeError("User must be a User object.")
+        self._user = new_user
+
     def add_episode(self, episode: Episode):
         if not isinstance(episode, Episode):
             raise TypeError("Expected an Episode instance.")

@@ -802,7 +802,7 @@ def test_playlist_name_setter(my_user):
     assert playlist1.name == "XYZ"
 
     playlist2 = Playlist(2, my_user)
-    playlist2.name = "AAA"
+    playlist2.name = "  AAA  "
     assert playlist2.name == "AAA"
 
     with pytest.raises(ValueError):
@@ -810,6 +810,7 @@ def test_playlist_name_setter(my_user):
 
     with pytest.raises(ValueError):
         my_podcast.title = ""
+
 
 
 
