@@ -447,7 +447,7 @@ class Comment:
         validate_non_empty_string(comment_text, "New text")
         self._id = comment_id
         self._owner = owner
-        self._comment_text = comment_text
+        self._comment_text = comment_text.strip()
         self._comment_date = comment_date
 
     @property
