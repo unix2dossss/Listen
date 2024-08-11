@@ -769,6 +769,27 @@ def test_podcast_initialisation(my_user):
     playlist5 = Playlist(5, my_user, "   PodName   ")
     assert playlist5.name == "PodName"
 
+def test_playlist_eq(my_user):
+    playlist1 = Playlist(1, my_user)
+    playlist2 = Playlist(2, my_user)
+    playlist3 = Playlist(1, my_user, "Once Upon a Time")
+    playlist4 = Playlist(3, my_user, "ABC")
+    assert playlist1 == playlist1
+    assert playlist1 == playlist3
+    assert playlist2 != playlist3
+    assert playlist2 != playlist3
+    assert playlist3 != playlist4
+
+def test_playlist_lt():
+    playlist1 = Playlist(1, "ABC")
+    playlist2 = Playlist(2, "BCD")
+    playlist3 = Playlist(3, "CDE")
+    assert playlist1 < playlist2
+    assert playlist2 > playlist3
+    assert playlist1 < playlist3
+    playlist_list = [playlist3, playlist2, playlist1]
+    assert sorted(playlist_list) == [playlist1, playlist2, playlist3]
+
 
 
 
