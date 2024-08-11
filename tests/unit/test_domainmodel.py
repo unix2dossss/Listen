@@ -748,7 +748,7 @@ def test_review_getters(my_user, my_comment, my_author):
 
 
 # Playlist Class Tests
-def test_podcast_initialisation(my_user):
+def test_podcast_initialisation(my_user, my_author):
     playlist1 = Playlist(1, my_user)
     assert playlist1.id == 1
     assert playlist1.user == my_user
@@ -789,6 +789,33 @@ def test_playlist_lt():
     assert playlist1 < playlist3
     playlist_list = [playlist3, playlist2, playlist1]
     assert sorted(playlist_list) == [playlist1, playlist2, playlist3]
+
+def test_playlist_getters(my_user):
+    playlist1 = Playlist(1, my_user, "ABC")
+    assert playlist1.id == 1
+    assert playlist1.name == "ABC"
+    assert playlist1.user == my_user
+
+def test_playlist_name_setter(my_user):
+    playlist1 = Playlist(1, my_user, "ABC")
+    playlist1.name = "XYZ"
+    assert playlist1.name == "XYZ"
+
+    playlist2 = Playlist(2, my_user)
+    playlist2.name = "AAA"
+    assert playlist2.name == "AAA"
+
+    with pytest.raises(ValueError):
+        my_podcast.title = " "
+
+    with pytest.raises(ValueError):
+        my_podcast.title = ""
+
+
+
+
+
+
 
 
 
