@@ -587,7 +587,7 @@ def test_episode_setters(my_podcast, my_audio_time, my_date_time):
         """
 
 # Comment Class Tests
-def test_comment_initialization(my_user, my_date_time):
+def test_comment_initialization(my_user, my_date_time, my_author):
     comment1 = Comment(1, my_user, "Good!", my_date_time)
     assert repr(comment1) == "<Comment 1: Owned by shyamli>"
     assert comment1.comment_text == "Good!"
