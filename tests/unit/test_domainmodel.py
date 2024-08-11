@@ -634,4 +634,26 @@ def test_review_initialization(my_user, my_comment, my_author):
     #     review4 = Review(4, my_user, my_comment)
 
 
+def test_review_eq(my_user, my_comment):
+    review1 = Review(1, my_user, my_comment)
+    review2 = Review(1, my_user, my_comment)
+    review3 = Review(2, my_user, my_comment)
+    assert review1 == review2
+    assert review1 != review3
+    assert review3 != review2
+    assert review3 == review3
+
+
+def test_review_lt(my_user, my_comment):
+    review1 = Review(1, my_user, my_comment)
+    review2 = Review(1, my_user, my_comment)
+    review3 = Review(2, my_user, my_comment)
+
+    review1.rating = "*"
+    review2.rating = "**"
+    review3.rating = "***"
+
+    assert review1 < review2
+    assert review2 < review3
+    assert review3 > review1
 
