@@ -658,7 +658,7 @@ def test_review_lt(my_user, my_comment):
     assert review3 > review1
 
 # Test setters
-def test_review_setters(my_user, my_comment, my_author):
+def test_review_setters(my_user, my_comment, my_author, my_date_time):
     review1 = Review(1, my_user, my_comment)
 
     # set new invalid Owner by setting an Author object instead of User object
@@ -681,6 +681,20 @@ def test_review_setters(my_user, my_comment, my_author):
     comment1 = Comment(2, my_user, "So Good!", my_date_time)
     review1.comment = comment1
     assert review1.comment == comment1
+
+
+# Test getters
+def test_review_getters(my_user, my_comment, my_author):
+    review1 = Review(3, my_user, my_comment)
+
+    assert review1.id == 3
+    assert review1.owner == my_user
+    assert review1.rating == ""       # initially rating is an empty string
+    assert review1.comment == my_comment
+    assert review1.comment_text == "Good!"
+
+    review1.rating = "***"
+    assert review1.rating == "***"
 
 
 
