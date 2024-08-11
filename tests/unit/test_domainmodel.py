@@ -148,6 +148,19 @@ def my_podcast(my_author):
 def my_user():
     return User(1, "Shyamli", "pw12345")
 
+@pytest.fixture
+def my_episode(my_podcast, my_audio_time, my_date_time):
+    return Episode(1,
+                       my_podcast,
+                       "1: Festive food and farming",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time,
+                       """
+                       <p>John Bates hosts this festive special from the AHDB consumer insights team looking at how the 
+                       season of goodwill changes what and how we buy, how Brexit might impact our favourite festive 
+                       foods and what farmers and growers need to think about to gear up for Christmas future.</p><p>
+                       <a href="https://ahdb.org.uk/">https://ahdb.org.uk/</a></p><p>Photo by Keenan Loo on Unsplash</p>
+                       """, my_date_time)
 
 @pytest.fixture
 def my_subscription(my_user, my_podcast):
@@ -769,6 +782,7 @@ def test_podcast_initialisation(my_user, my_author):
     playlist5 = Playlist(5, my_user, "   PodName   ")
     assert playlist5.name == "PodName"
 
+
 def test_playlist_eq(my_user):
     playlist1 = Playlist(1, my_user)
     playlist2 = Playlist(2, my_user)
@@ -780,6 +794,7 @@ def test_playlist_eq(my_user):
     assert playlist2 != playlist3
     assert playlist3 != playlist4
 
+
 def test_playlist_lt():
     playlist1 = Playlist(1, "ABC")
     playlist2 = Playlist(2, "BCD")
@@ -790,11 +805,13 @@ def test_playlist_lt():
     playlist_list = [playlist3, playlist2, playlist1]
     assert sorted(playlist_list) == [playlist1, playlist2, playlist3]
 
+
 def test_playlist_getters(my_user):
     playlist1 = Playlist(1, my_user, "ABC")
     assert playlist1.id == 1
     assert playlist1.name == "ABC"
     assert playlist1.user == my_user
+
 
 def test_playlist_name_setter(my_user):
     playlist1 = Playlist(1, my_user, "ABC")
@@ -806,20 +823,54 @@ def test_playlist_name_setter(my_user):
     assert playlist2.name == "AAA"
 
     with pytest.raises(ValueError):
-        my_podcast.title = " "
+        playlist1.title = " "
 
     with pytest.raises(ValueError):
-        my_podcast.title = ""
+        playlist1.title = ""
+
 
 def test_playlist_user_setter(my_user, my_author):
     playlist1 = Playlist(1, my_user)
 
     with pytest.raises(TypeError):
-        playlist1.user = my_author;
+        playlist1.user = my_author
 
     user1 = User(1, "Jane", "1111")
     playlist1.user = user1
     assert playlist1.user == user1
+
+
+def test_playlist_add_episode(my_user, my_episode, my_podcast):
+    playlist1 = Playlist(1, my_user)
+
+    with pytest.raises(TypeError):
+        playlist1.add_episode(my_podcast)
+
+    playlist1.add_episode(my_episode)
+    assert my_episode in playlist1._episodes
+    assert len(playlist1._episodes) == 1
+
+    playlist1.add_episode(my_episode)
+    playlist1.add_episode(my_episode)
+    assert len(playlist1._episodes) == 1
+
+
+def test_playlist_remove_episode(my_user, my_episode, my_podcast, my_date_time, my_audio_time):
+    playlist1 = Playlist(1, my_user)
+    playlist1.add_episode(my_episode)
+    playlist1.remove_episode(my_episode)
+    assert len(playlist1._episodes) == 0
+
+    episode2 = Episode(2,
+                       my_podcast, "Test Episode 2",
+                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+                       my_audio_time, "This is a test episode. Episode 2", my_date_time)
+    playlist1.add_episode(my_episode)
+    playlist1.remove_episode(episode2)
+    assert len(playlist1._episodes) == 1
+
+
+
 
 
 
