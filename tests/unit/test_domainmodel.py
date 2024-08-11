@@ -555,9 +555,8 @@ def test_comment_initialization(my_user, my_date_time):
     with pytest.raises(ValueError):
         comment3 = Comment(3, my_user, "", my_date_time)
 
-    # Do later
-    # comment4 = Comment(4, my_user, "  Good!  ", my_date_time)
-    # assert comment4.comment_text == "Good!"
+    comment4 = Comment(4, my_user, "  Good!  ", my_date_time)
+    assert comment4.comment_text == "Good!"
 
 
 def test_comment_eq(my_user, my_date_time):
