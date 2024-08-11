@@ -795,15 +795,29 @@ def test_playlist_eq(my_user):
     assert playlist3 != playlist4
 
 
-def test_playlist_lt():
-    playlist1 = Playlist(1, "ABC")
-    playlist2 = Playlist(2, "BCD")
-    playlist3 = Playlist(3, "CDE")
+def test_playlist_lt(my_user):
+    playlist1 = Playlist(1, my_user, "ABC")
+    playlist2 = Playlist(2, my_user, "BCD")
+    playlist3 = Playlist(3, my_user, "CDE")
     assert playlist1 < playlist2
     assert playlist2 > playlist3
     assert playlist1 < playlist3
     playlist_list = [playlist3, playlist2, playlist1]
     assert sorted(playlist_list) == [playlist1, playlist2, playlist3]
+
+
+def test_playlist_hash(my_user):
+    playlist1 = Playlist(1, my_user, "A")
+    playlist2 = Playlist(2, my_user, "B")
+    playlist3 = Playlist(3, my_user, "C")
+    playlist_set = set()
+    playlist_set.add(playlist1)
+    playlist_set.add(playlist2)
+    playlist_set.add(playlist3)
+    assert sorted(playlist_set) == [playlist1, playlist2, playlist3]
+    playlist_set.discard(playlist2)
+    playlist_set.discard(playlist1)
+    assert sorted(playlist_set) == [playlist3]
 
 
 def test_playlist_getters(my_user):
@@ -868,6 +882,9 @@ def test_playlist_remove_episode(my_user, my_episode, my_podcast, my_date_time, 
     playlist1.add_episode(my_episode)
     playlist1.remove_episode(episode2)
     assert len(playlist1._episodes) == 1
+
+
+
 
 
 
