@@ -85,8 +85,8 @@ https://www.kaggle.com/code/switkowski/building-a-podcast-recommendation-engine/
 
 ## Contributors
 
-- **Vandan Bhatt**
-- **Thamasha Rajakaruna**
 - **Deiza Talreja**
+- **Thamasha Rajakaruna**
+- **Vandan Bhatt**
 
 If you'd like to contribute to this project, feel free to fork the repository and submit a pull request with your improvements.
