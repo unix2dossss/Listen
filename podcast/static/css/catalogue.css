@@ -216,7 +216,7 @@ body {
 
 .overlay h2 {
     color: white;
-    font-size: 1.5rem;
+    font-size: 18px;
     font-weight: normal;
     margin-left: 20px;
 }
@@ -273,12 +273,12 @@ body {
     text-align: left;
 }
 .editor-card-name{
-    font-size: 15px;
+    font-size: 18px;
     color: #d2d5d9;
 }
 
 .editor-card-owner{
-    font-size: 12px;
+    font-size: 14px;
     color: #d2d5d9;
 }
 
@@ -290,10 +290,11 @@ body {
 .filter {
     height: 50px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
     padding: 10px 20px;
-    background-color: #dcdcde;
+    background-color: #171a18;
     border-radius: 4px;
 }
 
@@ -302,17 +303,28 @@ body {
     width: 100%;
     border: none;
     outline: none;
-    background-color: #dcdcde;
+    background-color: #171a18;
     font-size: 15px;
+    color: white;
+    margin-left: 15px;
+    line-height: 35px;
 }
 
 .filter button {
     white-space: nowrap;
-    background-color: #dcdcde;
-    border-radius: 4px;
+    background-color: #171a18;
     font-size: 13px;
-    color: black;
+    font-family: Montserrat;
+    color: white;
     border: none;
+    margin-left: 10px;
+}
+
+
+.filter p {
+    justify-content: center;
+    align-items: center;
+    color: #fff;
 }
 
 .podcasts {
