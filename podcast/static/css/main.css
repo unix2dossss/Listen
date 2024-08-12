@@ -80,6 +80,7 @@ body, html {
     color: white;
     text-decoration: none;
     font-size: 1.2em;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .sidebar-menu li a i {
@@ -98,6 +99,8 @@ body, html {
     align-items: flex-start;
     background-color: #222423;
     overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .hero {
