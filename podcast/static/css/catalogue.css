@@ -1,134 +1,152 @@
 * {
   margin: 0;
   padding: 0;
-  color: black;
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
-  font-family: Montserrat;
-
 }
 
 body {
     margin: 0;
     background: #222423; /* Gradient from left to right */
     font-family: Montserrat;
-
-
 }
 
-nav {
-    width: 250px;
-    height: 100%;
-    position: fixed;
-    border: 1px solid #35394d;
-    float: left;
-    padding: 30px 0px;
-    background: linear-gradient(to right, #1a1c26, #35394d, #35394d); /* Gradient from left to right */
-
+.container {
+    display: flex;
+    height: 100vh;
 }
 
-nav .title {
-    padding-top: 80px;
-    font-size: 30px;
-    font-weight: 700;
+.sidebar {
+    width: 320px;
     color: white;
-    text-align: center;
-    font-family: League Spartan;
-}
-
-nav ul {
-    padding-top: 20px;
-    display: block;
-    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
+    padding-left: 40px;
+    padding-top: 100px;
+    /* white border on the rhs of the sidebar */
+    /* margin-right: 2px; */
     position: relative;
-    text-align: center;
-
+    overflow: hidden;
 }
 
-nav ul li {
-    padding: 8px 15px;
-    border-radius: 10px;
-    transition: 0.2s ease-in;
+.sidebar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg') no-repeat center center;
+    background-size: cover;
+    filter: blur(50px);
+    z-index: -1; /* Make sure the pseudo-element is behind the content */
+    opacity: 1; /* Adjust the opacity to darken the image */
 }
 
-nav ul li a {
-    color: black;
-    font-size: 20px;
-    font-weight: 500;
-    text-decoration: none;
+.sidebar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85); /* Adjust the opacity to make it darker */
+    z-index: -1; /* Ensure the overlay is behind the content but in front of the background image */
+}
+
+.sidebar-title {
+    font-size: 3em;
+    margin-bottom: 25px;
+    text-align: left;
+    width: 100%;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.sidebar-menu li {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.sidebar-menu li a {
+    display: flex;
+    align-items: center;
+    padding: 10px;
     color: white;
+    text-decoration: none;
+    font-size: 1.2em;
 }
 
-nav ul li:hover {
-    background-color: #b1caea;
-
+.sidebar-menu li a i {
+    margin-right: 20px;
 }
 
-nav ul li a:hover {
-    color: #5b9ad4;
-    border-bottom: 1px solid white;
+.sidebar-menu li a:hover {
+    background-color: #444;
+    border-radius: 5px;
 }
-
-#nav-footer {
-  color: #fff;
-  margin-top: 25px;
-  margin-bottom: 20px;
-  margin-left: 60px;
-  text-align: center;
-  position: absolute;
-  bottom: 0;
-  font-size: medium;
-}
-
 
 .main-content {
-    margin-left: 250px;
-    padding: 20px;
+    flex: 1;
+    padding: 30px;
+    align-items: flex-start;
+    background-color: #222423;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
 
 .main-content h1 {
     margin-top: 10px;
-    margin-bottom: 40px;
-    font-size: 25px;
+    margin-bottom: 25px;
+    font-size: 40px;
     font-family: League Spartan;
     text-align: left;
-    color: #d2d5d9;
-
+    color: #fff;
 }
 
-.sections {
+.cards-section {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
-.sections h2 {
+.popular-categories-heading, .editor-picks-heading{
     font-size: 20px;
-    font-family: League Spartan;
+    font-family: Montserrat;
     font-weight: normal;
-    margin-bottom: 10px;
-    color: #d2d5d9;
-
+    margin-bottom: 15px;
+    color: #fff;
 }
 
 .popular-categories{
-    margin-left: 40px;
-    /*width: 35%;*/
-    width: 470px;
+    width: 100%;
     align-items: center;
     text-align: left;
-
+    margin-right: 20px;
 }
 
 .categories{
     display: grid;
-    grid-template-columns: repeat(1, 1fr); /* Creates a grid with flexible columns */
-    grid-gap: 2px; /* Adds spacing between grid items */
-    width: 470px;
-    height: 230px;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 10px;
+    width: 100%;
+    height: 290px;
     padding: 10px;
-    border-radius: 2px;
+    border-radius: 4px;
     background-color: #171A18;
     align-items: center;
  }
@@ -139,7 +157,7 @@ nav ul li a:hover {
     flex-direction: column;
     align-items: center;
     background-color: grey;
-    border-radius: 2px;
+    border-radius: 4px;
     overflow: hidden;
     text-align: center;
     height: 50px;
@@ -150,15 +168,15 @@ nav ul li a:hover {
     width: 96%; /* Makes the image take up the full width of the card */
     height: 100px; /* Ensures the image covers the full height of the card */
     object-fit: cover; /* Ensures the image scales and crops to fill the card without distortion */
-    border-radius: 2px; /* Adds rounded corners to match the card's style */
+    border-radius: 4px; /* Adds rounded corners to match the card's style */
 }
+
 .categories a{
     margin: 3px;
     font-size: 15px;
     display: inline-block;
     vertical-align: middle; /* Center the inline-block element */
     line-height: normal;
-
 }
 
 .categories .show-all-container {
@@ -166,46 +184,74 @@ nav ul li a:hover {
     justify-content: flex-end; /* Align to the left */
     margin-top: 1px;
     margin-right: 2px;
-    /*width: 435px; */
     font-size: 11px;
     color: #d2d5d9;
-
 }
 
 .popular-categories .show-all-container a{
     color: #d2d5d9;
 }
 
+.box {
+    position: relative;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.overlay h2 {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin-left: 20px;
+}
+
+
+
+
+
+
 .editor-picks {
-    margin-right: 30px;
-    /*width: 35%;*/
-    width: 500px;
+    width: 100%;
     align-items: center;
     text-align: left;
-
 }
 
 .editor-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Creates a grid with flexible columns */
     grid-gap: 10px; /* Adds spacing between grid items */
-    background-color: #50525c;
-    border-radius: 2px;
+    background-color: #171a18;
+    border-radius: 4px;
     padding: 10px;
-    width: 480px;
-    height: 230px;
+    width: 100%;
+    height: 290px;
     text-align: center;
     align-items: center;
 
 }
-
 
 .editor-card {
     display: flex;
     flex-direction: column;
     text-align: left;
     align-items: center;
-    border-radius: 2px;
+    border-radius: 4px;
     overflow: hidden;
     width: 100%;
     height: 100%;
@@ -215,7 +261,7 @@ nav ul li a:hover {
 .editor-card img {
     width: 100%; /* Makes the image take up the full width of the card */
     object-fit: cover; /* Ensures the image scales and crops to fill the card without distortion */
-    border-radius: 2px;/* Adds rounded corners to match the card's style */
+    border-radius: 4px;/* Adds rounded corners to match the card's style */
     margin-bottom: 10px;
 
 }
@@ -236,47 +282,42 @@ nav ul li a:hover {
     color: #d2d5d9;
 }
 
-.category-card:last-child,
-.editor-card:last-child {
-    margin-right: 0;
-}
-
-
 .podcast-list {
-    margin-left: 40px;
-    margin-right: 25px;
-    /*padding-left: 20px;*/
-    padding-right: 20px;
-    border-radius: 2px;
+    width: 100%;
+    border-radius: 4px;
 }
 
 .filter {
+    height: 50px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     margin-bottom: 20px;
+    padding: 10px 20px;
     background-color: #dcdcde;
-    border-radius: 2px;
+    border-radius: 4px;
 }
+
 .search-input{
-    width: 850px;
+    flex: 1;
+    width: 100%;
     border: none;
+    outline: none;
     background-color: #dcdcde;
     font-size: 15px;
 }
 
 .filter button {
+    white-space: nowrap;
     background-color: #dcdcde;
-    margin-right: 5px;
-    padding: 10px;
-    border-radius: 2px;
+    border-radius: 4px;
     font-size: 13px;
     color: black;
     border: none;
 }
 
 .podcasts {
-    background: linear-gradient(to right , #dae6f7, #dcdcde, #dcdcde, #eddde6); /* Radial gradient from the center */
-    border-radius: 2px;
+    background: #171a18;
+    border-radius: 4px;
     padding: 10px;
 }
 
@@ -285,6 +326,7 @@ nav ul li a:hover {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    color: white;
 }
 
 .podcast .podcast-id {
@@ -297,7 +339,6 @@ nav ul li a:hover {
     font-size: 13px;
 }
 
-
 .podcast-info {
     display: flex;
     justify-content: left;
@@ -306,7 +347,6 @@ nav ul li a:hover {
     margin-top: 10px;
     font-weight: bold;
 }
-
 
 .podcast-info .podcast-name-owner{
     width: 260px;
@@ -326,14 +366,14 @@ nav ul li a:hover {
 .podcast-category {
     flex-basis: 440px; /* Set a fixed width to align text properly */
     text-align: left;
-    color: gray;
+    color: gainsboro;
     font-size: 13px;
 }
 
 .podcast-language {
     flex-basis: 100px; /* Set a fixed width to align text properly */
     text-align: left;
-    color: gray;
+    color: gainsboro;
     font-size: 13px;
 }
 
@@ -346,13 +386,10 @@ nav ul li a:hover {
 
 .podcast-list .show-all-container {
     display: flex;
-    justify-content: flex-end; /* Align to the left */
-    margin-top: 5px;
-    margin-right: 35px;
-    width: 98%;
+    justify-content: flex-end;
+    margin-top: 10px;
+    width: 100%;
     font-size: 13px;
-
-
 }
 .podcast-list .show-all-container a{
     color: #d2d5d9;
