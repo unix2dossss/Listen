@@ -2,6 +2,17 @@
 
 A sleek, minimalist podcast app that combines powerful features with a clean, intuitive design. Discover and enjoy your favorite shows effortlessly, all in a beautifully streamlined interface.
 
+## Table of Contents
+1. [Installation](#installation)
+2. [Execution](#execution)
+3. [Testing](#testing)
+4. [Configuration](#configuration)
+5. [Endpoints](#endpoints)
+6. [Features](#features)
+7. [Design Decisions](#design-decisions)
+8. [Data Sources](#data-sources)
+9. [Contributors](#contributors)
+
 ## Installation
 
 1. Clone this repository
@@ -50,8 +61,32 @@ The *project directory/.env* file contains variable settings. They are set with 
 * `TESTING`: Set to False for running the application. Overridden and set to True automatically when testing the application.
 * `WTF_CSRF_SECRET_KEY`: Secret key used by the WTForm library.
  
+## Endpoints
+
+Here are the primary endpoints for the application:
+
+* **GET /**: Homepage of the application.
+
+## Features
+
+- **Minimalist Design:** A clean and intuitive interface that makes it easy to navigate through your favorite podcasts.
+- **Podcast Discovery:** Browse and search for podcasts based on various categories and recommendations.
+- **Detailed Podcast View:** View detailed information about each podcast, including episodes, descriptions, and related content.
+
+## Design Decisions
+
+Any important design decisions go here!
+
 ## Data sources
 
 The data files are modified excerpts downloaded from:
 
 https://www.kaggle.com/code/switkowski/building-a-podcast-recommendation-engine/input
+
+## Contributors
+
+- **Vandan Bhatt**
+- **Thamasha Rajakaruna**
+- **Deiza Talreja**
+
+If you'd like to contribute to this project, feel free to fork the repository and submit a pull request with your improvements.
