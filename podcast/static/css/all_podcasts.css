@@ -125,13 +125,13 @@ body {
 }
 
 
-.editor-picks {
+.podcast-picks {
     width: 100%;
     align-items: center;
     text-align: left;
 }
 
-.editor-cards {
+.podcast-cards {
     display: grid;
     grid-template-columns: repeat(6, 1fr); /* Creates a grid with flexible columns */
     grid-gap: 10px; /* Adds spacing between grid items */
@@ -145,7 +145,7 @@ body {
 
 }
 
-.editor-card {
+.podcast-card {
     display: flex;
     flex-direction: column;
     text-align: left;
@@ -157,7 +157,7 @@ body {
     object-fit: cover;
 }
 
-.editor-card img {
+.podcast-card img {
     width: 100%; /* Makes the image take up the full width of the card */
     object-fit: cover; /* Ensures the image scales and crops to fill the card without distortion */
     border-radius: 4px;/* Adds rounded corners to match the card's style */
@@ -165,18 +165,18 @@ body {
 
 }
 
-.editor-card .info {
+.podcast-card .info {
     width: 100%;
     margin-top: 15px;
     margin-left: 15px;
     text-align: left;
 }
-.editor-card-name{
+.podcast-card-name{
     font-size: 15px;
     color: #d2d5d9;
 }
 
-.editor-card-owner{
+.podcast-card-owner{
     font-size: 12px;
     color: #d2d5d9;
 }
