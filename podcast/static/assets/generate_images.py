@@ -1,7 +1,7 @@
 import requests
 import os
 
-access_key = ''
+access_key = ''  # Replace with your actual Unsplash API key
 
 # List of categories to search for
 with open('categories.txt', 'r') as file:
@@ -15,7 +15,7 @@ os.makedirs(save_dir, exist_ok=True)
 # Function to search and download images
 def download_image(category):
     query = category.replace(" ", "+")
-    url = f"https://api.unsplash.com/search/photos?page=1&query={query}&per_page=1&client_id={access_key}"
+    url = f"https://api.unsplash.com/search/photos?page=1&query={query}&per_page=1&orientation=landscape&order_by=relevant&client_id={access_key}"
 
     try:
         response = requests.get(url)
@@ -42,5 +42,7 @@ def download_image(category):
 
 
 # Download images for each category
-for category in categories:
+for category in reversed(categories):
+    if category == "Places & Travel":
+        break
     download_image(category)
