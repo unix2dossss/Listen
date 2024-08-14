@@ -39,10 +39,9 @@ def download_image(category):
 
     except requests.exceptions.RequestException as e:
         print(f"Error fetching image for {category}: {e}")
+        return
 
 
 # Download images for each category
-for category in reversed(categories):
-    if category == "Places & Travel":
-        break
+for category in categories:
     download_image(category)

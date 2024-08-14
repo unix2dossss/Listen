@@ -124,13 +124,6 @@ body {
     margin-bottom: 30px;
 }
 
-
-.podcast-picks {
-    width: 100%;
-    align-items: center;
-    text-align: left;
-}
-
 .podcast-cards {
     display: grid;
     grid-template-columns: repeat(6, 1fr); /* Creates a grid with flexible columns */
@@ -139,15 +132,16 @@ body {
     border-radius: 4px;
     padding: 10px;
     width: 100%;
-    /*height: 290px;*/
+    height: calc(100vh - 234px);
     text-align: center;
     align-items: center;
-
 }
 
 .podcast-card {
     display: flex;
+    position: relative;
     flex-direction: column;
+    justify-content: center; /* Center content vertically */
     text-align: left;
     align-items: center;
     border-radius: 4px;
@@ -155,28 +149,85 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    background: #222423;
 }
 
 .podcast-card img {
-    width: 100%; /* Makes the image take up the full width of the card */
-    object-fit: cover; /* Ensures the image scales and crops to fill the card without distortion */
-    border-radius: 4px;/* Adds rounded corners to match the card's style */
-    margin-bottom: 10px;
-
+    width: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 2;
 }
 
 .podcast-card .info {
     width: 100%;
-    margin-top: 15px;
-    margin-left: 15px;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 15px;
     text-align: left;
+    flex-grow: 1; /* Allow the info section to grow and fill space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center the text vertically */
+    height: 100%; /* Ensure it takes up the full height */
+    z-index: 2;
+    color: white;
 }
-.podcast-card-name{
-    font-size: 15px;
+
+.podcast-card-name {
+    font-size: clamp(14px, 2.5vw, 18px); /* Adjust font size responsively */
     color: #d2d5d9;
 }
 
-.podcast-card-owner{
-    font-size: 12px;
+.podcast-card-owner {
+    font-size: clamp(12px, 2vw, 14px); /* Adjust font size responsively */
     color: #d2d5d9;
+}
+
+.card-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    filter: blur(20px);
+    z-index: 0;
+}
+
+.card-darken {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: 1;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #171a18;
+}
+
+.pagination a {
+    color: #ffffff;
+    padding: 10px 28px;
+    margin: 0 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-decoration: none;
+    background-color: #222423;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: #333333;
+}
+
+.pagination a:active {
+    background-color: #555555;
 }

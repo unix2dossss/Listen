@@ -136,13 +136,13 @@
       margin: 3px;
       font-size: 15px;
       display: inline-block;
-      vertical-align: middle; /* Center the inline-block element */
+      vertical-align: middle;
       line-height: normal;
   }
 
   .categories .show-all-container {
       display: flex;
-      justify-content: flex-end; /* Align to the left */
+      justify-content: flex-end;
       margin-top: 1px;
       margin-right: 2px;
       font-size: 11px;
