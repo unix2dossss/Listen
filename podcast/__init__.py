@@ -39,4 +39,8 @@ def create_app():
         # Use Jinja to customize a predefined html page rendering the layout for showing a single podcast.
         return render_template('podcastDescription.html', podcast=some_podcast)
 
+    with app.app_context():
+        from .utilities import utilities
+        app.register_blueprint(utilities.utilities_blueprint)
+
     return app
