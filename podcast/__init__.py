@@ -1,14 +1,11 @@
 """Initialize Flask app."""
-
+from pathlib import Path
 from flask import Flask, render_template
-
-# TODO: Access to the podcast should be implemented via the repository pattern and using blueprints, so this can not
-#  stay here!
 from podcast.domainmodel.model import Podcast, Author
+import podcast.adapters.repository as repo
+from podcast.adapters.memory_repository import MemoryRepository, populate
 
-
-# TODO: Access to the podcast should be implemented via the repository pattern and using blueprints, so this can not
-#  stay here!
+# Remove later
 def create_some_podcast():
     some_author = Author(1, "TED")
     some_podcast = Podcast(66, some_author, "TED Talks Daily")
@@ -22,6 +19,19 @@ def create_app():
 
     # Create the Flask app object.
     app = Flask(__name__)
+
+    data_path = Path('podcast') / 'adapters' / 'data'
+
+    # Create the MemoryRepository implementation for a memory-based repository.
+    repo.repo_instance = MemoryRepository()
+
+    # fill the content with the repository from the provided csv files
+    populate(data_path, repo.repo_instance)
+
+    # Build the application - these steps require an application context.
+    with app.app_context():
+        # Register blueprints.
+        pass
 
     @app.route('/')
     def home():
