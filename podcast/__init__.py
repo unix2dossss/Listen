@@ -1,6 +1,6 @@
 """Initialize Flask app."""
 from pathlib import Path
-from flask import Flask, render_template
+from flask import Flask
 from podcast.domainmodel.model import Podcast, Author
 import podcast.adapters.repository as repo
 from podcast.adapters.memory_repository import MemoryRepository, populate
