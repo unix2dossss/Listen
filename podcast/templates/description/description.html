@@ -6,9 +6,10 @@
 
 {% block content %}
  <main class="main-content">
-    <header class="hero">
+    <header class="hero" style="background-image: url('{{ p_about.podcast_image }}');">
+        <div class="hero-blur" style="background-image: url('{{ p_about.podcast_image }}');"></div>
         <div class="hero-content">
-            <img src="{{ p_about.podcast_image }}" alt="The Reservoir Tapes" class="hero-image">
+            <img src="{{ p_about.podcast_image }}" alt="Podcast Image" class="hero-image">
             <div class="hero-text">
                 <h1 class="hero-title">{{ p_about.podcast_title }}</h1>
                 <p class="hero-subtitle">{{ p_about.podcast_author }}</p>
@@ -34,17 +35,17 @@
             <button class="episodes-sort-btn">Newest to Oldest<i class="fa-solid fa-caret-down"></i></button>
         </div>
         {% for episode in p_episodes %}
-            <div class="episode">
-                <img src="{{ p_about.podcast_image }}" alt="Episode Image" class="episode-image">
-                <div class="episode-content">
-                    <h3 class="episode-title">{{ episode.episode_number }}. {{ episode.episode_title }}</h3>
-                    <p class="episode-description">
-                        {{ episode.episode_description }}
-                        <br><br>
-                        {{ episode.episode_date }} • {{ episode.episode_length }}
-                    </p>
-                </div>
+        <div class="episode">
+            <img src="{{ p_about.podcast_image }}" alt="Episode Image" class="episode-image">
+            <div class="episode-content">
+                <h3 class="episode-title">{{ episode.episode_number }}. {{ episode.episode_title }}</h3>
+                <p class="episode-description">
+                    {{ episode.episode_description }}
+                    <br><br>
+                    {{ episode.episode_date }} • {{ episode.episode_length }}
+                </p>
             </div>
+        </div>
         {% endfor %}
         <br>
     </section>
