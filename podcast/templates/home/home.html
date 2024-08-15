@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block component_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <a href="#" style="color: blue; text-decoration: none; padding: 5px 10px; border: 1px solid blue; border-radius: 3px; display: inline-block;">
+        Podcast 1
+    </a>
+
+    <a href="#" style="color: red; text-decoration: none; padding: 5px 10px; border: 1px solid red; border-radius: 3px; display: inline-block;">
+        Podcast 2
+    </a>
+
+    <a href="#" style="color: green; text-decoration: none; padding: 5px 10px; border: 1px solid green; border-radius: 3px; display: inline-block;">
+        Podcast 3
+    </a>
+</main>
+{% endblock %}
