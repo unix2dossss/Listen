@@ -31,11 +31,22 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: inherit; /* Uses the same background image */
+    background-image: inherit;
     background-size: cover;
     background-position: center;
-    filter: blur(10px); /* Apply blur to the background image */
+    filter: blur(10px);
     z-index: 1;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.6)); /* Gradient from black to grey */
+    z-index: 2;
 }
 
 .hero-content {
@@ -43,7 +54,7 @@
     align-items: center;
     text-align: left;
     position: relative;
-    z-index: 2;
+    z-index: 3;
 }
 
 .hero-image {
