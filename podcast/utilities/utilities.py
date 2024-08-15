@@ -7,6 +7,12 @@ utilities_blueprint = Blueprint(
     'utilities_bp', __name__)
 
 
+def get_n_podcasts(quantity=3):
+    podcasts = services.get_n_podcasts(quantity)
+    return podcasts
+
+
+
 # description page related methods
 def get_podcast_episodes():
     pass

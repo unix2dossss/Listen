@@ -20,8 +20,6 @@ def validate_time(hours, minutes, seconds):
         raise ValueError("Minutes must be between 0 and 59")
     if not isinstance(seconds, int) or seconds < 0 or seconds > 60:
         raise ValueError("Seconds must be between 0 and 59")
-    if hours == 0 and minutes == 0 and seconds == 0:
-        raise ValueError("Invalid time: AudioTime object unnecessary for 0h 0m 0s")
 
 
 class Author:
@@ -357,8 +355,6 @@ class Episode:
 
         validate_non_negative_int(episode_id)
         validate_non_empty_string(episode_title, field_name="Episode Title")
-        validate_non_empty_string(episode_audio_link, field_name="Episode Audio Link")
-        validate_non_empty_string(episode_description, field_name="Episode Description")
 
         self._episode_id: int = episode_id
         self.episode_podcast: Podcast = episode_podcast

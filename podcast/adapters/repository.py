@@ -12,4 +12,9 @@ class RepositoryException(Exception):
 
 
 class AbstractRepository(abc.ABC):
-    pass
+    @abc.abstractmethod
+    def get_n_podcasts(self, n):
+        """ Returns n number of articles
+        Returns None if the repository is empty.
+        """
+        raise NotImplementedError
