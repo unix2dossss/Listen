@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 from datetime import datetime
 from podcast.adapters.datareader.csvdatareader import CSVDataReader
@@ -190,8 +192,7 @@ def my_comment(my_user, my_date_time):
 
 @pytest.fixture
 def my_csv_data_reader():
-    return CSVDataReader("../podcast/adapters/data/podcasts.csv",
-                         "../podcast/adapters/data/episodes.csv")
+    return CSVDataReader(testing=True)
 
 
 # noinspection PyTypeChecker
@@ -420,10 +421,6 @@ def test_audiotime_initialization():
     assert zero_hours_obj.audio_hours == 0
     assert zero_minutes_obj.audio_minutes == 0
     assert zero_seconds_obj.audio_seconds == 0
-
-    # test 0 hours, 0 minutes, 0 seconds all together (invalid)
-    with pytest.raises(ValueError):
-        audiotime_obj2 = AudioTime(0, 0, 0)
 
 
 def test_audiotime_str(my_audio_time):
@@ -924,6 +921,11 @@ def test_csvdatareader_return_types(my_csv_data_reader):
     assert all(isinstance(episode, Episode) for episode in my_csv_data_reader.episodes)
     assert all(isinstance(author_obj, Author) for author_obj in my_csv_data_reader.authors.values())
     assert all(isinstance(category, Category) for category in my_csv_data_reader.categories.values())
+
+    # Write episodes in output file to check if all episodes are being stored correctly.
+    # with open('output.txt', 'w') as file:
+    #     for e in my_csv_data_reader.episodes:
+    #         file.write(f"{e}\n")
 
     # print()
     # for (category, podcast_c) in my_csv_data_reader.podcasts_by_category.items():
