@@ -6,16 +6,12 @@
 
 {% block content %}
 <main class="main-content">
-    <a href="/podcast?id=1" style="color: blue; text-decoration: none; padding: 5px 10px; border: 1px solid blue; border-radius: 3px; display: inline-block;">
-        Podcast 1
-    </a>
 
-    <a href="/podcast?id=2" style="color: red; text-decoration: none; padding: 5px 10px; border: 1px solid red; border-radius: 3px; display: inline-block;">
-        Podcast 2
+    {% for i in range(1, 200) %}
+        <a href="/podcast?id={{ i }}" style="color: blue; text-decoration: none; padding: 5px 10px; border: 1px solid blue; border-radius: 3px; display: inline-block;">
+        Podcast {{ i }}
     </a>
+    {% endfor %}
 
-    <a href="/podcast?id=999" style="color: green; text-decoration: none; padding: 5px 10px; border: 1px solid green; border-radius: 3px; display: inline-block;">
-        Podcast 3
-    </a>
 </main>
 {% endblock %}

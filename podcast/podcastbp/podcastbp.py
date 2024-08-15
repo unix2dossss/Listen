@@ -13,7 +13,7 @@ def description():
 
     # podcast_about - podcast image, title, author, description
     p_about = services.podcast_about(podcast_id, repo.repo_instance)
-    print(p_about.keys())
+    print(p_about)
     # categories the podcast falls under
     p_categories = services.podcast_categories(podcast_id, repo.repo_instance)
     print(p_categories)
@@ -35,5 +35,5 @@ def description():
     #     print(formatted_output)
 
     return render_template(
-        'description/description.html', p_about=p_about
+        'description/description.html', p_about=p_about, p_episodes=p_episodes, p_categories=p_categories
     )

@@ -22,74 +22,31 @@
         </div>
         <p class="about-description">{{ p_about.podcast_description }}</p>
         <div class="about-tags">
-            <span class="tag"><i class="fas fa-star"></i> 4.9 (128)</span>
-            <span class="tag">Arts</span>
-            <span class="tag">Performing Arts</span>
+            {% for category in p_categories %}
+                <span class="tag">{{ category.category_name }}</span>
+            {% endfor %}
         </div>
         <hr class="about-separator">
-    </section>
+    </section>g
     <section class="episodes">
          <div class="episodes-header">
             <h2 class="episodes-title">Episodes</h2>
             <button class="episodes-sort-btn">Newest to Oldest<i class="fa-solid fa-caret-down"></i></button>
         </div>
-        <div class="episode">
-            <img src="http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg" alt="Episode Image" class="episode-image">
-            <div class="episode-content">
-                <h3 class="episode-title">4. Ian's Story</h3>
-                <p class="episode-description">When a girl disappears in the heart of England how far back do you have to go to find the truth? <br><br>
-                    Neil Dudgeon continues Jon McGregor's gripping new series. A community is rocked when a teenager goes missing on a midwinter walk in the Peak District. Now her disappearance sparks long-buried memories, and opens old wounds. Today: a former quarry worker ponders the dangers of the local landscape...
-                    <br><br>
-                    Reader: Neil Dudgeon<br>
-                    Producer: Justine Willett<br>
-                    2017-12-10 • 13 Minute 17 Seconds
-                </p>
+        {% for episode in p_episodes %}
+            <div class="episode">
+                <img src="{{ p_about.podcast_image }}" alt="Episode Image" class="episode-image">
+                <div class="episode-content">
+                    <h3 class="episode-title">{{ episode.episode_number }}. {{ episode.episode_title }}</h3>
+                    <p class="episode-description">
+                        {{ episode.episode_description }}
+                        <br><br>
+                        {{ episode.episode_date }} • {{ episode.episode_length }}
+                    </p>
+                </div>
             </div>
-        </div>
+        {% endfor %}
         <br>
-        <div class="episode">
-            <img src="http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg" alt="Episode Image" class="episode-image">
-            <div class="episode-content">
-                <h3 class="episode-title">3. Donna's Story</h3>
-                <p class="episode-description">When a girl disappears in the heart of England how far back do you have to go to find the truth? <br><br>
-                    Neil Dudgeon continues Jon McGregor's gripping new series. A community is rocked when a teenager goes missing on a midwinter walk in the Peak District. Now her disappearance sparks long-buried memories, and opens old wounds. Today: a former quarry worker ponders the dangers of the local landscape...
-                    <br><br>
-                    Reader: Neil Dudgeon<br>
-                    Producer: Justine Willett<br>
-                    2017-12-10 • 13 Minute 17 Seconds
-                </p>
-            </div>
-        </div>
-        <br>
-        <div class="episode">
-            <img src="http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg" alt="Episode Image" class="episode-image">
-            <div class="episode-content">
-                <h3 class="episode-title">2. Irenes's Story</h3>
-                <p class="episode-description">When a girl disappears in the heart of England how far back do you have to go to find the truth? <br><br>
-                    Neil Dudgeon continues Jon McGregor's gripping new series. A community is rocked when a teenager goes missing on a midwinter walk in the Peak District. Now her disappearance sparks long-buried memories, and opens old wounds. Today: a former quarry worker ponders the dangers of the local landscape...
-                    <br><br>
-                    Reader: Neil Dudgeon<br>
-                    Producer: Justine Willett<br>
-                    2017-12-10 • 13 Minute 17 Seconds
-                </p>
-            </div>
-        </div>
-        <br>
-        <div class="episode">
-            <img src="http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg" alt="Episode Image" class="episode-image">
-            <div class="episode-content">
-                <h3 class="episode-title">1. Jess's Story</h3>
-                <p class="episode-description">When a girl disappears in the heart of England how far back do you have to go to find the truth? <br><br>
-                    Neil Dudgeon continues Jon McGregor's gripping new series. A community is rocked when a teenager goes missing on a midwinter walk in the Peak District. Now her disappearance sparks long-buried memories, and opens old wounds. Today: a former quarry worker ponders the dangers of the local landscape...
-                    <br><br>
-                    Reader: Neil Dudgeon<br>
-                    Producer: Justine Willett<br>
-                    2017-12-10 • 13 Minute 17 Seconds
-                </p>
-            </div>
-        </div>
-        <br>
-
     </section>
 </main>
 {% endblock %}
