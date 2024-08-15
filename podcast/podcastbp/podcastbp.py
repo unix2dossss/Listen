@@ -15,6 +15,8 @@ def description():
     p_about = services.podcast_about(podcast_id, repo.repo_instance)
     print(p_about.keys())
     # categories the podcast falls under
+    p_categories = services.podcast_categories(podcast_id, repo.repo_instance)
+    print(p_categories)
     # episodes - list of episodes
 
     return render_template(
