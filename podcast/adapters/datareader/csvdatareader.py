@@ -105,9 +105,7 @@ class CSVDataReader:
                 seconds = int(ep_audio_length) % 60
                 ep_audio_length_object = AudioTime(hours, minutes, seconds)
 
-                for pcast in self._podcasts:
-                    if pcast.id == pc_id:
-                        episode_pcast = pcast
+                episode_pcast = self._podcasts[pc_id-1]
 
                 # Create Episode Object
                 new_episode = Episode(
@@ -120,6 +118,7 @@ class CSVDataReader:
                 )
 
                 self._episodes.append(new_episode)
+                episode_pcast.add_episode(new_episode)
 
         except Exception as e:
             print(f"Skipping row (invalid data): {e}")

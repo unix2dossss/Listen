@@ -1,5 +1,6 @@
-<nav class="sidebar">
-    <h2 class="sidebar-title">Podcasts</h2>
+{% set p_about = p_about | default({}) %}
+
+<nav class="sidebar" style="--bg-image-url: url('{{ p_about.podcast_image | default('http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg') }}');">
     <ul class="sidebar-menu">
         <li><a href="/"><i class="fas fa-home"></i>Home</a></li>
         <li><a href="/discover"><i class="fas fa-search"></i>Discover</a></li>
