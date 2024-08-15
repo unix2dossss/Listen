@@ -27,6 +27,6 @@ def create_app():
     def home():
         some_podcast = create_some_podcast()
         # Use Jinja to customize a predefined html page rendering the layout for showing a single podcast.
-        return render_template('podcastDescription.html', podcast=some_podcast)
+        return render_template('description.html', podcast=some_podcast)
 
     return app
