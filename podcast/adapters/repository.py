@@ -18,3 +18,10 @@ class AbstractRepository(abc.ABC):
         Returns None if the repository is empty.
         """
         raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_podcast(self, pc_id):
+        """ Returns a Podcast whose id matches id, from the repository.
+        If there are no matches, this method returns an empty list.
+        """
+        raise NotImplementedError

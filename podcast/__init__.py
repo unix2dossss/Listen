@@ -29,6 +29,9 @@ def create_app():
         from .utilities import utilities
         app.register_blueprint(utilities.utilities_blueprint)
 
+        from .podcastbp import podcastbp
+        app.register_blueprint(podcastbp.podcast_blueprint)
+
         from .home import home
         app.register_blueprint(home.home_blueprint)
 

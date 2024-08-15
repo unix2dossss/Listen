@@ -65,10 +65,10 @@ class MemoryRepository(AbstractRepository):
         self._podcasts_by_category = value
 
     def get_n_podcasts(self, n):
-        """ Returns n number of articles
-        Returns None if the repository is empty.
-        """
         raise NotImplementedError
+
+    def get_podcast(self, pc_id):
+        return self._podcasts[pc_id-1]
 
 
 def populate(data_path: Path, repo: MemoryRepository):
