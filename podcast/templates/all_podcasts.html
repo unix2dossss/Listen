@@ -16,15 +16,15 @@
                                 <div class="podcast-card">
                                     <!-- Background with blur -->
                                     <div class="card-bg" style="
-                                        background: url('https://picsum.photos/600') no-repeat center center; background-size: cover;"></div>
+                                        background: url('{{ podcast.image_url }}') no-repeat center center; background-size: cover;"></div>
                                     <!-- Dark overlay -->
                                     <div class="card-darken"></div>
                                     <!-- Content -->
-                                    <img src="podcast.podcast_image" alt="{{podcast.podcast_title}}">
+                                    <img src="{{ podcast.image_url }}" alt="{{ podcast.podcast_title }}">
                                     <div class="info">
-                                        <span class="podcast-card-name">{{podcast.podcast_title}}</span>
+                                        <span class="podcast-card-name">{{ podcast.title }}</span>
                                         <br>
-                                        <span class="podcast-card-owner">{{podcast.podcast_author}}</span>
+                                        <span class="podcast-card-owner">{{ podcast.author }}</span>
                                     </div>
                                 </div>
                             {% endfor %}

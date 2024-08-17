@@ -1,5 +1,6 @@
 from podcast.adapters.repository import AbstractRepository
 
+
 def format_podcast_list(podcasts):
     formatted_podcasts = []
     for i in range(len(podcasts)):

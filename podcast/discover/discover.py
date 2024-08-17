@@ -15,10 +15,10 @@ def discover():
         'discover/discover.html'
     )
 
-@discover_blueprint.route('/podcasts_by_category', methods=['GET'])
-def podcasts_by_category():
-    category_name = request.args.get('category_name')
 
+@discover_blueprint.route('/podcasts_by_category/<category_name>', methods=['GET'])
+def podcasts_by_category(category_name):
+    print(category_name + "CATGEGAWGIAWJFIAWJ")
     category_podcasts = None
 
     if category_name is not None:
@@ -31,5 +31,5 @@ def podcasts_by_category():
 
     return render_template(
         'all_podcasts.html',
-        category_podcasts=category_podcasts
+        category_podcasts=category_podcasts[:12]
     )
