@@ -11,26 +11,22 @@
             <div class="cards-section">
                 <div class="whole-container">
                     <div class="podcast-cards">
-                        {% if category_podcasts != {} %}
-                            {% for podcast in category_podcasts %}
-                                <div class="podcast-card">
-                                    <!-- Background with blur -->
-                                    <div class="card-bg" style="
-                                        background: url('{{ podcast.image_url }}') no-repeat center center; background-size: cover;"></div>
-                                    <!-- Dark overlay -->
-                                    <div class="card-darken"></div>
-                                    <!-- Content -->
-                                    <img src="{{ podcast.image_url }}" alt="{{ podcast.podcast_title }}">
-                                    <div class="info">
-                                        <span class="podcast-card-name">{{ podcast.title }}</span>
-                                        <br>
-                                        <span class="podcast-card-owner">{{ podcast.author }}</span>
-                                    </div>
+                        {% for podcast in podcasts %}
+                            <div class="podcast-card">
+                                <!-- Background with blur -->
+                                <div class="card-bg" style="
+                                    background: url('{{ podcast.image_url }}') no-repeat center center; background-size: cover;"></div>
+                                <!-- Dark overlay -->
+                                <div class="card-darken"></div>
+                                <!-- Content -->
+                                <img src="{{ podcast.image_url }}" alt="{{ podcast.podcast_title }}">
+                                <div class="info">
+                                    <span class="podcast-card-name">{{ podcast.title }}</span>
+                                    <br>
+                                    <span class="podcast-card-owner">{{ podcast.author }}</span>
                                 </div>
-                            {% endfor %}
-                        {% else %}
-<!--                                Do later-->
-                        {% endif %}
+                            </div>
+                        {% endfor %}
 
                     </div>
                     <div class="pagination">

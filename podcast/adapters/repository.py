@@ -30,3 +30,8 @@ class AbstractRepository(abc.ABC):
         """ return a Podcast list by Category
         """
         raise NotImplementedError
+
+    def get_all_podcasts(self):
+        """ return a all Podcasts
+        """
+        raise NotImplementedError

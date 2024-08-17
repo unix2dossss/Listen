@@ -17,11 +17,12 @@ def format_podcast_list(podcasts):
 
 def get_podcasts_in_category(category_name: str, repo: AbstractRepository):
     podcasts = repo.get_podcasts_in_category(category_name)
-    formatted_podcasts_list = format_podcast_list(podcasts)
-    print('tmdkjiwf')
-    print(formatted_podcasts_list)
-    return formatted_podcasts_list
+    formatted_podcasts = format_podcast_list(podcasts)
+    return formatted_podcasts
 
 
-def get_all_podcasts():
-    pass
+def get_all_podcasts(repo: AbstractRepository):
+    all_podcasts = repo.get_all_podcasts()
+    formatted_podcasts = format_podcast_list(all_podcasts)
+    print(formatted_podcasts)
+    return formatted_podcasts
