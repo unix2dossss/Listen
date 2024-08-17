@@ -21,9 +21,6 @@ def create_app():
     populate(data_path, repo.repo_instance)
 
     # Build the application - these steps require an application context.
-    with app.app_context():
-        # Register blueprints.
-        pass
 
     with app.app_context():
         from .utilities import utilities
