@@ -17,13 +17,19 @@ def discover():
 
 @discover_blueprint.route('/podcasts_by_category', methods=['GET'])
 def podcasts_by_category():
-    category_id = request.args.get('category_id')
+    category_name = request.args.get('category_name')
 
-    if category_id is not None:
-        print("hello" + category_id)
-        podcasts = services.get_podcasts_by_category(int(category_id), repo.repo_instance)
-        print(podcasts)
+    category_podcasts = None
+
+    if category_name is not None:
+        print("hello" + category_name)
+        category_podcasts = services.get_podcasts_in_category(category_name, repo.repo_instance)
+        print(category_podcasts)
+
+    else:
+        category_podcasts = services.get_all_podcasts()
 
     return render_template(
-        'all_podcasts.html'
+        'all_podcasts.html',
+        category_podcasts=category_podcasts
     )

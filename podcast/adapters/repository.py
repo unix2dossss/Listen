@@ -26,7 +26,7 @@ class AbstractRepository(abc.ABC):
         """
         raise NotImplementedError
 
-    def get_podcasts_in_category(self, category_id):
+    def get_podcasts_in_category(self, category_name):
         """ return a Podcast list by Category
         """
         raise NotImplementedError
