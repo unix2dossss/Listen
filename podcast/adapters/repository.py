@@ -26,12 +26,36 @@ class AbstractRepository(abc.ABC):
         """
         raise NotImplementedError
 
+    def get_popular_categories(self):
+        """ return three Popular Categories
+        """
+        raise NotImplementedError
+
+
+    def get_editor_picks(self):
+        """ return three Editor picked podcasts
+        """
+        raise NotImplementedError
+
+
+    def get_podcast_search_list(self):
+        """ return a podcast list according to filtered criteria
+        """
+        raise NotImplementedError
+
+
+
     def get_podcasts_in_category(self, category_name):
         """ return a Podcast list by Category
         """
         raise NotImplementedError
 
     def get_all_podcasts(self):
-        """ return a all Podcasts
+        """ return all Podcasts
+        """
+        raise NotImplementedError
+
+    def get_editor_picked_podcast(self, podcast_id):
+        """ return three editor picked podcasts
         """
         raise NotImplementedError

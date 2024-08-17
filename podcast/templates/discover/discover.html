@@ -16,58 +16,54 @@
 <!--                                <a href="#">Show all</a>-->
 <!--                            </div>-->
 
-                            <div class="box" style="background:
-                                                                linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
+                            {% for category in popular_categories %}
+                                <div class="box" style="background:
+                                                               linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
                                                                 url('https://cdn.pixabay.com/photo/2016/12/15/20/21/texture-1909992_640.jpg') no-repeat center center;
                                                             ">
-                                <div class="overlay">
-                                    <a href="{{ url_for('discover_bp.podcasts_by_category', category_name='Performing Arts') }}"><h2>Performing Arts</h2></a>
+                                    <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category.name) }}">
+                                        <div class="overlay">
+                                            <h2>{{ category.name }}</h2>
+                                        </div>
+                                    </a>
                                 </div>
-                            </div>
-                            <div class="box" style="background:
-                                                                linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
-                                                                url('https://cdn.britannica.com/28/190928-131-CE088DB5/DNA-helix-concept-evolution-medicine-science.jpg') no-repeat center center;
-                                                            ">
-                                <div class="overlay">
-                                    <a href="{{url_for('discover_bp.podcasts_by_category', category_name='Religion & Spirituality') }}"><h2>Religion & Spirituality</h2></a>
-                                </div>
-                            </div>
-                            <div class="box" style="background:
-                                                                linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
-                                                                url('https://img-cdn.inc.com/image/upload/w_1024,h_576,c_fill/images/panoramic/GettyImages-900301626_437925_t2i3bm.jpg') no-repeat center center;
-                                                            ">
-                                <div class="overlay">
-                                    <a href="{{url_for('discover_bp.podcasts_by_category', category_name='TV & Film')}}"><h2>TV & Film</h2></a>
-                                </div>
-                            </div>
+                            {% endfor %}
+
                         </div>
                     </div>
                     <div class="editor-picks">
                         <h2 class="editor-picks-heading">Editor Picks</h2>
                         <div class="editor-cards">
-                            <div class="editor-card">
-                                <img src="http://is3.mzstatic.com/image/thumb/Music128/v4/81/66/72/8166728e-aa3f-c4c3-f102-f162145c0690/source/600x600bb.jpg" alt="Category 1">
-                                <div class="info">
-                                    <span class="editor-card-name">Mike Safo</span>
-                                    <br>
-                                    <span class="editor-card-owner">By Msafoschnik</span>
+                                <div class="editor-card">
+                                    <a href="{{ url_for('discover_bp.editor_picked_podcast', podcast_id=1) }}">
+                                        <img src="http://is3.mzstatic.com/image/thumb/Music128/v4/81/66/72/8166728e-aa3f-c4c3-f102-f162145c0690/source/600x600bb.jpg" alt="Category 1">
+                                        <div class="info">
+                                            <span class="editor-card-name">Mike Safo</span>
+                                            <br>
+                                            <span class="editor-card-owner">By Msafoschnik</span>
+                                        </div>
+                                    </a>
                                 </div>
+
+                            <div class="editor-card">
+                                <a href="{{ url_for('discover_bp.editor_picked_podcast', podcast_id=2) }}">
+                                    <img src="http://is3.mzstatic.com/image/thumb/Music118/v4/1b/23/29/1b2329ed-fa8a-fcbb-5699-b3465c8c8cc3/source/600x600bb.jpg" alt="Category 1">
+                                    <div class="info">
+                                        <span class="editor-card-name">Rotations</span>
+                                        <br>
+                                        <span class="editor-card-owner">By Media in Medicine</span>
+                                    </div>
+                                </a>
                             </div>
                             <div class="editor-card">
-                                <img src="http://is3.mzstatic.com/image/thumb/Music118/v4/1b/23/29/1b2329ed-fa8a-fcbb-5699-b3465c8c8cc3/source/600x600bb.jpg" alt="Category 1">
-                                <div class="info">
-                                    <span class="editor-card-name">Rotations</span>
-                                    <br>
-                                    <span class="editor-card-owner">By Media in Medicine</span>
-                                </div>
-                            </div>
-                            <div class="editor-card">
-                                <img src="http://is5.mzstatic.com/image/thumb/Music128/v4/d7/ec/4c/d7ec4c39-6429-e6b3-cfff-685d0eadcce8/source/600x600bb.jpg" alt="Category 1">
-                               <div class="info">
-                                    <span class="editor-card-name">Voices in AI</span>
-                                   <br>
-                                    <span class="editor-card-owner">By Byron Reese</span>
-                                </div>
+                                <a href="{{ url_for('discover_bp.editor_picked_podcast', podcast_id=3) }}">
+                                    <img src="http://is5.mzstatic.com/image/thumb/Music128/v4/d7/ec/4c/d7ec4c39-6429-e6b3-cfff-685d0eadcce8/source/600x600bb.jpg" alt="Category 1">
+                                   <div class="info">
+                                        <span class="editor-card-name">Voices in AI</span>
+                                       <br>
+                                        <span class="editor-card-owner">By Byron Reese</span>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -80,20 +76,22 @@
                         <button><i class="fa-solid fa-caret-down dropdown" style="margin-right: 8px;"></i>Newest to Oldest</button>
                     </div>
                     <div class="podcasts">
-                        <div class="podcast">
-                            <div class="podcast-id">01</div>
-                            <div class="podcast-info">
+                        <a href="{{ url_for('discover_bp.filtered_podcast', podcast_id=1) }}">
+                            <div class="podcast">
+                                <div class="podcast-id">01</div>
+                                <div class="podcast-info">
 
-                                <div class="podcast-name-owner">
-                                    <span class="name">D-Hour Radio Network.</span>
-                                    <br>
-                                    <span class="owner">By D Hour Radio Network</span>
+                                    <div class="podcast-name-owner">
+                                        <span class="name">D-Hour Radio Network.</span>
+                                        <br>
+                                        <span class="owner">By D Hour Radio Network</span>
+                                    </div>
                                 </div>
+                                <div class="podcast-category">Society & Culture | Personal Journals</div>
+                                <div class="podcast-language">English</div>
+                                <div class="podcast-duration">58:32:25</div>
                             </div>
-                            <div class="podcast-category">Society & Culture | Personal Journals</div>
-                            <div class="podcast-language">English</div>
-                            <div class="podcast-duration">58:32:25</div>
-                        </div>
+                        </a>
                         <div class="podcast">
                             <div class="podcast-id">02</div>
                             <div class="podcast-info">
