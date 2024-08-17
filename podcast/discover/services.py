@@ -9,6 +9,16 @@ def format_podcast_list(podcasts):
         about_podcast['title'] = podcasts[i].title
         about_podcast['author'] = podcasts[i].author.name
         about_podcast['image_url'] = podcasts[i].image
+        about_podcast['language'] = podcasts[i].language
+
+        category_list = [category.name for category in podcasts[i].categories]
+        if len(category_list) > 1:
+            category_list = ' | '.join(category_list)
+        else:
+            category_list = podcasts[i].categories[0].name
+
+        print(category_list)
+        about_podcast['categories'] = category_list
 
         formatted_podcasts.append(about_podcast)
 
