@@ -70,6 +70,9 @@ class MemoryRepository(AbstractRepository):
     def get_podcast(self, pc_id):
         return self._podcasts[pc_id-1]
 
+    def get_podcasts_in_category(self, category_id):
+        return self._podcasts_by_category[category_id]
+
 
 def populate(data_path: Path, repo: MemoryRepository):
     # create instance of csvreader

@@ -25,3 +25,8 @@ class AbstractRepository(abc.ABC):
         If there are no matches, this method returns an empty list.
         """
         raise NotImplementedError
+
+    def get_podcasts_in_category(self, category_id):
+        """ return a Podcast list by Category
+        """
+        raise NotImplementedError
