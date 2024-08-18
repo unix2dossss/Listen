@@ -29,16 +29,18 @@ def discover():
 @discover_blueprint.route('/all_podcasts/<category_name>', methods=['GET'])
 def podcasts_by_category(category_name):
     category_podcasts = None
+    category_page_title = category_name
 
     if category_name != 'all':
         category_podcasts = services.get_podcasts_in_category(category_name, repo.repo_instance)
         # print(category_podcasts)
     else:
         category_podcasts = services.get_all_podcasts(repo.repo_instance)
+        category_page_title = "All Podcasts..."
 
     return render_template(
         'all_podcasts.html',
-        podcasts=category_podcasts[:12]
+        podcasts=category_podcasts[:12], category_page_title=category_page_title
     )
 
 @discover_blueprint.route('/editor_picks/<podcast_id>', methods=['GET'])
