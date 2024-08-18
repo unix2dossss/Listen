@@ -12,8 +12,8 @@
                         {% for c in podcast_categories %}
                             <div class="box" style="background:
                                                             linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
-                                                            url('https://cdn.pixabay.com/photo/2016/12/15/20/21/texture-1909992_640.jpg') no-repeat center center;
-                                                        ">
+                                                            url('{{ url_for('static', filename='assets/category_images/' + c.name + '.jpg') }}') no-repeat center center;
+                                                            background-size: cover;">
                                 <a href="{{ url_for('category_bp.category_podcasts', category_name=c.name) }}">
                                     <div class="overlay">
                                         <h2>{{ c.name }}</h2>
