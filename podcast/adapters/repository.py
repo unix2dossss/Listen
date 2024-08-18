@@ -54,4 +54,7 @@ class AbstractRepository(abc.ABC):
         """
         raise NotImplementedError
 
-
+    def get_all_categories(self):
+        """ return all Categories
+        """
+        raise NotImplementedError

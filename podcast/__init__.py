@@ -35,4 +35,7 @@ def create_app():
         from .discover import discover
         app.register_blueprint(discover.discover_blueprint)
 
+        from .category import category
+        app.register_blueprint(category.category_blueprint)
+
     return app

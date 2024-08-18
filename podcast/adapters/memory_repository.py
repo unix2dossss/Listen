@@ -86,8 +86,9 @@ class MemoryRepository(AbstractRepository):
     def get_all_podcasts(self):
         return self._podcasts
 
-    # def get_editor_picked_podcast(self, podcast_id):
-    #     return self._podcasts[podcast_id]
+    def get_all_categories(self):
+        all_categories = list(self._categories.values())
+        return all_categories
 
 
 def populate(data_path: Path, repo: MemoryRepository):

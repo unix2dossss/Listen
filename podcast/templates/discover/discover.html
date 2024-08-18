@@ -10,7 +10,9 @@
                 <h1>Discover Podcasts...</h1>
                 <div class="cards-section">
                     <div class="popular-categories">
-                        <h2 class="popular-categories-heading">Browse Popular Categories</h2>
+                        <a href="{{ url_for('category_bp.all_categories') }}">
+                            <h2 class="popular-categories-heading">Browse Popular Categories</h2>
+                        </a>
                         <div class="categories">
 <!--                            <div class="show-all-container">-->
 <!--                                <a href="#">Show all</a>-->
@@ -66,9 +68,9 @@
                                     <div class="podcast-info">
 
                                         <div class="podcast-name-owner">
-                                            <span class="{{ podcast.title }}">{{ podcast.title }}</span>
+                                            <span class="name">{{ podcast.title }}</span>
                                             <br>
-                                            <span class="{{ podcast.author }}">By {{ podcast.author }}</span>
+                                            <span class="owner">By {{ podcast.author }}</span>
                                         </div>
                                     </div>
                                     <div class="podcast-category">{{ podcast.categories }}</div>
