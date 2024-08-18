@@ -174,7 +174,7 @@ nav {
     width: 90%;
     height: 70%;
     background-color: #2f2f2f;
-    border-radius: 20px;
+    border-radius: 4px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -204,7 +204,7 @@ nav {
     width: 90%;
     height: 70%;
     background-color: #2f2f2f;
-    border-radius: 20px;
+    border-radius: 4px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
