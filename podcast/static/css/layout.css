@@ -129,7 +129,7 @@ nav {
 }
 
 .podcast-card {
-    background-color: #2f2f2f;
+    background-color: #171A18;
     width: 20%;
     height: 190px;
     border-radius: 4px;
@@ -173,7 +173,7 @@ nav {
 .continue-listening-block {
     width: 90%;
     height: 70%;
-    background-color: #2f2f2f;
+    background-color: #171A18;
     border-radius: 4px;
     display: flex;
     flex-direction: column;
@@ -203,7 +203,7 @@ nav {
 .top-authors {
     width: 90%;
     height: 70%;
-    background-color: #2f2f2f;
+    background-color: #171A18;
     border-radius: 4px;
     display: flex;
     flex-direction: column;
