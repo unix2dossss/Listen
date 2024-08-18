@@ -13,7 +13,7 @@
                     <div class="podcast-cards">
                         {% for podcast in podcasts %}
                             <div class="podcast-card">
-
+                                <a class="card-link" href="{{ url_for('podcast_blueprint.description', id=podcast.id) }}">
                                         <!-- Background with blur -->
                                         <div class="card-bg" style="
                                             background: url('{{ podcast.image_url }}') no-repeat center center; background-size: cover;"></div>
@@ -26,6 +26,7 @@
                                             <br>
                                             <span class="podcast-card-owner">{{ podcast.author }}</span>
                                         </div>
+                                </a>
 
                                 </div>
 

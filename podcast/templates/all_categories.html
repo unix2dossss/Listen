@@ -1,54 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalogue Page</title>
-    <link rel="stylesheet" href="../static/css/all_categories.css">
-     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="container">
-        <nav class="sidebar">
-            <h2 class="sidebar-title">Podcasts</h2>
-            <ul class="sidebar-menu">
-                <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
-                <li><a href="#"><i class="fas fa-search"></i>Discover</a></li>
-                <li><a href="#"><i class="fas fa-play"></i>My Playlists</a></li>
-            </ul>
-        </nav>
-        <main class="main-content">
-            <section>
-                <h1>All Categories...</h1>
-                        <div class="categories">
-                            {% for c in podcast_categories %}
-                                <div class="box" style="background:
-                                                                linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
-                                                                url('https://cdn.pixabay.com/photo/2016/12/15/20/21/texture-1909992_640.jpg') no-repeat center center;
-                                                            ">
-                                    <a href="{{ url_for('category_bp.category_podcasts', category_name=c.name) }}">
-                                        <div class="overlay">
-                                            <h2>{{ c.name }}</h2>
-                                        </div>
-                                    </a>
-                                </div>
+{% extends 'layout.html' %}
 
-                            {% endfor %}
+{% block component_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all_categories.css') }}">
+{% endblock %}
 
-                            <div></div>
-                            <div class="pagination">
-                                <a href="#">&laquo;</a>
-                                <a href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <a href="#">4</a>
-                                <a href="#">&raquo;</a>
+{% block content %}
+    <main class="main-content">
+        <section>
+            <h1>All Categories...</h1>
+                    <div class="categories">
+                        {% for c in podcast_categories %}
+                            <div class="box" style="background:
+                                                            linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
+                                                            url('https://cdn.pixabay.com/photo/2016/12/15/20/21/texture-1909992_640.jpg') no-repeat center center;
+                                                        ">
+                                <a href="{{ url_for('category_bp.category_podcasts', category_name=c.name) }}">
+                                    <div class="overlay">
+                                        <h2>{{ c.name }}</h2>
+                                    </div>
+                                </a>
                             </div>
-                            <div></div>
+
+                        {% endfor %}
+
+                        <div></div>
+                        <div class="pagination">
+                            <a href="#">&laquo;</a>
+                            <a href="#">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">&raquo;</a>
                         </div>
-            </section>
-        </main>
-    </div>
-</body>
+                        <div></div>
+                    </div>
+        </section>
+    </main>
+{% endblock %}
