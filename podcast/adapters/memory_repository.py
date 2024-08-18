@@ -71,14 +71,14 @@ class MemoryRepository(AbstractRepository):
         return self._podcasts[pc_id-1]
 
     def get_popular_categories(self):
-        popular_categories = list(self._categories.values())[:3]
+        popular_categories = list(self._categories.values())[5:8]
         return popular_categories
 
     def get_editor_picks(self):
-        return self._podcasts[:3]
+        return self._podcasts[112:115]
 
     def get_podcast_search_list(self):
-        return self._podcasts[:4]
+        return self._podcasts[90:94]
 
     def get_podcasts_in_category(self, category_name):
         return self._podcasts_by_category[category_name]

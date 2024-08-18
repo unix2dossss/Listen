@@ -44,7 +44,6 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
 
-
     def get_podcasts_in_category(self, category_name):
         """ return a Podcast list by Category
         """
@@ -55,7 +54,4 @@ class AbstractRepository(abc.ABC):
         """
         raise NotImplementedError
 
-    def get_editor_picked_podcast(self, podcast_id):
-        """ return three editor picked podcasts
-        """
-        raise NotImplementedError
+

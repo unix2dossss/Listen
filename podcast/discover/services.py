@@ -52,6 +52,3 @@ def get_all_podcasts(repo: AbstractRepository):
     # print(formatted_podcasts)
     return formatted_podcasts
 
-# def get_editor_picked_podcast(podcast_id: int, repo: AbstractRepository):
-#     editor_pick = repo.get_editor_picked_podcast(podcast_id)
-#     return editor_pick
