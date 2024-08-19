@@ -20,7 +20,7 @@
                             {% for category in popular_categories %}
                                 <div class="box" style="background:
                                                                linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
-                                                                url('https://cdn.pixabay.com/photo/2016/12/15/20/21/texture-1909992_640.jpg') no-repeat center center;
+                                                                url('{{ url_for('static', filename='assets/category_images/' + category.name + '.jpg') }}') no-repeat center center;
                                                             ">
                                     <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category.name) }}">
                                         <div class="overlay">
@@ -64,14 +64,13 @@
 
                         {% for podcast in podcast_search_list %}
                             <a href="{{ url_for('discover_bp.filtered_podcast', podcast_id=podcast.id) }}">
-                                <div class="podcast">
+                                <div class="podcast {% if loop.last %}last{% endif %}">
                                     <div class="podcast-id">0{{ loop.index0 + 1 }}</div>
                                     <div class="podcast-info">
-
                                         <div class="podcast-name-owner">
                                             <span class="name">{{ podcast.title }}</span>
                                             <br>
-                                            <span class="owner">By {{ podcast.author }}</span>
+                                            <span class="owner">{{ podcast.author }}</span>
                                         </div>
                                     </div>
                                     <div class="podcast-category">{{ podcast.categories }}</div>
@@ -80,6 +79,7 @@
                                 </div>
                             </a>
                         {% endfor %}
+
 
                     </div>
                     <div class="show-all-container">

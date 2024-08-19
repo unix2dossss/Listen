@@ -35,7 +35,7 @@
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
     width: 100%;
-    height: calc(100vh - 136px);
+    height: calc(100vh - 195px);
     padding: 10px;
     border-radius: 4px;
     background-color: #171A18;
@@ -68,6 +68,12 @@
     overflow: hidden;
     display: flex;
     align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.box:hover {
+    transform: scale(1.01);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .overlay {
@@ -79,6 +85,12 @@
     display: flex;
     align-items: center;
     justify-content: left;
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
+}
+
+.box:hover .overlay {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .overlay h2 {
@@ -86,29 +98,44 @@
     font-size: 18px;
     font-weight: normal;
     margin-left: 20px;
-    cursor: default;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.box:hover .overlay h2 {
+    color: #f8edfc;
 }
 
 .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 
 .pagination a {
     color: #ffffff;
-    padding: 10px 28px;
-    margin: 0 4px;
+    padding: 10px 16px;
+    margin: 0 6px;
     text-decoration: none;
-    background-color: #222423;
+    background-color: #333333;
     border-radius: 4px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .pagination a:hover {
-    background-color: #333333;
+    background-color: #4CAF50;
+    transform: translateY(-2px);
 }
 
-.pagination a:active {
+.pagination a.active {
+    background-color: #4CAF50;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.pagination a:disabled {
     background-color: #555555;
+    cursor: not-allowed;
+    pointer-events: none;
 }

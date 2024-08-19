@@ -8,32 +8,37 @@
     <main class="main-content">
         <section>
             <h1>All Categories...</h1>
-                    <div class="categories">
-                        {% for c in podcast_categories %}
-                            <div class="box" style="background:
-                                                            linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
-                                                            url('{{ url_for('static', filename='assets/category_images/' + c.name + '.jpg') }}') no-repeat center center;
-                                                            background-size: cover;">
-                                <a href="{{ url_for('category_bp.category_podcasts', category_name=c.name) }}">
-                                    <div class="overlay">
-                                        <h2>{{ c.name }}</h2>
-                                    </div>
-                                </a>
+            <div class="categories">
+                {% for c in podcast_categories %}
+                    <div class="box" style="background:
+                        linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
+                        url('{{ url_for('static', filename='assets/category_images/' + c.name + '.jpg') }}') no-repeat center center;
+                        background-size: cover;">
+                        <a href="{{ url_for('category_bp.category_podcasts', category_name=c.name) }}">
+                            <div class="overlay">
+                                <h2>{{ c.name }}</h2>
                             </div>
-
-                        {% endfor %}
-
-                        <div></div>
-                        <div class="pagination">
-                            <a href="#">&laquo;</a>
-                            <a href="#">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">&raquo;</a>
-                        </div>
-                        <div></div>
+                        </a>
                     </div>
+                {% endfor %}
+            </div>
+
+            <div class="pagination">
+                {% if current_page > 1 %}
+                    <a href="{{ url_for('category_bp.all_categories', page=current_page-1) }}">&laquo; Prev</a>
+                {% endif %}
+
+                {% for page_num in range(1, total_pages + 1) %}
+                    <a href="{{ url_for('category_bp.all_categories', page=page_num) }}"
+                       class="{% if page_num == current_page %}active{% endif %}">
+                       {{ page_num }}
+                    </a>
+                {% endfor %}
+
+                {% if current_page < total_pages %}
+                    <a href="{{ url_for('category_bp.all_categories', page=current_page+1) }}">Next &raquo;</a>
+                {% endif %}
+            </div>
         </section>
     </main>
 {% endblock %}
