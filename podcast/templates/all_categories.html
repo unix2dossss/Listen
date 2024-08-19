@@ -25,6 +25,7 @@
 
             <div class="pagination">
                 {% if current_page > 1 %}
+                    <a href="{{ url_for('category_bp.all_categories', page=1) }}">First</a>
                     <a href="{{ url_for('category_bp.all_categories', page=current_page-1) }}">&laquo; Prev</a>
                 {% endif %}
 
@@ -37,6 +38,7 @@
 
                 {% if current_page < total_pages %}
                     <a href="{{ url_for('category_bp.all_categories', page=current_page+1) }}">Next &raquo;</a>
+                    <a href="{{ url_for('category_bp.all_categories', page=total_pages) }}">Last</a>
                 {% endif %}
             </div>
         </section>

@@ -133,6 +133,7 @@
     z-index: 1;
 }
 
+/* Pagination styling */
 .pagination {
     display: flex;
     justify-content: center;
@@ -149,13 +150,22 @@
     text-decoration: none;
     background-color: #222423;
     border-radius: 4px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .pagination a:hover {
     background-color: #333333;
+    transform: translateY(-2px); /* Slight lift on hover */
 }
 
-.pagination a:active {
+.pagination a.active {
+    background-color: #4CAF50;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.pagination a:disabled {
     background-color: #555555;
+    cursor: not-allowed;
+    pointer-events: none;
 }

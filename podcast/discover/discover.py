@@ -26,22 +26,67 @@ def discover():
     )
 
 
+# @discover_blueprint.route('/all_podcasts/<category_name>', methods=['GET'])
+# def podcasts_by_category(category_name):
+#     category_podcasts = None
+#     category_page_title = category_name
+#
+#     if category_name != 'all':
+#         category_podcasts = services.get_podcasts_in_category(category_name, repo.repo_instance)
+#         # print(category_podcasts)
+#     else:
+#         category_podcasts = services.get_all_podcasts(repo.repo_instance)
+#         category_page_title = "All Podcasts..."
+#
+#     return render_template(
+#         'all_podcasts.html',
+#         podcasts=category_podcasts[:12], category_page_title=category_page_title
+#     )
+
+
 @discover_blueprint.route('/all_podcasts/<category_name>', methods=['GET'])
 def podcasts_by_category(category_name):
-    category_podcasts = None
-    category_page_title = category_name
+    page = request.args.get('page', 1, type=int)  # Get the page number from the query parameters, default to 1
+    per_page = 12  # Number of podcasts per page
+    max_pages_to_show = 5  # Max number of pages to show in pagination
 
+    category_page_title = category_name
     if category_name != 'all':
         category_podcasts = services.get_podcasts_in_category(category_name, repo.repo_instance)
-        # print(category_podcasts)
     else:
         category_podcasts = services.get_all_podcasts(repo.repo_instance)
         category_page_title = "All Podcasts..."
 
+    # Calculate total pages
+    total_pages = (len(category_podcasts) + per_page - 1) // per_page
+
+    # Ensure the current page is within the valid range
+    if page < 1:
+        page = 1
+    elif page > total_pages:
+        page = total_pages
+
+    # Calculate start and end page numbers for the pagination
+    start_page = max(1, page - max_pages_to_show // 2)
+    end_page = min(total_pages, start_page + max_pages_to_show - 1)
+
+    # Adjust start page if we're near the end of the total pages
+    if end_page - start_page < max_pages_to_show:
+        start_page = max(1, end_page - max_pages_to_show + 1)
+
+    paginated_podcasts = category_podcasts[(page - 1) * per_page: page * per_page]
+
     return render_template(
         'all_podcasts.html',
-        podcasts=category_podcasts[:12], category_page_title=category_page_title
+        podcasts=paginated_podcasts,
+        category_page_title=category_page_title,
+        current_page=page,
+        total_pages=total_pages,
+        start_page=start_page,
+        end_page=end_page,
+        category_name=category_name
     )
+
 
 @discover_blueprint.route('/editor_picks/<podcast_id>', methods=['GET'])
 def editor_picked_podcast(podcast_id):
