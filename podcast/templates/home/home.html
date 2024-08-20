@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+
+{% block component_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+    <main class="main-content">
+            <section>
+                <h1>You might like ...</h1>
+                <div class="header">
+                    <div class="header-items">
+                        <a href="{{ url_for('home_bp.home', facet_name='top_podcasts') }}">
+                            <div class="header-item {% if facet_name not in ['recently_played', 'new_podcasts'] %}active{% endif %}">
+                                    Top Podcasts
+                            </div>
+                        </a>
+                        <a href="{{ url_for('home_bp.home', facet_name='recently_played') }}">
+                            <div class="header-item {% if facet_name == 'recently_played' %}active{% endif %}">
+                                Recently Played
+                            </div>
+                        </a>
+                        <a href="{{ url_for('home_bp.home', facet_name='new_podcasts') }}">
+                            <div class="header-item {% if facet_name == 'new_podcasts' %}active{% endif %}">
+                                New Podcasts
+                            </div>
+                        </a>
+                    </div>
+                    <div class="show-all">
+                        <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=facet_name) }}">Show all</a>
+                    </div>
+                </div>
+                <div class="podcast-cards">
+                    {% for podcast in facet_podcasts %}
+                    <div class="podcast-card">
+                        <a href="{{ url_for('home_bp.get_displayed_podcast', podcast_id=podcast.id) }}">
+                            <img src="{{ podcast.image_url }}" alt="{{ podcast.title }}">
+                            <div class="podcast-info">
+                              <h3>{{ podcast.title }}</h3>
+                              <p>{{  podcast.categories }}</p>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="bottom-section">
+                    <div class="continue-listening">
+                        <h2 class="continue-listening-heading">Continue listening</h2>
+                        <div class="podcasts">
+
+                            {% for podcast in continue_listening %}
+                             <a href="{{ url_for('home_bp.get_displayed_podcast', podcast_id=podcast.id) }}">
+                                <div class="podcast">
+                                    <div class="podcast-id">0{{ loop.index0 + 1 }}</div>
+                                    <div class="podcast-details">
+                                        <div class="podcast-name-owner">
+                                            <span class="name">{{ podcast.title }}</span>
+                                            <br>
+                                            <span class="owner">{{ podcast.author }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="podcast-category">{{ podcast.language }}</div>
+                                    <div class="podcast-duration">{{ podcast.duration }}</div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="top-authors">
+                        <h2 class="top-authors-heading">Top Authors</h2>
+                        <div class="authors">
+                            {% for author in top_authors %}
+                                <div class="author">
+                                    <div class="author-info">
+                                        <div class="profile-circle">
+                                            {{ author.initial }}
+                                        </div>
+                                        <p>{{ author.name }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+{% endblock %}

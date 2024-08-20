@@ -1,0 +1,92 @@
+{% extends 'layout.html' %}
+
+{% block component_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/discover.css') }}">
+{% endblock %}
+
+{% block content %}
+        <main class="main-content">
+            <section>
+                <h1>Discover Podcasts...</h1>
+                <div class="cards-section">
+                    <div class="popular-categories">
+                        <div class="popular-categories-heading">
+                            <h2 class="popular-categories-title">Browse Popular Categories</h2>
+                            <div class="show-all-container">
+                                <a href="{{ url_for('category_bp.all_categories') }}">Show all</a>
+                            </div>
+                        </div>
+                        <div class="categories">
+                            {% for category in popular_categories %}
+                                <div class="box" style="background:
+                                                               linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
+                                                                url('{{ url_for('static', filename='assets/category_images/' + category.name + '.jpg') }}') no-repeat center center;
+                                                            ">
+                                    <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category.name) }}">
+                                        <div class="overlay">
+                                            <h2>{{ category.name }}</h2>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                    <div class="editor-picks">
+                        <div class="editor-picks-heading">
+                            <h2 class="editor-picks-title">Editor Picks</h2>
+                        </div>
+                        <div class="editor-cards">
+                               {% for podcast in editor_picks %}
+                                    <div class="editor-card">
+                                        <a href="{{ url_for('discover_bp.editor_picked_podcast', podcast_id=podcast.id) }}">
+                                           <img src="{{ podcast.image_url}}" alt="{{ podcast.title }}">
+                                           <div class="info">
+                                                <span class="editor-card-name">{{ podcast.title }}</span>
+                                             <br>
+                                               <span class="editor-card-owner">{{ podcast.author }}</span>
+                                            </div>
+                                       </a>
+                                    </div>
+                               {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="podcast-list">
+                    <div class="filter">
+                        <p><i class="fa-solid fa-magnifying-glass search-icon"></i></p>
+                        <input type="text" placeholder="Search Podcasts" class="search-input">
+                        <button><i class="fa-solid fa-caret-down dropdown" style="margin-right: 8px;"></i>Newest to Oldest</button>
+                    </div>
+                    <div class="podcasts">
+
+                        {% for podcast in podcast_search_list %}
+                            <a href="{{ url_for('discover_bp.filtered_podcast', podcast_id=podcast.id) }}">
+                                <div class="podcast {% if loop.last %}last{% endif %}">
+                                    <div class="podcast-id">0{{ loop.index0 + 1 }}</div>
+                                    <div class="podcast-info">
+                                        <div class="podcast-name-owner">
+                                            <span class="name">{{ podcast.title }}</span>
+                                            <br>
+                                            <span class="owner">{{ podcast.author }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="podcast-category">{{ podcast.categories }}</div>
+                                    <div class="podcast-language">{{ podcast.language }}</div>
+                                    <div class="podcast-duration">58:32:25</div>
+                                </div>
+                            </a>
+                        {% endfor %}
+
+
+                    </div>
+                    <div class="show-all-container">
+                        <a href="{{ url_for('discover_bp.podcasts_by_category', category_name='all') }}">Show all Podcasts</a>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+{% endblock %}

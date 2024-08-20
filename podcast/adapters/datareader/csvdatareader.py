@@ -1,17 +1,24 @@
 import csv
 from datetime import datetime
+from pathlib import Path
 
 from podcast.domainmodel.model import Podcast, Episode, Author, Category, AudioTime
 
 
 class CSVDataReader:
-    def __init__(self, relative_podcastcsv_path: str, relative_episodecsv_path: str):
+    def __init__(self, relative_podcastcsv_path: Path = None,
+                 relative_episodecsv_path: Path = None,
+                 testing: bool = False):
+        if testing is True:
+            relative_podcastcsv_path = "../podcast/adapters/data/podcasts.csv"
+            relative_episodecsv_path = "../podcast/adapters/data/episodes.csv"
+
         self._podcasts, self._episodes = [], []
         self._authors, self._categories = dict(), dict()
         self._podcasts_by_category = {}
 
-        self.create_podcasts(relative_podcastcsv_path)
-        self.create_episodes(relative_episodecsv_path)
+        self.create_podcasts(str(relative_podcastcsv_path))
+        self.create_episodes(str(relative_episodecsv_path))
 
     @staticmethod
     def read_csv(input_file: str):
@@ -26,6 +33,7 @@ class CSVDataReader:
 
     def create_podcasts(self, podcast_file):
         a_id = 1
+        c_id = 1
         try:
             for row in self.read_csv(podcast_file):
                 # pc = podcast - using these variables as keyword arguments for better readability
@@ -53,8 +61,7 @@ class CSVDataReader:
                     itunes_id=pc_itunes_id
                 )
 
-                # Create Categories
-                c_id = 1
+
                 for c in pc_categories.split(' | '):
                     category: Category
                     if c in self._categories:
@@ -98,9 +105,7 @@ class CSVDataReader:
                 seconds = int(ep_audio_length) % 60
                 ep_audio_length_object = AudioTime(hours, minutes, seconds)
 
-                for pcast in self._podcasts:
-                    if pcast.id == pc_id:
-                        episode_pcast = pcast
+                episode_pcast = self._podcasts[pc_id-1]
 
                 # Create Episode Object
                 new_episode = Episode(
@@ -113,6 +118,7 @@ class CSVDataReader:
                 )
 
                 self._episodes.append(new_episode)
+                episode_pcast.add_episode(new_episode)
 
         except Exception as e:
             print(f"Skipping row (invalid data): {e}")
@@ -141,6 +147,5 @@ class CSVDataReader:
     @property
     def podcasts_by_category(self):
         return self._podcasts_by_category
-
 
 # a = CSVDataReader()
