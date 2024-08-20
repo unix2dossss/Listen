@@ -29,3 +29,10 @@ def home(facet_name):
         facet_name=facet_name
     )
 
+
+@home_blueprint.route('/home/<podcast_id>', methods=['GET'])
+def get_displayed_podcast(podcast_id):
+    url = url_for('podcast_blueprint.description', id=podcast_id)
+    return redirect(url)
+
+

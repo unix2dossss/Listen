@@ -31,7 +31,7 @@
                 <div class="podcast-cards">
                     {% for podcast in facet_podcasts %}
                     <div class="podcast-card">
-                        <a href="./podcastDescription.html">
+                        <a href="{{ url_for('home_bp.get_displayed_podcast', podcast_id=podcast.id) }}">
                             <img src="{{ podcast.image_url }}" alt="{{ podcast.title }}">
                             <div class="podcast-info">
                               <h3>{{ podcast.title }}</h3>

@@ -18,6 +18,7 @@ def format_facet_podcasts(podcasts=None, condition=None, authors=None):
 
         about_podcast['title'] = podcasts[i].title
         about_podcast['image_url'] = podcasts[i].image
+        about_podcast['id'] = podcasts[i].id
 
         category_list = [category.name for category in podcasts[i].categories]
         if len(category_list) > 1:
