@@ -10,6 +10,10 @@ def format_podcast_list(podcasts):
         about_podcast['author'] = podcasts[i].author.name
         about_podcast['image_url'] = podcasts[i].image
         about_podcast['language'] = podcasts[i].language
+        if len(podcasts[i].episodes) > 0:
+            about_podcast['duration'] = podcasts[i].episodes[0].episode_audio_length.colon_format()
+        else:
+            about_podcast['duration'] = "58:32:25"
 
         category_list = [category.name for category in podcasts[i].categories]
         if len(category_list) > 1:

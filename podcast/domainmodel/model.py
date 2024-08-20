@@ -335,6 +335,9 @@ class AudioTime:
     def __str__(self):
         return f"{self.audio_hours}h {self.audio_minutes}m {self.audio_seconds}s"
 
+    def colon_format(self):
+        return f"{self.audio_hours}:{self.audio_minutes}:{self.audio_seconds}"
+
     def __eq__(self, other):
         if not isinstance(other, AudioTime):
             return NotImplemented

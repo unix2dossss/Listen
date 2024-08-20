@@ -154,7 +154,7 @@ body {
     color: white;
     font-size: 14px;
     font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7), transparent);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.05));
     position: absolute;
     bottom: 0;
     width: 100%;

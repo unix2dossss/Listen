@@ -16,6 +16,9 @@ def podcast_about(podcast_id: int, repo: AbstractRepository):
     about["podcast_title"] = podcast.title
     about["podcast_author"] = podcast.author.name
     about["podcast_description"] = podcast.description
+    about["podcast_language"] = podcast.language
+    about["podcast_website"] = podcast.website
+
 
     return about
 
@@ -40,8 +43,10 @@ def podcast_episodes(podcast_id: int, repo: AbstractRepository):
 
     episodes_list = []
 
+    sorted_episodes = sorted(podcast.episodes, key=lambda ep: ep.episode_publish_date, reverse=True)
+
     ep_n = 1
-    for episode in podcast.episodes:
+    for episode in sorted_episodes:
         episode_dict = dict()
 
         episode_dict["episode_number"] = ep_n

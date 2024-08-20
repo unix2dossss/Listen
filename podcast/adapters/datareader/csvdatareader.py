@@ -1,4 +1,5 @@
 import csv
+import os
 from datetime import datetime
 from pathlib import Path
 
@@ -10,8 +11,8 @@ class CSVDataReader:
                  relative_episodecsv_path: Path = None,
                  testing: bool = False):
         if testing is True:
-            relative_podcastcsv_path = "../podcast/adapters/data/podcasts.csv"
-            relative_episodecsv_path = "../podcast/adapters/data/episodes.csv"
+            relative_podcastcsv_path = "./podcast/adapters/data/podcasts.csv"
+            relative_episodecsv_path = "./podcast/adapters/data/episodes.csv"
 
         self._podcasts, self._episodes = [], []
         self._authors, self._categories = dict(), dict()
@@ -122,11 +123,6 @@ class CSVDataReader:
 
         except Exception as e:
             print(f"Skipping row (invalid data): {e}")
-
-        # for ep in range(0, 12):
-        #     print(self._episodes[ep])
-
-        # print(self._episodes[10].episode_podcast == self._episodes[11].episode_podcast)
 
     @property
     def podcasts(self):

@@ -1,11 +1,10 @@
 from pathlib import Path
-
+import os
 import pytest
 from datetime import datetime
 from podcast.adapters.datareader.csvdatareader import CSVDataReader
 from podcast.domainmodel.model import (Author, Podcast, Category, User, PodcastSubscription, Episode, AudioTime,
                                        Comment, Review, Playlist)
-
 
 # noinspection PyTypeChecker
 def test_author_initialization():
@@ -192,6 +191,10 @@ def my_comment(my_user, my_date_time):
 
 @pytest.fixture
 def my_csv_data_reader():
+    dir_name = os.path.dirname(os.path.abspath(__file__))
+    podcast_file_name = os.path.join(dir_name, "data/podcasts.csv")
+    episode_file_name = os.path.join(dir_name, "data/episodes.csv")
+
     return CSVDataReader(testing=True)
 
 

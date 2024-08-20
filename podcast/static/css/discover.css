@@ -281,7 +281,7 @@
 }
 
 .podcast-info .podcast-name-owner{
-    width: 260px;
+    width: 270px;
     font-size: 14px;
 
 }
@@ -296,7 +296,7 @@
 }
 
 .podcast-category {
-    flex-basis: 440px;
+    flex-basis: 20%;
     text-align: left;
     color: gainsboro;
     font-size: 13px;

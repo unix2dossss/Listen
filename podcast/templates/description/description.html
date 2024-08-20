@@ -22,6 +22,8 @@
             <button class="add-playlist-btn">Add to Playlist</button>
         </div>
         <p class="about-description">{{ p_about.podcast_description }}</p>
+        <p class="about-description"><b>Language &rarr; </b>{{ p_about.podcast_language }}</p>
+        <p class="about-description"><b>Website &rarr; </b><a href="{{ p_about.podcast_website }}">{{ p_about.podcast_website }}</a></p>
         <div class="about-tags">
             {% for category in p_categories %}
                 <span class="tag">{{ category.category_name }}</span>

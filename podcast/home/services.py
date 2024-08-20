@@ -32,7 +32,10 @@ def format_facet_podcasts(podcasts=None, condition=None, authors=None):
             about_podcast['id'] = podcasts[i].id
             about_podcast['author'] = podcasts[i].author.name
             about_podcast['language'] = podcasts[i].language
-            about_podcast['duration'] = '58:32:25'
+            if len(podcasts[i].episodes) > 0:
+                about_podcast['duration'] = podcasts[i].episodes[0].episode_audio_length.colon_format()
+            else:
+                about_podcast['duration'] = "58:32:25"
 
         formatted_podcasts.append(about_podcast)
 
