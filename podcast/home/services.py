@@ -8,9 +8,9 @@ def format_facet_podcasts(podcasts=None, condition=None, authors=None):
     if authors is not None:
         for i in range(3):
             author_info = dict()
-
-            author_info['name'] = authors[i].name
-
+            author_info['name'] = authors[i]
+            author_info['initial'] = authors[i][0]
+            formatted_authors.append(author_info)
         return formatted_authors
 
     for i in range(len(podcasts)):

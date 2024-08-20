@@ -1,15 +1,6 @@
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
-  list-style: none;
   text-decoration: none;
-}
-
-body {
-    margin: 0;
-    background: #222423;
-    font-family: Montserrat;
 }
 
 .container {
@@ -174,9 +165,11 @@ body {
 
 .bottom-section {
     display: flex;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
     gap: 20px;
-    width: 100%; /* Ensure it takes up the full width of the container */
+    width: 100%;
+    flex-wrap: nowrap;
 }
 
 
@@ -208,8 +201,7 @@ body {
 .podcast-details {
     display: flex;
     justify-content: left;
-    align-items: center;  /*Vertically centers items */
-    /*width: 380px; */
+    align-items: center;
     margin-top: 10px;
     font-weight: bold;
 }
@@ -265,32 +257,26 @@ body {
     color: #fff;
 }
 
+
 .continue-listening {
     flex-basis: 90%;
     margin-right: 20px;
 }
 
 .continue-listening, .top-authors {
-    flex: 1 1 48%; /* Allow these sections to take up to 48% of the available space */
+    flex: 1 1 48%;
     min-width: 300px;
-    max-width: 100%; /* Ensure they don’t exceed the available width */
+    max-width: 100%;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
-/*
-.categories{
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-gap: 10px;
-    width: 100%;
-    height: 290px;
-    padding: 10px;
-    border-radius: 4px;
-    background-color: #171A18;
-    align-items: center;
- } */
+.continue-listening .podcasts, .top-authors .authors {
+    flex-grow: 1;
+}
 
-.authors, .categories {
+.categories {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 10px;
@@ -304,7 +290,7 @@ body {
 }
 
 .top-authors .author, .continue-listening .podcasts {
-    width: 100%; /* Make sure these containers take up the full width of their parent */
+    width: 100%;
 }
 
 .category-card{
@@ -320,23 +306,23 @@ body {
 }
 
 .category-card img {
-    width: 96%; /* Makes the image take up the full width of the card */
-    height: 100px; /* Ensures the image covers the full height of the card */
-    object-fit: cover; /* Ensures the image scales and crops to fill the card without distortion */
-    border-radius: 4px; /* Adds rounded corners to match the card's style */
+    width: 96%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
 .categories a{
     margin: 3px;
     font-size: 15px;
     display: inline-block;
-    vertical-align: middle; /* Center the inline-block element */
+    vertical-align: middle;
     line-height: normal;
 }
 
 .categories .show-all-container {
     display: flex;
-    justify-content: flex-end; /* Align to the left */
+    justify-content: flex-end;
     margin-top: 1px;
     margin-right: 2px;
     font-size: 11px;
@@ -379,54 +365,53 @@ body {
 
 .top-authors {
     flex-basis: 10%;
-    align-items: center;
+    align-items: flex-start;
     text-align: left;
+    padding-left: 0;
 }
 
 
-.authors{
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-gap: 10px;
-    width: 100%;
-    height: 239px;
-    padding: 10px;
-    border-radius: 4px;
+.authors {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    border-radius: 8px;
     background-color: #171A18;
-    align-items: center;
+    width: 100%;
 }
 
 .author {
-    position: relative;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    border-radius: 4px;
-    overflow: hidden;
     display: flex;
     align-items: center;
+    padding: 10px 15px;
+    background-color: #232524;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.author-info {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.author:hover {
+    background-color: #2a2d2c;
+    transform: translateY(-2px);
+}
+
+.profile-circle {
+    width: 3em;
+    height: 3em;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    justify-content: left;
+    justify-content: center;
+    margin-right: 15px;
 }
 
 .author-info p {
-    color: white;
-    font-size: 14px;
-    font-weight: normal;
-    margin-left: 20px;
-}
-
-.author-info img {
-    width: auto;
-    height: 80%;
-    border-radius: 100px;
+    color: #e0e0e0;
+    font-size: 1.2em;
+    font-weight: 500;
+    margin: 0;
 }
