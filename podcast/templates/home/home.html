@@ -11,17 +11,17 @@
                 <div class="header">
                     <div class="header-items">
                         <div class="header-item {% if facet_name not in ['recently_played', 'new_podcasts'] %}active{% endif %}">
-                            <a href="{{ url_for('home_bp.podcasts_by_facet', facet_name='top_podcasts') }}">
+                            <a href="{{ url_for('home_bp.home', facet_name='top_podcasts') }}">
                                 Top Podcasts
                             </a>
                         </div>
                         <div class="header-item {% if facet_name == 'recently_played' %}active{% endif %}">
-                            <a href="{{ url_for('home_bp.podcasts_by_facet', facet_name='recently_played') }}">
+                            <a href="{{ url_for('home_bp.home', facet_name='recently_played') }}">
                                 Recently Played
                             </a>
                         </div>
                         <div class="header-item {% if facet_name == 'new_podcasts' %}active{% endif %}">
-                            <a href="{{ url_for('home_bp.podcasts_by_facet', facet_name='new_podcasts') }}">
+                            <a href="{{ url_for('home_bp.home', facet_name='new_podcasts') }}">
                                 New Podcasts
                             </a>
                         </div>
