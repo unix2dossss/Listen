@@ -31,12 +31,26 @@ def podcasts_by_category(category_name):
     category_podcasts = None
     category_page_title = category_name
 
-    if category_name != 'all':
-        category_podcasts = services.get_podcasts_in_category(category_name, repo.repo_instance)
-        # print(category_podcasts)
-    else:
+    if category_name == 'all':
         category_podcasts = services.get_all_podcasts(repo.repo_instance)
         category_page_title = "All Podcasts..."
+    elif category_name == 'top_podcasts':
+        category_podcasts = services.get_top_podcasts(repo.repo_instance)
+        category_page_title = "Top Podcasts..."
+    elif category_name == 'recently_played':
+        category_podcasts = services.get_recently_played(repo.repo_instance)
+        category_page_title = "Recently Played..."
+    elif category_name == 'new_podcasts':
+        category_podcasts = services.get_new_podcasts(repo.repo_instance)
+        category_page_title = "New Podcasts..."
+    else:
+        category_podcasts = services.get_podcasts_in_category(category_name, repo.repo_instance)
+
+    # if category_name != 'all':
+    #     category_podcasts = services.get_podcasts_in_category(category_name, repo.repo_instance)
+    # else:
+    #     category_podcasts = services.get_all_podcasts(repo.repo_instance)
+    #     category_page_title = "All Podcasts..."
 
     return render_template(
         'all_podcasts.html',

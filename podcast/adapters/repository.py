@@ -83,3 +83,18 @@ class AbstractRepository(abc.ABC):
         """ return a list of top authors
         """
         raise NotImplementedError
+
+    def get_top_podcasts_list(self):
+        """ return a top podcasts list for show all
+        """
+        raise NotImplementedError
+
+    def get_recently_played_list(self):
+        """ return a recently played podcasts list for show all
+        """
+        raise NotImplementedError
+
+    def get_new_podcasts_list(self):
+        """ return a new podcasts list for show all
+        """
+        raise NotImplementedError

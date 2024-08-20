@@ -51,3 +51,19 @@ def get_all_podcasts(repo: AbstractRepository):
     # print(formatted_podcasts)
     return formatted_podcasts
 
+def get_top_podcasts(repo: AbstractRepository):
+    podcasts = repo.get_top_podcasts_list()
+    formatted_podcasts = format_podcast_list(podcasts)
+    return formatted_podcasts
+
+
+def get_recently_played(repo: AbstractRepository):
+    podcasts = repo.get_recently_played_list()
+    formatted_podcasts = format_podcast_list(podcasts)
+    return formatted_podcasts
+
+
+def get_new_podcasts(repo: AbstractRepository):
+    podcasts = repo.get_new_podcasts_list()
+    formatted_podcasts = format_podcast_list(podcasts)
+    return formatted_podcasts

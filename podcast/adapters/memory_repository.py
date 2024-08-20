@@ -91,16 +91,16 @@ class MemoryRepository(AbstractRepository):
         return all_categories
 
     def get_top_podcasts(self):
-        recently_played_podcasts = self._podcasts[:4]
-        return recently_played_podcasts
+        top_podcasts = self._podcasts[:4]
+        return top_podcasts
 
     def get_recently_played(self):
         recently_played_podcasts = self._podcasts[4:8]
         return recently_played_podcasts
 
     def get_new_podcasts(self):
-        recently_played_podcasts = self._podcasts[8:12]
-        return recently_played_podcasts
+        new_podcasts = self._podcasts[8:12]
+        return new_podcasts
 
     def get_continue_listening_podcasts(self):
         continue_listening_podcasts = self._podcasts[18:22]
@@ -109,6 +109,19 @@ class MemoryRepository(AbstractRepository):
     def get_top_authors(self):
         top_authors = list(self._authors.keys())[:3]
         return top_authors
+
+    def get_top_podcasts_list(self):
+        top_podcasts = self._podcasts[:12]
+        return top_podcasts
+
+    def get_recently_played_list(self):
+        recently_played_podcasts = self._podcasts[4:16]
+        return recently_played_podcasts
+
+    def get_new_podcasts_list(self):
+        new_podcasts = self._podcasts[8:20]
+        return new_podcasts
+
 
 
 def populate(data_path: Path, repo: MemoryRepository):
