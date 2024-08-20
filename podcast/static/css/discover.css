@@ -33,7 +33,7 @@
 .cards-section {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .popular-categories-heading{
@@ -257,6 +257,10 @@
     align-items: center;
     margin-bottom: 10px;
     color: white;
+}
+
+.podcast.last {
+    margin-bottom: 0;
 }
 
 .podcast .podcast-id {
