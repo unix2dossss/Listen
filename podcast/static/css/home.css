@@ -1,3 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+}
+
+body {
+    margin: 0;
+    background: #222423;
+    font-family: Montserrat;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
 .main-content {
     flex: 1;
     padding: 30px;
@@ -20,26 +39,6 @@
     font-family: League Spartan;
     text-align: left;
     color: #fff;
-}
-
-.pages {
-    text-align: center;
-    padding: 0;
-    margin-top: 15%;
-}
-
-.pages li {
-    width: 100%;
-    margin: 10px 0;
-}
-
-.pages li a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    color: white;
-    font-size: 1.2em;
 }
 
 .right-side {
@@ -84,6 +83,11 @@
     color: #fff;
     border-radius: 20px;
     transition: background-color 0.3s ease;
+}
+
+.header-item a {
+    text-decoration: none;
+    color: white;
 }
 
 .header-item:hover {

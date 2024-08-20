@@ -10,9 +10,21 @@
                 <h1>You might like ...</h1>
                 <div class="header">
                     <div class="header-items">
-                        <div class="header-item active">Top Podcasts</div>
-                        <div class="header-item">Recently Played</div>
-                        <div class="header-item">New Podcasts</div>
+                        <div class="header-item active">
+                            <a href="{{  url_for('home_bp.podcasts_by_facet', facet_name=top_podcasts)  }}">
+                                Top Podcasts
+                            </a>
+                        </div>
+                        <div class="header-item">
+                            <a href="{{  url_for('home_bp.podcasts_by_facet', facet_name=recently_played)  }}">
+                                Recently Played
+                            </a>
+                        </div>
+                        <div class="header-item">
+                            <a href="{{  url_for('home_bp.podcasts_by_facet', facet_name=new_podcasts)  }}">
+                                New Podcasts
+                            </a>
+                        </div>
                     </div>
                     <div class="show-all">Show all</div>
                 </div>

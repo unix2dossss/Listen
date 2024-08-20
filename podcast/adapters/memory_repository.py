@@ -90,6 +90,18 @@ class MemoryRepository(AbstractRepository):
         all_categories = list(self._categories.values())
         return all_categories
 
+    def get_top_podcasts(self):
+        recently_played_podcasts = self._podcasts[:4]
+        return recently_played_podcasts
+
+    def get_recently_played(self):
+        recently_played_podcasts = self._podcasts[4:8]
+        return recently_played_podcasts
+
+    def get_new_podcasts(self):
+        recently_played_podcasts = self._podcasts[8:12]
+        return recently_played_podcasts
+
 
 def populate(data_path: Path, repo: MemoryRepository):
     # create instance of csvreader
