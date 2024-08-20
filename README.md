@@ -1,13 +1,21 @@
-# COMPSCI 235 - Starter Repository for the CS235 Pod Library
-This is a starter repository for the podcasts webapp project of CompSci 235 in Semester 2, 2024.
+# Listen
 
-## Description
+A sleek, minimalist podcast app that combines powerful features with a clean, intuitive design. Discover and enjoy your favorite shows effortlessly, all in a beautifully streamlined interface.
 
-This repository contains a partial implementation of the domain model. It contains unit tests which can be run through pytest. It also contains a simple Flask application that renders content of a Podcast object instance from our domain model on a blank HTML page. You'll be expanding the domain model implementation, and you have the freedom to modify or remove test cases as needed.
+## Table of Contents
+1. [Installation](#installation)
+2. [Execution](#execution)
+3. [Testing](#testing)
+4. [Configuration](#configuration)
+5. [Endpoints](#endpoints)
+6. [Features](#features)
+7. [Design Decisions](#design-decisions)
+8. [Data Sources](#data-sources)
+9. [Contributors](#contributors)
 
 ## Installation
 
-**Installation via requirements.txt**
+1. Clone this repository
 
 **Windows**
 ```shell
@@ -53,12 +61,32 @@ The *project directory/.env* file contains variable settings. They are set with 
 * `TESTING`: Set to False for running the application. Overridden and set to True automatically when testing the application.
 * `WTF_CSRF_SECRET_KEY`: Secret key used by the WTForm library.
  
+## Endpoints
+
+Here are the primary endpoints for the application:
+
+* **GET /**: Homepage of the application.
+
+## Features
+
+- **Minimalist Design:** A clean and intuitive interface that makes it easy to navigate through your favorite podcasts.
+- **Podcast Discovery:** Browse and search for podcasts based on various categories and recommendations.
+- **Detailed Podcast View:** View detailed information about each podcast, including episodes, descriptions, and related content.
+
+## Design Decisions
+
+Any important design decisions go here!
+
 ## Data sources
 
 The data files are modified excerpts downloaded from:
 
 https://www.kaggle.com/code/switkowski/building-a-podcast-recommendation-engine/input
 
+## Contributors
 
+- **Deiza Talreja**
+- **Thamasha Rajakaruna**
+- **Vandan Bhatt**
 
-
+If you'd like to contribute to this project, feel free to fork the repository and submit a pull request with your improvements.
