@@ -5,13 +5,80 @@
 {% endblock %}
 
 {% block content %}
-<main class="main-content">
+    <main class="main-content">
+            <section>
+                <h1>You might like ...</h1>
+                <div class="header">
+                    <div class="header-items">
+                        <div class="header-item active">
+                            <a href="{{  url_for('home_bp.podcasts_by_facet', facet_name='top_podcasts')  }}">
+                                Top Podcasts
+                            </a>
+                        </div>
+                        <div class="header-item">
+                            <a href="{{  url_for('home_bp.podcasts_by_facet', facet_name='recently_played')  }}">
+                                Recently Played
+                            </a>
+                        </div>
+                        <div class="header-item">
+                            <a href="{{  url_for('home_bp.podcasts_by_facet', facet_name='new_podcasts')  }}">
+                                New Podcasts
+                            </a>
+                        </div>
+                    </div>
+                    <div class="show-all">Show all</div>
+                </div>
+                <div class="podcast-cards">
+                    {% for podcast in facet_podcasts %}
+                    <div class="podcast-card">
+                        <a href="./podcastDescription.html">
+                            <img src="{{ podcast.image_url }}" alt="{{ podcast.title }}">
+                            <div class="podcast-info">
+                              <h3>{{ podcast.title }}</h3>
+                              <p>{{  podcast.categories }}</p>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
 
-    {% for i in range(1, 200) %}
-        <a href="/podcast?id={{ i }}" style="color: blue; text-decoration: none; padding: 5px 10px; border: 1px solid blue; border-radius: 3px; display: inline-block;">
-        Podcast {{ i }}
-    </a>
-    {% endfor %}
+                <div class="bottom-section">
+                    <div class="continue-listening">
+                        <h2 class="continue-listening-heading">Continue listening</h2>
+                        <div class="podcasts">
 
-</main>
+                            {% for podcast in continue_listening %}
+                            <a href="#">
+                                <div class="podcast">
+                                    <div class="podcast-id">0{{ loop.index0 + 1 }}</div>
+                                    <div class="podcast-details">
+                                        <div class="podcast-name-owner">
+                                            <span class="name">{{ podcast.title }}</span>
+                                            <br>
+                                            <span class="owner">{{ podcast.author }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="podcast-category">{{ podcast.language }}</div>
+                                    <div class="podcast-duration">{{ podcast.duration }}</div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="top-authors">
+                        <h2 class="top-authors-heading">Top Authors</h2>
+                        <div class="authors">
+                            {% for author in top_authors}
+                                <div class="author">
+                                    <div class="author-info">
+                                        <img src="http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg">
+                                        <p>{{ author.name }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
 {% endblock %}

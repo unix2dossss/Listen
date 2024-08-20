@@ -17,7 +17,6 @@ def format_podcast_list(podcasts):
         else:
             category_list = podcasts[i].categories[0].name
 
-        print(category_list)
         about_podcast['categories'] = category_list
 
         formatted_podcasts.append(about_podcast)

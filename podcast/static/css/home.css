@@ -17,81 +17,6 @@ body {
     height: 100vh;
 }
 
-.sidebar {
-    width: 320px;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 20px;
-    padding-left: 40px;
-    padding-top: 100px;
-    position: relative;
-    overflow: hidden;
-}
-
-.sidebar::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg') no-repeat center center;
-    background-size: cover;
-    filter: blur(50px);
-    z-index: -1;
-    opacity: 1;
-}
-
-.sidebar::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    z-index: -1;
-}
-
-.sidebar-title {
-    font-size: 3em;
-    margin-bottom: 25px;
-    text-align: left;
-    width: 100%;
-}
-
-.sidebar-menu {
-    list-style: none;
-    padding: 0;
-    width: 100%;
-}
-
-.sidebar-menu li {
-    width: 100%;
-    margin: 10px 0;
-}
-
-.sidebar-menu li a {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    color: white;
-    text-decoration: none;
-    font-size: 1.2em;
-}
-
-.sidebar-menu li a i {
-    margin-right: 20px;
-}
-
-.sidebar-menu li a:hover {
-    background-color: #444;
-    border-radius: 5px;
-}
-
 .main-content {
     flex: 1;
     padding: 30px;
@@ -114,26 +39,6 @@ body {
     font-family: League Spartan;
     text-align: left;
     color: #fff;
-}
-
-.pages {
-    text-align: center;
-    padding: 0;
-    margin-top: 15%;
-}
-
-.pages li {
-    width: 100%;
-    margin: 10px 0;
-}
-
-.pages li a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    color: white;
-    font-size: 1.2em;
 }
 
 .right-side {
@@ -178,6 +83,11 @@ body {
     color: #fff;
     border-radius: 20px;
     transition: background-color 0.3s ease;
+}
+
+.header-item a {
+    text-decoration: none;
+    color: white;
 }
 
 .header-item:hover {
@@ -262,7 +172,7 @@ body {
     color: #b5b5b5;
 }
 
-.cards-section {
+.bottom-section {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -305,7 +215,7 @@ body {
 }
 
 .podcast-details .podcast-name-owner{
-    width: 260px;
+    width: 200px;
     font-size: 14px;
 
 }
@@ -320,7 +230,6 @@ body {
 
 
 .podcast-category {
-    flex-basis: 440px; /* Set a fixed width to align text properly */
     text-align: left;
     color: gainsboro;
     font-size: 13px;
@@ -348,7 +257,7 @@ body {
 }
 
 
-.popular-categories-heading, .editor-picks-heading{
+.continue-listening-heading, .top-authors-heading{
     font-size: 20px;
     font-family: Montserrat;
     font-weight: normal;
@@ -356,11 +265,12 @@ body {
     color: #fff;
 }
 
-.popular-categories {
+.continue-listening {
+    flex-basis: 90%;
     margin-right: 20px;
 }
 
-.popular-categories, .editor-picks {
+.continue-listening, .top-authors {
     flex: 1 1 48%; /* Allow these sections to take up to 48% of the available space */
     min-width: 300px;
     max-width: 100%; /* Ensure they don’t exceed the available width */
@@ -393,7 +303,7 @@ body {
     box-sizing: border-box;
 }
 
-.editor-picks .box, .popular-categories .podcasts {
+.top-authors .author, .continue-listening .podcasts {
     width: 100%; /* Make sure these containers take up the full width of their parent */
 }
 
@@ -433,11 +343,11 @@ body {
     color: #d2d5d9;
 }
 
-.popular-categories .show-all-container a{
+.continue-listening .show-all-container a{
     color: #d2d5d9;
 }
 
-.box {
+.author {
     position: relative;
     height: 100%;
     background-size: cover;
@@ -448,7 +358,7 @@ body {
     align-items: center;
 }
 
-.overlay {
+.author-info {
     position: absolute;
     top: 0;
     left: 0;
@@ -459,7 +369,7 @@ body {
     justify-content: left;
 }
 
-.overlay h2 {
+.author-info h2 {
     color: white;
     font-size: 18px;
     font-weight: normal;
@@ -467,8 +377,8 @@ body {
     text-align: left;
 }
 
-.editor-picks {
-    flex-basis: 40%;
+.top-authors {
+    flex-basis: 10%;
     align-items: center;
     text-align: left;
 }
@@ -486,7 +396,7 @@ body {
     align-items: center;
 }
 
-.box {
+.author {
     position: relative;
     height: 100%;
     background-size: cover;
@@ -497,7 +407,7 @@ body {
     align-items: center;
 }
 
-.overlay {
+.author-info {
     position: absolute;
     top: 0;
     left: 0;
@@ -508,9 +418,15 @@ body {
     justify-content: left;
 }
 
-.overlay h2 {
+.author-info p {
     color: white;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: normal;
     margin-left: 20px;
+}
+
+.author-info img {
+    width: auto;
+    height: 80%;
+    border-radius: 100px;
 }
