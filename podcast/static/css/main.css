@@ -14,7 +14,6 @@ body {
 }
 
 .sidebar {
-    width: 320px;
     color: white;
     display: flex;
     flex-direction: column;
@@ -79,6 +78,8 @@ body {
     display: flex;
     align-items: center;
     padding: 10px;
+    /* implicitly change width of sidebar */
+    padding-right: 110px;
     color: white;
     text-decoration: none;
     font-size: 1.2em;
