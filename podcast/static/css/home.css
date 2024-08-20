@@ -418,9 +418,15 @@ body {
     justify-content: left;
 }
 
-.author-info h2 {
+.author-info p {
     color: white;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: normal;
     margin-left: 20px;
+}
+
+.author-info img {
+    width: auto;
+    height: 80%;
+    border-radius: 100px;
 }
