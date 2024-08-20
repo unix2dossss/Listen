@@ -9,27 +9,15 @@ home_blueprint = Blueprint(
 
 @home_blueprint.route('/', methods=['GET'])
 def home():
-    return render_template(
-        'home/home.html'
-    )
+    url = url_for('home_bp.podcasts_by_facet', facet_name="top_podcasts")
+    return redirect(url)
 
 
-
-    # if category_name != 'all':
-    #     category_podcasts = services.get_podcasts_in_category(category_name, repo.repo_instance)
-    #     # print(category_podcasts)
-    # else:
-    #     category_podcasts = services.get_all_podcasts(repo.repo_instance)
-    #     category_page_title = "All Podcasts..."
-    #
-    # return render_template(
-    #     'all_podcasts.html',
-    #     podcasts=category_podcasts[:12], category_page_title=category_page_title
-    # )
-
-@home_blueprint.route('/<facet_name>', methods=['GET'])
+@home_blueprint.route('/home/<facet_name>', methods=['GET'])
 def podcasts_by_facet(facet_name):
     display_podcasts = services.get_top_podcasts(repo.repo_instance)
+    continue_listening_list = services.get_continue_listening_podcasts(repo.repo_instance)
+    top_authors=services.get_top_authors(repo.repo_instance)
 
     if facet_name == 'recently_played':
         display_podcasts = services.get_recently_played(repo.repo_instance)
@@ -38,5 +26,7 @@ def podcasts_by_facet(facet_name):
 
     return render_template(
         'home/home.html',
-        podcasts=display_podcasts
+        facet_podcasts=display_podcasts,
+        continue_listening=continue_listening_list,
+        top_authors=top_authors
     )

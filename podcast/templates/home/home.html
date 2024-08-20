@@ -11,17 +11,17 @@
                 <div class="header">
                     <div class="header-items">
                         <div class="header-item active">
-                            <a href="{{  url_for('home_bp.podcasts_by_facet', facet_name=top_podcasts)  }}">
+                            <a href="{{  url_for('home_bp.podcasts_by_facet', facet_name='top_podcasts')  }}">
                                 Top Podcasts
                             </a>
                         </div>
                         <div class="header-item">
-                            <a href="{{  url_for('home_bp.podcasts_by_facet', facet_name=recently_played)  }}">
+                            <a href="{{  url_for('home_bp.podcasts_by_facet', facet_name='recently_played')  }}">
                                 Recently Played
                             </a>
                         </div>
                         <div class="header-item">
-                            <a href="{{  url_for('home_bp.podcasts_by_facet', facet_name=new_podcasts)  }}">
+                            <a href="{{  url_for('home_bp.podcasts_by_facet', facet_name='new_podcasts')  }}">
                                 New Podcasts
                             </a>
                         </div>
@@ -29,122 +29,53 @@
                     <div class="show-all">Show all</div>
                 </div>
                 <div class="podcast-cards">
+                    {% for podcast in facet_podcasts %}
                     <div class="podcast-card">
                         <a href="./podcastDescription.html">
-                            <img src="http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg" alt="D-Hour Radio Network">
+                            <img src="{{ podcast.image_url }}" alt="{{ podcast.title }}">
                             <div class="podcast-info">
-                              <h3>The Reservoir Tapes</h3>
-                              <p>Arts &bull; Performing Arts</p>
+                              <h3>{{ podcast.title }}</h3>
+                              <p>{{  podcast.categories }}</p>
                             </div>
                         </a>
                     </div>
-                    <div class="podcast-card">
-                        <a href="./podcastDescription.html">
-                            <img src="http://is5.mzstatic.com/image/thumb/Music4/v4/8a/b3/c2/8ab3c23d-e437-8659-fd3a-b96fd3fff09f/source/600x600bb.jpg" alt="Brian Denny Radio">
-                            <div class="podcast-info">
-                                <h3>Mere Fidelity</h3>
-                                <p>Religion &bull; Christianity</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="podcast-card">
-                        <a href="./podcastDescription.html">
-                            <img src="http://is2.mzstatic.com/image/thumb/Music128/v4/80/1b/00/801b002a-558a-3f68-43f9-12f0d0576212/source/600x600bb.jpg" alt="Bethel Presbyterian Church (EPC) Sermons">
-                        <div class="podcast-info">
-                            <h3>Ashes Ashes</h3>
-                            <p>Science &bull; News & Politics</p>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="podcast-card">
-                        <a href="./podcastDescription.html">
-                            <img src="http://is4.mzstatic.com/image/thumb/Music118/v4/dd/be/ee/ddbeee22-5eb4-4bd5-9f6b-1f0673b351c5/source/600x600bb.jpg" alt="Onde Road">
-                            <div class="podcast-info">
-                                <h3>The Sisu Way</h3>
-                                <p>Self-Help</p>
-                            </div>
-                        </a>
-                    </div>
+                    {% endfor %}
                 </div>
 
                 <div class="bottom-section">
                     <div class="continue-listening">
                         <h2 class="continue-listening-heading">Continue listening</h2>
                         <div class="podcasts">
-                            <div class="podcast">
-                                <div class="podcast-id">01</div>
-                                <div class="podcast-details">
 
-                                    <div class="podcast-name-owner">
-                                        <span class="name">D-Hour Radio Network.</span>
-                                        <br>
-                                        <span class="owner">By D Hour Radio Network</span>
+                            {% for podcast in continue_listening %}
+                            <a href="#">
+                                <div class="podcast">
+                                    <div class="podcast-id">0{{ loop.index0 + 1 }}</div>
+                                    <div class="podcast-details">
+                                        <div class="podcast-name-owner">
+                                            <span class="name">{{ podcast.title }}</span>
+                                            <br>
+                                            <span class="owner">{{ podcast.author }}</span>
+                                        </div>
                                     </div>
+                                    <div class="podcast-category">{{ podcast.language }}</div>
+                                    <div class="podcast-duration">{{ podcast.duration }}</div>
                                 </div>
-                                <div class="podcast-category">English</div>
-                                <div class="podcast-duration">58:32:25</div>
-                            </div>
-                            <div class="podcast">
-                                <div class="podcast-id">02</div>
-                                <div class="podcast-details">
-
-                                    <div class="podcast-name-owner">
-                                        <span class="name">Brian Denny Radio.</span>
-                                        <br>
-                                        <span class="owner">By Brian Denny</span>
-                                    </div>
-                                </div>
-                                <div class="podcast-category">English</div>
-                                <div class="podcast-duration">58:32:25</div>
-                            </div>
-                            <div class="podcast">
-                                <div class="podcast-id">03</div>
-                                <div class="podcast-details">
-
-                                    <div class="podcast-name-owner">
-                                        <span class="name">Onde Road - Radio Popolare.</span>
-                                        <br>
-                                        <span class="owner">By Radio Popolare</span>
-                                    </div>
-                                </div>
-                                <div class="podcast-category">English</div>
-                                <div class="podcast-duration">58:32:25</div>
-                            </div>
-                            <div class="podcast">
-                                <div class="podcast-id">04</div>
-                                <div class="podcast-details">
-                                    <div class="podcast-name-owner">
-                                        <span class="name">Tallin Messages.</span>
-                                        <br>
-                                        <span class="owner">By Tallin Country Church</span>
-                                    </div>
-                                </div>
-                                <div class="podcast-category">English</div>
-                                <div class="podcast-duration">58:32:25</div>
-                            </div>
+                            </a>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="top-authors">
                         <h2 class="top-authors-heading">Top Authors</h2>
                         <div class="authors">
-                            <div class="author">
-                                <div class="author-info">
-                                    <img src="http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg">
-                                    <p>Brian Denny</p>
+                            {% for author in top_authors}
+                                <div class="author">
+                                    <div class="author-info">
+                                        <img src="http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg">
+                                        <p>{{ author.name }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="author">
-                                <div class="author-info">
-                                    <img src="http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg">
-                                    <p>Brian Denny</p>
-                                </div>
-                            </div>
-                            <div class="author">
-                                <div class="author-info">
-                                    <img src="http://is5.mzstatic.com/image/thumb/Music118/v4/8e/97/40/8e97404a-1904-ef83-dfaf-3b2d90938de6/source/600x600bb.jpg">
-                                    <p>Brian Denny</p>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

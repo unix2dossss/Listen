@@ -215,7 +215,7 @@ body {
 }
 
 .podcast-details .podcast-name-owner{
-    width: 260px;
+    width: 200px;
     font-size: 14px;
 
 }
@@ -230,7 +230,6 @@ body {
 
 
 .podcast-category {
-    flex-basis: 440px; /* Set a fixed width to align text properly */
     text-align: left;
     color: gainsboro;
     font-size: 13px;
@@ -267,6 +266,7 @@ body {
 }
 
 .continue-listening {
+    flex-basis: 90%;
     margin-right: 20px;
 }
 
@@ -378,7 +378,7 @@ body {
 }
 
 .top-authors {
-    flex-basis: 40%;
+    flex-basis: 10%;
     align-items: center;
     text-align: left;
 }
