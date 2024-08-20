@@ -46,12 +46,6 @@ def podcasts_by_category(category_name):
     else:
         category_podcasts = services.get_podcasts_in_category(category_name, repo.repo_instance)
 
-    # if category_name != 'all':
-    #     category_podcasts = services.get_podcasts_in_category(category_name, repo.repo_instance)
-    # else:
-    #     category_podcasts = services.get_all_podcasts(repo.repo_instance)
-    #     category_page_title = "All Podcasts..."
-
     return render_template(
         'all_podcasts.html',
         podcasts=category_podcasts[:12], category_page_title=category_page_title
