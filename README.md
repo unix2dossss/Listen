@@ -66,6 +66,8 @@ The *project directory/.env* file contains variable settings. They are set with 
 Here are the primary endpoints for the application:
 
 * **GET /**: Homepage of the application.
+* **GET /<facet_name>**: Displays the home page with podcasts filtered by the specified facet (e.g., top podcasts, recently played, or new podcasts).
+* **GET /home/<podcast_id>**: Redirects to the detailed description page of the selected podcast.
 * **GET /category**: Displays a list of all podcast categories. (page for categories)
 * **GET /category/<category_name>**: Redirects to the page displaying podcasts within the specified category.
 * **GET /discover**: Displays the Discover(Catalogue) page with popular categories, editor picks, and a podcast list with a filter functionality (ex: By newest to oldest).
