@@ -91,15 +91,15 @@ class MemoryRepository(AbstractRepository):
         return all_categories
 
     def get_top_podcasts(self):
-        top_podcasts = [self._podcasts[771], self._podcasts[88], self._podcasts[438], self._podcasts[531]]
+        top_podcasts = [self._podcasts[771], self._podcasts[531], self._podcasts[88], self._podcasts[438]]
         return top_podcasts
 
     def get_recently_played(self):
-        recently_played_podcasts = [self._podcasts[670], self._podcasts[728], self._podcasts[8], self._podcasts[219]]
+        recently_played_podcasts = [self._podcasts[670], self._podcasts[219], self._podcasts[728], self._podcasts[8]]
         return recently_played_podcasts
 
     def get_new_podcasts(self):
-        new_podcasts = [self._podcasts[739], self._podcasts[639], self._podcasts[200], self._podcasts[268]]
+        new_podcasts = [self._podcasts[739], self._podcasts[268], self._podcasts[639], self._podcasts[200]]
         return new_podcasts
 
     def get_continue_listening_podcasts(self):
@@ -111,15 +111,15 @@ class MemoryRepository(AbstractRepository):
         return top_authors
 
     def get_top_podcasts_list(self):
-        top_podcasts = self._podcasts[:12]
+        top_podcasts = self._podcasts[162:174]
         return top_podcasts
 
     def get_recently_played_list(self):
-        recently_played_podcasts = self._podcasts[4:16]
+        recently_played_podcasts = self._podcasts[44:56]
         return recently_played_podcasts
 
     def get_new_podcasts_list(self):
-        new_podcasts = self._podcasts[8:20]
+        new_podcasts = self._podcasts[280:292]
         return new_podcasts
 
 

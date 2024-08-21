@@ -85,12 +85,12 @@
     display: flex;
     align-items: center;
     justify-content: left;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
 }
 
 .box:hover .overlay {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .overlay h2 {
