@@ -92,6 +92,8 @@ class MemoryRepository(AbstractRepository):
 
     def get_all_authors(self):
         all_authors = list(self._authors.values())
+        for (i, k) in self.authors.items():
+            print(k.podcast_list[0].image)
         return all_authors
 
     def get_top_podcasts(self):

@@ -11,7 +11,8 @@
             <div class="categories">
                 {% for author in podcast_authors %}
                     <div class="box" style="background:
-                        linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+                        linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
+                        url('{{ author.podcast_list[0].image }}') no-repeat center center;
                         background-size: cover;">
                         <a href="{{ url_for('category_bp.category_podcasts', category_name=author.name) }}">
                             <div class="overlay">
