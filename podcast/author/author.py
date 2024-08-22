@@ -9,21 +9,34 @@ author_blueprint = Blueprint(
 
 @author_blueprint.route('/author', methods=['GET'])
 def all_authors():
-    page = request.args.get('page', 1, type=int)  # Get the page number from the query parameters, default to 1
-    per_page = 18  # Number of categories per page
-    authors = services.get_all_authors(repo.repo_instance)
+    page = request.args.get('page', 1, type=int)
+    per_page = 18
+    max_pages_to_show = 5
 
-    # Calculate total pages
-    total_pages = (len(authors) + per_page - 1) // per_page
+    author_podcasts = services.get_all_authors(repo.repo_instance)
 
-    # Slice the categories list to get only the categories for the current page
-    authors_paginated = authors[(page - 1) * per_page: page * per_page]
+    total_pages = (len(author_podcasts) + per_page - 1) // per_page
+
+    if page < 1:
+        page = 1
+    elif page > total_pages:
+        page = total_pages
+
+    start_page = max(1, page - max_pages_to_show // 2)
+    end_page = min(total_pages, start_page + max_pages_to_show - 1)
+
+    if end_page - start_page < max_pages_to_show:
+        start_page = max(1, end_page - max_pages_to_show + 1)
+
+    paginated_authors = author_podcasts[(page - 1) * per_page: page * per_page]
 
     return render_template(
         'all_authors.html',
-        podcast_authors=authors_paginated,
+        podcast_authors=paginated_authors,
         current_page=page,
-        total_pages=total_pages
+        total_pages=total_pages,
+        start_page=start_page,
+        end_page=end_page,
     )
 
 

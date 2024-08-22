@@ -22,22 +22,24 @@
                 {% endfor %}
             </div>
 
+            <!-- Pagination -->
             <div class="pagination">
                 {% if current_page > 1 %}
-                    <a href="{{ url_for('category_bp.all_categories', page=1) }}">First</a>
-                    <a href="{{ url_for('category_bp.all_categories', page=current_page-1) }}">&laquo; Prev</a>
+                    <a href="{{ url_for('author_bp.all_authors', page=1) }}">First</a>
+                    <a href="{{ url_for('author_bp.all_authors', page=current_page-1) }}">&laquo; Prev</a>
                 {% endif %}
 
-                {% for page_num in range(1, total_pages + 1) %}
-                    <a href="{{ url_for('category_bp.all_categories', page=page_num) }}"
+                <!-- Page Numbers -->
+                {% for page_num in range(start_page, end_page + 1) %}
+                    <a href="{{ url_for('author_bp.all_authors', page=page_num) }}"
                        class="{% if page_num == current_page %}active{% endif %}">
                        {{ page_num }}
                     </a>
                 {% endfor %}
 
                 {% if current_page < total_pages %}
-                    <a href="{{ url_for('category_bp.all_categories', page=current_page+1) }}">Next &raquo;</a>
-                    <a href="{{ url_for('category_bp.all_categories', page=total_pages) }}">Last</a>
+                    <a href="{{ url_for('author_bp.all_authors', page=current_page+1) }}">Next &raquo;</a>
+                    <a href="{{ url_for('author_bp.all_authors', page=total_pages) }}">Last</a>
                 {% endif %}
             </div>
         </section>
