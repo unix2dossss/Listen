@@ -1,6 +1,7 @@
 from podcast.adapters.repository import AbstractRepository
 
-def format_podcast_list(podcasts):
+
+def format_podcast_list(podcasts, repo=None):
     formatted_podcasts = []
     for i in range(len(podcasts)):
         about_podcast = dict()
@@ -10,10 +11,13 @@ def format_podcast_list(podcasts):
         about_podcast['author'] = podcasts[i].author.name
         about_podcast['image_url'] = podcasts[i].image
         about_podcast['language'] = podcasts[i].language
-        if len(podcasts[i].episodes) > 0:
-            about_podcast['duration'] = podcasts[i].episodes[0].episode_audio_length.colon_format()
-        else:
-            about_podcast['duration'] = "58:32:25"
+        if repo is not None:
+            if len(podcasts[i].episodes) > 0:
+                audio_times = [episode.episode_audio_length for episode in podcasts[i].episodes]
+                total_time = repo.get_total_audio_time(audio_times)
+                about_podcast['duration'] = total_time.colon_format()
+            else:
+                about_podcast['duration'] = "8:32:25"
 
         category_list = [category.name for category in podcasts[i].categories]
         if len(category_list) > 1:
@@ -32,14 +36,16 @@ def get_popular_categories(repo: AbstractRepository):
     categories = repo.get_popular_categories()
     return categories
 
+
 def get_editor_picks(repo: AbstractRepository):
     editor_picks = repo.get_editor_picks()
     formatted_podcasts = format_podcast_list(editor_picks)
     return formatted_podcasts
 
+
 def get_podcast_search_list(repo: AbstractRepository):
     search_p_list = repo.get_podcast_search_list()
-    formatted_podcasts = format_podcast_list(search_p_list)
+    formatted_podcasts = format_podcast_list(search_p_list, repo=repo)
     return formatted_podcasts
 
 

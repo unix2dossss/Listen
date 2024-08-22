@@ -113,6 +113,12 @@ class MemoryRepository(AbstractRepository):
         continue_listening_podcasts = [self._podcasts[546], self._podcasts[823], self._podcasts[908], self._podcasts[675]]
         return continue_listening_podcasts
 
+    def get_total_audio_time(self, audio_times):
+        total_time = AudioTime(0, 0, 0)
+        for time in audio_times:
+            total_time = total_time.add_time(time)
+        return total_time
+
     def get_top_authors(self):
         # top_authors = list(self._authors.values())[117:120]
         top_authors = [list(self._authors.values())[22], list(self._authors.values())[45], list(self._authors.values())[52]]
@@ -129,7 +135,6 @@ class MemoryRepository(AbstractRepository):
     def get_new_podcasts_list(self):
         new_podcasts = self._podcasts[280:292]
         return new_podcasts
-
 
 
 def populate(data_path: Path, repo: MemoryRepository):

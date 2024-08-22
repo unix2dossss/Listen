@@ -91,6 +91,11 @@ class AbstractRepository(abc.ABC):
         """
         raise NotImplementedError
 
+    def get_total_audio_time(self, audio_times):
+        """ return a list of top authors
+        """
+        raise NotImplementedError
+
     def get_top_podcasts_list(self):
         """ return a top podcasts list for show all
         """

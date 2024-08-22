@@ -1,7 +1,7 @@
 from podcast.adapters.repository import AbstractRepository
 
 
-def format_facet_podcasts(podcasts=None, condition=None, authors=None):
+def format_facet_podcasts(podcasts=None, condition=None, authors=None, repo=None):
     formatted_podcasts = []
     formatted_authors = []
 
@@ -33,9 +33,11 @@ def format_facet_podcasts(podcasts=None, condition=None, authors=None):
             about_podcast['author'] = podcasts[i].author.name
             about_podcast['language'] = podcasts[i].language
             if len(podcasts[i].episodes) > 0:
-                about_podcast['duration'] = podcasts[i].episodes[0].episode_audio_length.colon_format()
+                audio_times = [episode.episode_audio_length for episode in podcasts[i].episodes]
+                total_time = repo.get_total_audio_time(audio_times)
+                about_podcast['duration'] = total_time.colon_format()
             else:
-                about_podcast['duration'] = "58:32:25"
+                about_podcast['duration'] = "8:32:25"
 
         formatted_podcasts.append(about_podcast)
 
@@ -62,7 +64,7 @@ def get_new_podcasts(repo: AbstractRepository):
 
 def get_continue_listening_podcasts(repo: AbstractRepository):
     podcasts = repo.get_continue_listening_podcasts()
-    formatted_podcasts = format_facet_podcasts(sorted(podcasts), 'continue_listening')
+    formatted_podcasts = format_facet_podcasts(sorted(podcasts), 'continue_listening', repo=repo)
     return formatted_podcasts
 
 

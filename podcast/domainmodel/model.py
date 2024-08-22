@@ -336,7 +336,7 @@ class AudioTime:
         return f"{self.audio_hours}h {self.audio_minutes}m {self.audio_seconds}s"
 
     def colon_format(self):
-        return f"{self.audio_hours}:{self.audio_minutes}:{self.audio_seconds}"
+        return f"{self.audio_hours:02}:{self.audio_minutes:02}:{self.audio_seconds:02}"
 
     def __eq__(self, other):
         if not isinstance(other, AudioTime):
@@ -350,6 +350,20 @@ class AudioTime:
             return False
         return ((self.audio_hours, self.audio_minutes, self.audio_seconds) <
                 (other.audio_hours, other.audio_minutes, other.audio_seconds))
+
+    def add_time(self, other):
+        if not isinstance(other, AudioTime):
+            raise TypeError("Can only add AudioTime objects")
+
+        total_seconds = self.audio_seconds + other.audio_seconds
+        total_minutes = self.audio_minutes + other.audio_minutes + total_seconds // 60
+        total_hours = self.audio_hours + other.audio_hours + total_minutes // 60
+
+        new_seconds = total_seconds % 60
+        new_minutes = total_minutes % 60
+        new_hours = total_hours
+
+        return AudioTime(new_hours, new_minutes, new_seconds)
 
 
 class Episode:
