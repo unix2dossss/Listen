@@ -59,6 +59,11 @@ class AbstractRepository(abc.ABC):
         """
         raise NotImplementedError
 
+    def get_all_authors(self):
+        """ return all Categories
+        """
+        raise NotImplementedError
+
     def get_top_podcasts(self):
         """ return top podcasts
         """

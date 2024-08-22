@@ -7,16 +7,15 @@
 {% block content %}
     <main class="main-content">
         <section>
-            <h1>All Categories...</h1>
+            <h1>All Authors...</h1>
             <div class="categories">
-                {% for c in podcast_categories %}
+                {% for author in podcast_authors %}
                     <div class="box" style="background:
-                        linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
-                        url('{{ url_for('static', filename='assets/category_images/' + c.name + '.jpg') }}') no-repeat center center;
+                        linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
                         background-size: cover;">
-                        <a href="{{ url_for('category_bp.category_podcasts', category_name=c.name) }}">
+                        <a href="{{ url_for('category_bp.category_podcasts', category_name=author.name) }}">
                             <div class="overlay">
-                                <h2>{{ c.name }}</h2>
+                                <h2>{{ author.name }}</h2>
                             </div>
                         </a>
                     </div>

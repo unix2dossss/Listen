@@ -90,6 +90,10 @@ class MemoryRepository(AbstractRepository):
         all_categories = list(self._categories.values())
         return all_categories
 
+    def get_all_authors(self):
+        all_authors = list(self._authors.values())
+        return all_authors
+
     def get_top_podcasts(self):
         top_podcasts = [self._podcasts[771], self._podcasts[531], self._podcasts[88], self._podcasts[438]]
         return top_podcasts

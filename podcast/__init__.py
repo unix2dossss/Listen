@@ -38,4 +38,7 @@ def create_app():
         from .category import category
         app.register_blueprint(category.category_blueprint)
 
+        from .author import author
+        app.register_blueprint(author.author_blueprint)
+
     return app
