@@ -67,17 +67,34 @@
                             {% endfor %}
                         </div>
                     </div>
+<!--                    <div class="top-authors">-->
+<!--                        <h2 class="top-authors-heading">Top Authors</h2>-->
+<!--                        <div class="authors">-->
+<!--                            {% for author in top_authors %}-->
+<!--                                <div class="author">-->
+<!--                                    <div class="author-info">-->
+<!--                                        <div class="profile-circle">-->
+<!--                                            {{ author.initial }}-->
+<!--                                        </div>-->
+<!--                                        <p>{{ author.name }}</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            {% endfor %}-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="top-authors">
                         <h2 class="top-authors-heading">Top Authors</h2>
                         <div class="authors">
                             {% for author in top_authors %}
-                                <div class="author">
-                                    <div class="author-info">
-                                        <div class="profile-circle">
-                                            {{ author.initial }}
+                               <div class="author" style="background:
+                                                               linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
+                                                                url('{{ author.bg }}') no-repeat center center;
+                                                            ">
+                                    <a href="{{ url_for('author_bp.author_podcasts', author_name=author.name) }}">
+                                        <div class="overlay">
+                                            <h2>{{ author.name }}</h2>
                                         </div>
-                                        <p>{{ author.name }}</p>
-                                    </div>
+                                    </a>
                                 </div>
                             {% endfor %}
                         </div>

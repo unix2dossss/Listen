@@ -1,14 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block component_css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/all_podcasts.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/author_podcasts.css') }}">
 {% endblock %}
 
 {% block content %}
     <main class="main-content">
         <section>
             <div class="header-with-sort">
-                <h1>{{ category_page_title }}</h1>
+                <h1>{{ author_page_title }}</h1>
                 <button class="sort-button">
                     <i class="fa-solid fa-caret-down dropdown" style="margin-right: 8px;"></i>
                     Alphabetically
@@ -38,21 +38,21 @@
                     <!-- Pagination -->
                     <div class="pagination">
                         {% if current_page > 1 %}
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=1) }}">First</a>
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=current_page-1) }}">&laquo; Prev</a>
+                            <a href="{{ url_for('discover_bp.podcasts_by_author', author_name=author_name, page=1) }}">First</a>
+                            <a href="{{ url_for('discover_bp.podcasts_by_author', author_name=author_name, page=current_page-1) }}">&laquo; Prev</a>
                         {% endif %}
 
                         <!-- Page Numbers -->
                         {% for page_num in range(start_page, end_page + 1) %}
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=page_num) }}"
+                            <a href="{{ url_for('discover_bp.podcasts_by_author', author_name=author_name, page=page_num) }}"
                                class="{% if page_num == current_page %}active{% endif %}">
                                {{ page_num }}
                             </a>
                         {% endfor %}
 
                         {% if current_page < total_pages %}
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=current_page+1) }}">Next &raquo;</a>
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=total_pages) }}">Last</a>
+                            <a href="{{ url_for('discover_bp.podcasts_by_author', author_name=author_name, page=current_page+1) }}">Next &raquo;</a>
+                            <a href="{{ url_for('discover_bp.podcasts_by_author', author_name=author_name, page=total_pages) }}">Last</a>
                         {% endif %}
                     </div>
 

@@ -41,6 +41,6 @@ def all_authors():
 
 
 @author_blueprint.route('/author/<author_name>', methods=['GET'])
-def category_podcasts(author_name):
-    url = url_for('discover_bp.podcasts_by_category', author_name=author_name)
+def author_podcasts(author_name):
+    url = url_for('discover_bp.podcasts_by_author', author_name=author_name)
     return redirect(url)

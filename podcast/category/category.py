@@ -12,7 +12,6 @@ def all_categories():
     page = request.args.get('page', 1, type=int)  # Get the page number from the query parameters, default to 1
     per_page = 18  # Number of categories per page
     categories = services.get_all_categories(repo.repo_instance)
-    print(categories)
 
     # Calculate total pages
     total_pages = (len(categories) + per_page - 1) // per_page

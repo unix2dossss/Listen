@@ -83,6 +83,9 @@ class MemoryRepository(AbstractRepository):
     def get_podcasts_in_category(self, category_name):
         return self._podcasts_by_category[category_name]
 
+    def get_podcasts_by_author(self, author_name):
+        return self._authors[author_name].podcast_list
+
     def get_all_podcasts(self):
         return self._podcasts
 
@@ -111,7 +114,8 @@ class MemoryRepository(AbstractRepository):
         return continue_listening_podcasts
 
     def get_top_authors(self):
-        top_authors = list(self._authors.keys())[:3]
+        # top_authors = list(self._authors.values())[117:120]
+        top_authors = [list(self._authors.values())[22], list(self._authors.values())[45], list(self._authors.values())[52]]
         return top_authors
 
     def get_top_podcasts_list(self):
