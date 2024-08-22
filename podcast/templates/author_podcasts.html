@@ -7,7 +7,13 @@
 {% block content %}
     <main class="main-content">
         <section>
-            <h1>{{ author_page_title }}</h1>
+            <div class="header-with-sort">
+                <h1>{{ author_page_title }}</h1>
+                <button class="sort-button">
+                    <i class="fa-solid fa-caret-down dropdown" style="margin-right: 8px;"></i>
+                    Newest to Oldest
+                </button>
+            </div>
             <div class="cards-section">
                 <div class="whole-container">
                     <div class="podcast-cards">
