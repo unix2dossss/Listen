@@ -8,8 +8,8 @@ def format_facet_podcasts(podcasts=None, condition=None, authors=None):
     if authors is not None:
         for i in range(3):
             author_info = dict()
-            author_info['name'] = authors[i]
-            author_info['initial'] = authors[i][0]
+            author_info['name'] = authors[i].name
+            author_info['bg'] = authors[i].podcast_list[0].image
             formatted_authors.append(author_info)
         return formatted_authors
 
@@ -62,7 +62,7 @@ def get_new_podcasts(repo: AbstractRepository):
 
 def get_continue_listening_podcasts(repo: AbstractRepository):
     podcasts = repo.get_continue_listening_podcasts()
-    formatted_podcasts = format_facet_podcasts(podcasts, 'continue_listening')
+    formatted_podcasts = format_facet_podcasts(sorted(podcasts), 'continue_listening')
     return formatted_podcasts
 
 
