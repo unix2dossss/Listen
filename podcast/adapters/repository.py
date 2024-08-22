@@ -31,20 +31,22 @@ class AbstractRepository(abc.ABC):
         """
         raise NotImplementedError
 
-
     def get_editor_picks(self):
         """ return three Editor picked podcasts
         """
         raise NotImplementedError
-
 
     def get_podcast_search_list(self):
         """ return a podcast list according to filtered criteria
         """
         raise NotImplementedError
 
-
     def get_podcasts_in_category(self, category_name):
+        """ return a Podcast list by Category
+        """
+        raise NotImplementedError
+
+    def get_podcasts_by_author(self, category_name):
         """ return a Podcast list by Category
         """
         raise NotImplementedError

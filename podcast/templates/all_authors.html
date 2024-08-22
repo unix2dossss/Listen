@@ -14,7 +14,7 @@
                         linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
                         url('{{ author.podcast_list[0].image }}') no-repeat center center;
                         background-size: cover;">
-                        <a href="{{ url_for('category_bp.category_podcasts', category_name=author.name) }}">
+                        <a href="{{ url_for('author_bp.author_podcasts', author_name=author.name) }}">
                             <div class="overlay">
                                 <h2>{{ author.name }}</h2>
                             </div>

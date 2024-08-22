@@ -75,6 +75,43 @@ def podcasts_by_category(category_name):
     )
 
 
+@discover_blueprint.route('/author_podcasts/<author_name>', methods=['GET'])
+def podcasts_by_author(author_name):
+    page = request.args.get('page', 1, type=int)
+    per_page = 12
+    max_pages_to_show = 5
+
+    author_page_title = author_name
+
+    author_podcasts = services.get_podcasts_by_author(author_name, repo.repo_instance)
+
+    total_pages = (len(author_podcasts) + per_page - 1) // per_page
+
+    if page < 1:
+        page = 1
+    elif page > total_pages:
+        page = total_pages
+
+    start_page = max(1, page - max_pages_to_show // 2)
+    end_page = min(total_pages, start_page + max_pages_to_show - 1)
+
+    if end_page - start_page < max_pages_to_show:
+        start_page = max(1, end_page - max_pages_to_show + 1)
+
+    paginated_podcasts = author_podcasts[(page - 1) * per_page: page * per_page]
+
+    return render_template(
+        'author_podcasts.html',
+        podcasts=paginated_podcasts,
+        author_page_title=author_page_title,
+        current_page=page,
+        total_pages=total_pages,
+        start_page=start_page,
+        end_page=end_page,
+        author_name=author_name
+    )
+
+
 @discover_blueprint.route('/editor_picks/<podcast_id>', methods=['GET'])
 def editor_picked_podcast(podcast_id):
     # editor_picked_p = services.get_editor_picked_podcast(podcast_id, repo.repo_instance)

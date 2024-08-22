@@ -83,6 +83,9 @@ class MemoryRepository(AbstractRepository):
     def get_podcasts_in_category(self, category_name):
         return self._podcasts_by_category[category_name]
 
+    def get_podcasts_by_author(self, author_name):
+        return self._authors[author_name].podcast_list
+
     def get_all_podcasts(self):
         return self._podcasts
 

@@ -71,3 +71,9 @@ def get_new_podcasts(repo: AbstractRepository):
     podcasts = repo.get_new_podcasts_list()
     formatted_podcasts = format_podcast_list(podcasts)
     return formatted_podcasts
+
+
+def get_podcasts_by_author(author_name: str, repo: AbstractRepository):
+    podcasts = repo.get_podcasts_by_author(author_name)
+    formatted_podcasts = format_podcast_list(podcasts)
+    return formatted_podcasts
