@@ -2,9 +2,20 @@ from datetime import date, datetime
 from typing import List
 
 import pytest
+# from podcast.adapters.repository import AbstractRepository, MemoryRepository
+# from datareader import AbstractRepository, MemoryRepository
+# from podcast.adapters.memory_repository import MemoryRepository
+
+import podcast.adapters.repository as repo
+from podcast.adapters.memory_repository import MemoryRepository, populate
 
 from podcast.domainmodel.model import User, Podcast
 from podcast.adapters.repository import RepositoryException
+
+@pytest.fixture()
+def in_memory_repo():
+    repo.repo_instance = MemoryRepository()
+    return repo.repo_instance
 
 
 def test_repository_can_retrieve_a_podcast_by_id(in_memory_repo):
