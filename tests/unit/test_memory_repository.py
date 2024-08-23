@@ -24,3 +24,7 @@ def test_can_retrieve_editor_picks(in_memory_repo):
     assert editor_picks == [[in_memory_repo.podcasts[288], in_memory_repo.podcasts[162], in_memory_repo.podcasts[799],
                              in_memory_repo.podcasts[317]]]
 
+
+def test_can_get_podcasts_in_specified_category(in_memory_repo):
+    comedy_podcasts = in_memory_repo.get_podcasts_in_category('comedy')
+    assert comedy_podcasts == in_memory_repo.podcasts_by_category['comedy']
