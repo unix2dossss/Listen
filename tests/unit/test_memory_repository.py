@@ -45,7 +45,31 @@ def test_can_retrieve_all_categories(in_memory_repo):
     all_categories = in_memory_repo.get_all_categories()
     assert all_categories == in_memory_repo.categories.values()
 
+
 def test_can_retrieve_all_authors(in_memory_repo):
     all_authors = in_memory_repo.get_all_authors()
     assert all_authors == in_memory_repo.authors.values()
 
+
+def test_can_retrieve_top_podcasts(in_memory_repo):
+    top_podcasts = in_memory_repo.get_top_podcasts()
+    assert top_podcasts == [in_memory_repo.podcasts[771], in_memory_repo.podcasts[531], in_memory_repo.podcasts[88],
+                            in_memory_repo.podcasts[438]]
+
+
+def test_can_retrieve_recently_played_podcasts(in_memory_repo):
+    recent_podcasts = in_memory_repo.get_recently_played()
+    assert recent_podcasts == [in_memory_repo.podcasts[670], in_memory_repo.podcasts[219], in_memory_repo.podcasts[728],
+                               in_memory_repo.podcasts[8]]
+
+
+def test_can_retrieve_new_podcasts(in_memory_repo):
+    new_podcasts = in_memory_repo.get_new_podcasts()
+    assert new_podcasts == [in_memory_repo.podcasts[739], in_memory_repo.podcasts[268], in_memory_repo.podcasts[639],
+                            in_memory_repo.podcasts[200]]
+
+
+def test_can_retrieve_continue_listening_podcasts(in_memory_repo):
+    cl_podcasts = in_memory_repo.get_continue_listening_podcasts()
+    return cl_podcasts == [in_memory_repo.podcasts[546], in_memory_repo.podcasts[823], in_memory_repo.podcasts[908],
+                           in_memory_repo.podcasts[675]]
