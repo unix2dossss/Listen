@@ -71,5 +71,26 @@ def test_can_retrieve_new_podcasts(in_memory_repo):
 
 def test_can_retrieve_continue_listening_podcasts(in_memory_repo):
     cl_podcasts = in_memory_repo.get_continue_listening_podcasts()
-    return cl_podcasts == [in_memory_repo.podcasts[546], in_memory_repo.podcasts[823], in_memory_repo.podcasts[908],
+    assert cl_podcasts == [in_memory_repo.podcasts[546], in_memory_repo.podcasts[823], in_memory_repo.podcasts[908],
                            in_memory_repo.podcasts[675]]
+
+
+def test_can_retrieve_top_authors(in_memory_repo):
+    top_authors = in_memory_repo.get_top_authors()
+    assert top_authors == [in_memory_repo.authors.values()[22], in_memory_repo.authors.values()[45],
+                           in_memory_repo.authors.values()[52]]
+
+
+def test_can_retrieve_list_of_top_podcasts(in_memory_repo):
+    top_podcasts = in_memory_repo.get_top_podcasts_list()
+    assert top_podcasts == in_memory_repo.podcasts[162:174]
+
+
+def test_can_retrieve_list_of_recently_played_podcasts(in_memory_repo):
+    recent_podcasts = in_memory_repo.get_recently_played_list()
+    assert recent_podcasts == in_memory_repo.podcasts[44:56]
+
+
+def test_can_retrieve_list_of_new_podcasts(in_memory_repo):
+    new_podcasts = in_memory_repo.get_new_podcasts_list()
+    assert new_podcasts == in_memory_repo.podcasts[280:292]
