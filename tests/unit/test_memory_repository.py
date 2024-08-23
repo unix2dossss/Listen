@@ -28,3 +28,10 @@ def test_can_retrieve_editor_picks(in_memory_repo):
 def test_can_get_podcasts_in_specified_category(in_memory_repo):
     comedy_podcasts = in_memory_repo.get_podcasts_in_category('comedy')
     assert comedy_podcasts == in_memory_repo.podcasts_by_category['comedy']
+
+
+def test_can_retrieve_podcasts_by_specified_author(in_memory_repo):
+    author_name = "audioboom"
+    audioboom_podcasts = in_memory_repo.get_podcasts_by_author(author_name)
+    assert audioboom_podcasts == in_memory_repo.authors[author_name].podcast_list
+
