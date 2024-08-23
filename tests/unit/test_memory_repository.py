@@ -35,3 +35,17 @@ def test_can_retrieve_podcasts_by_specified_author(in_memory_repo):
     audioboom_podcasts = in_memory_repo.get_podcasts_by_author(author_name)
     assert audioboom_podcasts == in_memory_repo.authors[author_name].podcast_list
 
+
+def test_can_retrieve_all_podcasts(in_memory_repo):
+    all_podcasts = in_memory_repo.get_all_podcasts()
+    assert all_podcasts == in_memory_repo.podcasts
+
+
+def test_can_retrieve_all_categories(in_memory_repo):
+    all_categories = in_memory_repo.get_all_categories()
+    assert all_categories == in_memory_repo.categories.values()
+
+def test_can_retrieve_all_authors(in_memory_repo):
+    all_authors = in_memory_repo.get_all_authors()
+    assert all_authors == in_memory_repo.authors.values()
+
