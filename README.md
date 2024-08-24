@@ -1,6 +1,8 @@
-# Listen
+<br>
 
-A sleek, minimalist podcast app that combines powerful features with a clean, intuitive design. Discover and enjoy your favorite shows effortlessly, all in a beautifully streamlined interface.
+<img src="podcast/static/assets/logo.png" alt="Alt text" width="150" style="filter: drop-shadow(0 0 50px rgba(255, 255, 255, 0.1)) drop-shadow(0 0 15px rgba(255, 255, 255, 0.1)) drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));" />
+
+A sleek, minimalist podcast app that combines powerful features with a clean, intuitive design. Discover and enjoy your favorite podcasts effortlessly, all in a beautifully streamlined interface.
 
 ## Table of Contents
 1. [Installation](#installation)
