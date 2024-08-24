@@ -13,6 +13,14 @@
     -ms-overflow-style: none;
 }
 
+.hero-gap {
+    height: 15px;
+    background-color: #222423;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
 .hero {
     width: 100%;
     height: auto;
@@ -22,9 +30,10 @@
     align-items: center;
     justify-content: flex-start;
     color: white;
-    margin-top: 15px;
     padding: 0px;
-    position: relative;
+    position: sticky;
+    top: 15px;
+    z-index: 1000;
     overflow: hidden;
 }
 
@@ -231,7 +240,7 @@
     justify-content: center;
     align-items: center;
     background: #1f211f;
-    border-radius: 8px;
+    border-radius: 4px;
 }
 
 .pagination a {
