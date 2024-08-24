@@ -12,10 +12,10 @@ from podcast.adapters.memory_repository import MemoryRepository, populate
 from podcast.domainmodel.model import User, Podcast
 from podcast.adapters.repository import RepositoryException
 
-@pytest.fixture()
+@pytest.fixture
 def in_memory_repo():
-    repo.repo_instance = MemoryRepository()
-    return repo.repo_instance
+    repo = MemoryRepository()
+    return repo
 
 
 def test_repository_can_retrieve_a_podcast_by_id(in_memory_repo):
