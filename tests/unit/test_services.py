@@ -93,3 +93,33 @@ def test_can_get_continue_listening_podcasts(in_memory_repo):
 def test_can_get_top_authors(in_memory_repo):
     authors = home_services.get_top_authors(in_memory_repo)
     assert authors == in_memory_repo.get_top_authors()
+
+
+# podcast services test
+
+def test_can_get_podcast_by_id(in_memory_repo):
+    podcast = podcast_services.get_podcast(2, in_memory_repo)
+    assert podcast == in_memory_repo.get_podcast(2)
+
+
+def test_can_get_podcast_description(in_memory_repo):
+    podcast_id = 2
+    podcast = podcast_services.get_podcast(podcast_id, in_memory_repo)
+
+    podcast_desc_dict = podcast_services.podcast_about(podcast_id, in_memory_repo)
+
+    assert podcast_desc_dict["id"] == podcast.id
+    assert podcast_desc_dict["podcast_image"] == podcast.image
+    assert podcast_desc_dict["podcast_title"] == podcast.title
+    assert podcast_desc_dict["podcast_author"] == podcast.author.name
+    assert podcast_desc_dict["podcast_description"] == podcast.description
+    assert podcast_desc_dict["podcast_language"] == podcast.language
+    assert podcast_desc_dict["podcast_website"] == podcast.website
+
+def test_can_get_podcasts_categories(in_memory_repo):
+    #To implement
+    pass
+
+def test_can_retrieve_podcasts_episodes(in_memory_repo):
+    #To implement
+    pass
