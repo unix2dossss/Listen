@@ -56,7 +56,6 @@ body {
     font-size: 3em;
     margin-bottom: 25px;
     text-align: left;
-    width: 100%;
     text-shadow:
         0 0 50px rgba(255, 255, 255, 0.4),
         0 0 15px rgba(255, 255, 255, 0.3),
@@ -74,11 +73,21 @@ body {
     margin: 10px 0;
 }
 
+/*
 .sidebar-menu li a {
     display: flex;
     align-items: center;
     padding: 10px;
-    /* implicitly change width of sidebar */
+    padding-right: 110px;
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+} */
+
+.sidebar-menu li a {
+    display: flex;
+    align-items: center;
+    padding: 10px;
     padding-right: 110px;
     color: white;
     text-decoration: none;
@@ -92,4 +101,14 @@ body {
 .sidebar-menu li a:hover {
     background-color: #444;
     border-radius: 5px;
+}
+
+.sidebar-logo {
+    display: block;
+    margin-bottom: 25px;
+    height: auto;
+    width: 180px;
+    filter: drop-shadow(0 0 50px rgba(255, 255, 255, 0.4))
+            drop-shadow(0 0 15px rgba(255, 255, 255, 0.3))
+            drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
 }
