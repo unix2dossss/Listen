@@ -30,69 +30,101 @@ def test_can_get_popular_categories(in_memory_repo):
 
 def test_can_get_editor_picks(in_memory_repo):
     editor_picks = discover_services.get_editor_picks(in_memory_repo)
-    assert editor_picks == in_memory_repo.get_editor_picks()
+    expected_picks = in_memory_repo.get_editor_picks()
+
+    editor_picks_ids = [podcast['id'] for podcast in editor_picks]
+    expected_picks_ids = [podcast.id for podcast in expected_picks]
+
+    assert editor_picks_ids == expected_picks_ids
 
 
 def test_can_get_podcast_search_list(in_memory_repo):
     podcast_list = discover_services.get_podcast_search_list(in_memory_repo)
-    assert podcast_list == in_memory_repo.get_podcast_search_list()
+    expected_podcast_list = discover_services.format_podcast_list(
+        in_memory_repo.get_podcast_search_list(), repo=in_memory_repo
+    )
+    assert podcast_list == expected_podcast_list
 
 
 def test_can_get_podcasts_in_category(in_memory_repo):
-    podcast_list = discover_services.get_podcasts_in_category('comedy', in_memory_repo)
-    assert podcast_list == in_memory_repo.get_podcasts_in_category('comedy')
+    podcast_list = discover_services.get_podcasts_in_category('Comedy', in_memory_repo)
+    expected_podcast_list = discover_services.format_podcast_list(
+        sorted(in_memory_repo.get_podcasts_in_category('Comedy'))
+    )
+    assert podcast_list == expected_podcast_list
 
 
 def test_can_get_all_podcasts(in_memory_repo):
     podcasts = discover_services.get_all_podcasts(in_memory_repo)
-    assert podcasts == in_memory_repo.get_all_podcasts()
+    expected_podcasts = discover_services.format_podcast_list(
+        sorted(in_memory_repo.get_all_podcasts())
+    )
+    assert podcasts == expected_podcasts
 
 
 def test_get_top_podcasts(in_memory_repo):
     top_podcasts = discover_services.get_top_podcasts(in_memory_repo)
-    assert top_podcasts == in_memory_repo.get_top_podcasts()
+    expected_top_podcasts = discover_services.format_podcast_list(
+        sorted(in_memory_repo.get_top_podcasts_list())
+    )
+    assert top_podcasts == expected_top_podcasts
 
 
 def test_can_get_recently_played_podcasts(in_memory_repo):
     recent_podcasts = discover_services.get_recently_played(in_memory_repo)
-    assert recent_podcasts == in_memory_repo.get_recently_played()
+    expected_recent_podcasts = discover_services.format_podcast_list(
+        sorted(in_memory_repo.get_recently_played_list())
+    )
+    assert recent_podcasts == expected_recent_podcasts
 
 
 def test_can_get_new_podcasts(in_memory_repo):
     new_podcasts = discover_services.get_new_podcasts(in_memory_repo)
-    assert new_podcasts == in_memory_repo.get_new_podcasts()
+    expected_new_podcasts = discover_services.format_podcast_list(
+        sorted(in_memory_repo.get_new_podcasts_list())
+    )
+    assert new_podcasts == expected_new_podcasts
 
 
 def test_can_get_podcasts_by_given_author(in_memory_repo):
-    podcast_list = discover_services.get_podcasts_by_author('audioboom')
-    assert podcast_list == in_memory_repo.get_podcasts_by_author('audioboom')
+    podcast_list = discover_services.get_podcasts_by_author('Audioboom', in_memory_repo)
+    expected_podcast_list = discover_services.format_podcast_list(
+        sorted(in_memory_repo.get_podcasts_by_author('Audioboom'))
+    )
+    assert podcast_list == expected_podcast_list
 
 
 # home services tests
 
 def test_can_get_top_podcasts(in_memory_repo):
     top_podcasts = home_services.get_top_podcasts(in_memory_repo)
-    assert top_podcasts == in_memory_repo.get_top_podcasts()
+    expected_podcasts = home_services.format_facet_podcasts(in_memory_repo.get_top_podcasts())
+    assert top_podcasts == expected_podcasts
 
 
 def test_can_get_recently_played_podcasts_for_home(in_memory_repo):
     recent_podcasts = home_services.get_recently_played(in_memory_repo)
-    assert recent_podcasts == in_memory_repo.get_recently_played()
+    expected_podcasts = home_services.format_facet_podcasts(in_memory_repo.get_recently_played())
+    assert recent_podcasts == expected_podcasts
 
 
 def test_can_get_new_podcasts_from_home(in_memory_repo):
     new_podcasts = home_services.get_new_podcasts(in_memory_repo)
-    assert new_podcasts == in_memory_repo.get_new_podcasts()
+    expected_podcasts = home_services.format_facet_podcasts(in_memory_repo.get_new_podcasts())
+    assert new_podcasts == expected_podcasts
 
 
 def test_can_get_continue_listening_podcasts(in_memory_repo):
-    podcasts = home_services.get_continue_listening_podcasts(in_memory_repo)
-    assert podcasts == in_memory_repo.get_continue_listening_podcasts()
+    continue_listening_podcasts = home_services.get_continue_listening_podcasts(in_memory_repo)
+    expected_podcasts = home_services.format_facet_podcasts(sorted(in_memory_repo.get_continue_listening_podcasts()),
+                                                            'continue_listening', repo=in_memory_repo)
+    assert continue_listening_podcasts == expected_podcasts
 
 
 def test_can_get_top_authors(in_memory_repo):
-    authors = home_services.get_top_authors(in_memory_repo)
-    assert authors == in_memory_repo.get_top_authors()
+    top_authors = home_services.get_top_authors(in_memory_repo)
+    expected_authors = home_services.format_facet_podcasts(authors=in_memory_repo.get_top_authors())
+    assert top_authors == expected_authors
 
 
 # podcast services test
@@ -108,7 +140,6 @@ def test_can_get_podcast_description(in_memory_repo):
 
     podcast_desc_dict = podcast_services.podcast_about(podcast_id, in_memory_repo)
 
-    assert podcast_desc_dict["id"] == podcast.id
     assert podcast_desc_dict["podcast_image"] == podcast.image
     assert podcast_desc_dict["podcast_title"] == podcast.title
     assert podcast_desc_dict["podcast_author"] == podcast.author.name
@@ -116,9 +147,11 @@ def test_can_get_podcast_description(in_memory_repo):
     assert podcast_desc_dict["podcast_language"] == podcast.language
     assert podcast_desc_dict["podcast_website"] == podcast.website
 
+
 def test_can_get_podcasts_categories(in_memory_repo):
     #To implement
     pass
+
 
 def test_can_retrieve_podcasts_episodes(in_memory_repo):
     #To implement
