@@ -66,3 +66,30 @@ def test_can_get_new_podcasts(in_memory_repo):
 def test_can_get_podcasts_by_given_author(in_memory_repo):
     podcast_list = discover_services.get_podcasts_by_author('audioboom')
     assert podcast_list == in_memory_repo.get_podcasts_by_author('audioboom')
+
+
+# home services tests
+
+def test_can_get_top_podcasts(in_memory_repo):
+    top_podcasts = home_services.get_top_podcasts(in_memory_repo)
+    assert top_podcasts == in_memory_repo.get_top_podcasts()
+
+
+def test_can_get_recently_played_podcasts_for_home(in_memory_repo):
+    recent_podcasts = home_services.get_recently_played(in_memory_repo)
+    assert recent_podcasts == in_memory_repo.get_recently_played()
+
+
+def test_can_get_new_podcasts_from_home(in_memory_repo):
+    new_podcasts = home_services.get_new_podcasts(in_memory_repo)
+    assert new_podcasts == in_memory_repo.get_new_podcasts()
+
+
+def test_can_get_continue_listening_podcasts(in_memory_repo):
+    podcasts = home_services.get_continue_listening_podcasts(in_memory_repo)
+    assert podcasts == in_memory_repo.get_continue_listening_podcasts()
+
+
+def test_can_get_top_authors(in_memory_repo):
+    authors = home_services.get_top_authors(in_memory_repo)
+    assert authors == in_memory_repo.get_top_authors()
