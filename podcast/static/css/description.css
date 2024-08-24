@@ -224,3 +224,41 @@
     font-family: 'Montserrat', sans-serif;
     margin-bottom: 10px;
 }
+
+/* Pagination styling */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1f211f;
+    border-radius: 8px;
+}
+
+.pagination a {
+    color: #ffffff;
+    padding: 10px 18px;
+    margin: 0 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-decoration: none;
+    background-color: #222423;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: #333333;
+    transform: translateY(-2px);
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.pagination a:disabled {
+    background-color: #555555;
+    cursor: not-allowed;
+    pointer-events: none;
+}

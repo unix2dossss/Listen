@@ -50,6 +50,27 @@
         </div>
         {% endfor %}
         <br>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            {% if current_page > 1 %}
+                <a href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=1) }}">First</a>
+                <a href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=current_page-1) }}">&laquo; Prev</a>
+            {% endif %}
+
+            <!-- Page Numbers -->
+            {% for page_num in range(start_page, end_page + 1) %}
+                <a href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=page_num) }}"
+                   class="{% if page_num == current_page %}active{% endif %}">
+                   {{ page_num }}
+                </a>
+            {% endfor %}
+
+            {% if current_page < total_pages %}
+                <a href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=current_page+1) }}">Next &raquo;</a>
+                <a href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=total_pages) }}">Last</a>
+            {% endif %}
+        </div>
     </section>
 </main>
 {% endblock %}
