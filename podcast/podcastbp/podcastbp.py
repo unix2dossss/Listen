@@ -10,6 +10,9 @@ podcast_blueprint = Blueprint(
 @podcast_blueprint.route('/podcast', methods=['GET'])
 def description():
     podcast_id = int(request.args.get('id'))
+    page = request.args.get('page', 1, type=int)
+    per_page = 2  # Number of episodes per page
+    max_pages_to_show = 5
 
     # podcast_about - podcast image, title, author, description
     p_about = services.podcast_about(podcast_id, repo.repo_instance)
@@ -18,6 +21,30 @@ def description():
     # episodes - list of episodes
     p_episodes = services.podcast_episodes(podcast_id, repo.repo_instance)
 
+    # Calculate pagination details
+    total_episodes = len(p_episodes)
+    total_pages = (total_episodes + per_page - 1) // per_page
+
+    if page < 1:
+        page = 1
+    elif page > total_pages:
+        page = total_pages
+
+    start_page = max(1, page - max_pages_to_show // 2)
+    end_page = min(total_pages, start_page + max_pages_to_show - 1)
+
+    if end_page - start_page < max_pages_to_show:
+        start_page = max(1, end_page - max_pages_to_show + 1)
+
+    paginated_episodes = p_episodes[(page - 1) * per_page: page * per_page]
+
     return render_template(
-        'description/description.html', p_about=p_about, p_episodes=p_episodes, p_categories=p_categories
+        'description/description.html',
+        p_about=p_about,
+        p_episodes=paginated_episodes,
+        p_categories=p_categories,
+        current_page=page,
+        total_pages=total_pages,
+        start_page=start_page,
+        end_page=end_page
     )

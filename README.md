@@ -67,16 +67,17 @@ The *project directory/.env* file contains variable settings. They are set with 
 
 Here are the primary endpoints for the application:
 
-* **GET /**: Homepage of the application.
-* **GET /<facet_name>**: Displays the home page with podcasts filtered by the specified facet (e.g., top podcasts, recently played, or new podcasts).
-* **GET /home/<podcast_id>**: Redirects to the detailed description page of the selected podcast.
-* **GET /category**: Displays a list of all podcast categories. (page for categories)
-* **GET /category/<category_name>**: Redirects to the page displaying podcasts within the specified category.
-* **GET /discover**: Displays the Discover(Catalogue) page with popular categories, editor picks, and a podcast list with a filter functionality (ex: By newest to oldest).
-* **GET /all_podcasts/<category_name>**: Shows podcasts under a specific category or all podcasts if the category is "all".
-* **GET /editor_picks/<podcast_id>**: Redirects to the detailed description page of a podcast selected as an editor's pick.
-* **GET /filtered_podcast/<podcast_id>**: Redirects to the detailed description page of a podcast after applying some filter and clicking a podcast.
-* **GET /podcast**: Displays detailed information about a specific podcast, including its description, categories, and episodes.
+* **GET**:
+  * **/**: Homepage of the application.
+  * **/<facet_name>**: Displays the home page with podcasts filtered by the specified facet (e.g., top podcasts, recently played, or new podcasts).
+  * **/home/<podcast_id>**: Redirects to the detailed description page of the selected podcast.
+  * **/category**: Displays a list of all podcast categories. (page for categories)
+  * **/category/<category_name>**: Redirects to the page displaying podcasts within the specified category.
+  * **/discover**: Displays the Discover(Catalogue) page with popular categories, editor picks, and a podcast list with a filter functionality (ex: By newest to oldest).
+  * **/all_podcasts/<category_name>**: Shows podcasts under a specific category or all podcasts if the category is "all".
+  * **/editor_picks/<podcast_id>**: Redirects to the detailed description page of a podcast selected as an editor's pick.
+  * **/filtered_podcast/<podcast_id>**: Redirects to the detailed description page of a podcast after applying some filter and clicking a podcast.
+  * **/podcast**: Displays detailed information about a specific podcast, including its description, categories, and episodes.
 
 ## Features
 
@@ -86,7 +87,9 @@ Here are the primary endpoints for the application:
 
 ## Design Decisions
 
-Any important design decisions go here!
+* Podcasts and Episodes CSV was processed and cleaned.
+* Currently, most routes return a randomly selected list of Podcasts as this feature will be properly implementable
+once a database has been implemented in part 2. For example, 'continue listening' can't be implemented at this stage.
 
 ## Data sources
 
