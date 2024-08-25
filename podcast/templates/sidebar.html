@@ -1,7 +1,7 @@
 {% set p_about = p_about | default({}) %}
 
 <nav class="sidebar" style="--bg-image-url: url('{{ p_about.podcast_image | default('https://i.pinimg.com/736x/6a/84/35/6a8435a26b813fe8ba85da5eee2df6c6.jpg') }}');">
-    <img src="../static/assets/logo.png" alt="Logo" class="sidebar-logo">
+    <a href="/"><img src="../static/assets/logo.png" alt="Logo" class="sidebar-logo"></a>
 <!--    <h2 class="sidebar-title">LISTEN</h2>-->
     <ul class="sidebar-menu">
         <li><a href="/"><i class="fas fa-home"></i>Home</a></li>

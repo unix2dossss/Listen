@@ -111,4 +111,11 @@ body {
     filter: drop-shadow(0 0 50px rgba(255, 255, 255, 0.4))
             drop-shadow(0 0 15px rgba(255, 255, 255, 0.3))
             drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+    transition: filter 0.5s ease;
+}
+
+.sidebar-logo:hover {
+    filter: drop-shadow(0 0 50px rgba(255, 255, 255, 0.45))
+            drop-shadow(0 0 15px rgba(255, 255, 255, 0.35))
+            drop-shadow(0 0 15px rgba(255, 255, 255, 0.15));
 }
