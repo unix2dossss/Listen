@@ -1,3 +1,8 @@
+import pytest
+
+from podcast.domainmodel.model import AudioTime
+
+
 def test_repository_can_retrieve_a_podcast_by_id(in_memory_repo):
     id_no = 1
     podcast = in_memory_repo.get_podcast(id_no)
@@ -17,6 +22,12 @@ def test_can_retrieve_editor_picks(in_memory_repo):
                       in_memory_repo.podcasts[829]]
 
     assert editor_picks == expected_picks
+
+
+def test_can_retrieve_podcast_search_list(in_memory_repo):
+    podcast_search_list = in_memory_repo.get_podcast_search_list()
+    assert podcast_search_list == [in_memory_repo.podcasts[288], in_memory_repo.podcasts[162],
+                                   in_memory_repo.podcasts[799], in_memory_repo.podcasts[317]]
 
 
 def test_can_get_podcasts_in_specified_category(in_memory_repo):
@@ -67,6 +78,16 @@ def test_can_retrieve_continue_listening_podcasts(in_memory_repo):
     cl_podcasts = in_memory_repo.get_continue_listening_podcasts()
     assert cl_podcasts == [in_memory_repo.podcasts[546], in_memory_repo.podcasts[823],
                            in_memory_repo.podcasts[908], in_memory_repo.podcasts[675]]
+
+
+def test_total_audio_time_addition(in_memory_repo):
+    audio_time_1 = AudioTime(1, 30, 0)
+    audio_time_2 = AudioTime(0, 30, 0)
+    total_time = in_memory_repo.get_total_audio_time([audio_time_1, audio_time_2])
+    assert total_time.colon_format() == "02:00:00"
+
+    with pytest.raises(TypeError):
+        total_time2 = in_memory_repo.get_total_audio_time([audio_time_1, 1])
 
 
 def test_can_retrieve_top_authors(in_memory_repo):
