@@ -149,10 +149,34 @@ def test_can_get_podcast_description(in_memory_repo):
 
 
 def test_can_get_podcasts_categories(in_memory_repo):
-    #To implement
-    pass
+
+    expected_categories = []
+
+    for category in in_memory_repo.podcasts[0].categories:
+        expected_categories.append({"category_name": category.name})
+
+    podcast_categories_result = podcast_services.podcast_categories(1, in_memory_repo)
+
+    assert podcast_categories_result == expected_categories
 
 
 def test_can_retrieve_podcasts_episodes(in_memory_repo):
-    #To implement
-    pass
+    expected_episodes = []
+    ep_n = 1
+
+    for episode in sorted(in_memory_repo.podcasts[0].episodes):
+        episode_dict = dict()
+
+        episode_dict["episode_number"] = ep_n
+        ep_n += 1
+        episode_dict["episode_title"] = episode.episode_title
+        episode_dict["episode_description"] = episode.episode_description
+        episode_dict["episode_date"] = episode.episode_publish_date.strftime('%Y-%m-%d')
+        episode_dict["episode_length"] = str(episode.episode_audio_length)
+
+        expected_episodes.append(episode_dict)
+        break
+
+    podcast_episodes_result = podcast_services.podcast_episodes(1, in_memory_repo)[0]
+
+    assert podcast_episodes_result == expected_episodes
