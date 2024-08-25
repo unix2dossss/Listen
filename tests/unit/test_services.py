@@ -164,7 +164,7 @@ def test_can_retrieve_podcasts_episodes(in_memory_repo):
     expected_episodes = []
     ep_n = 1
 
-    for episode in sorted(in_memory_repo.podcasts[0].episodes):
+    for episode in sorted(in_memory_repo.podcasts[0].episodes, key=lambda ep: ep.episode_publish_date, reverse=True):
         episode_dict = dict()
 
         episode_dict["episode_number"] = ep_n
@@ -175,8 +175,7 @@ def test_can_retrieve_podcasts_episodes(in_memory_repo):
         episode_dict["episode_length"] = str(episode.episode_audio_length)
 
         expected_episodes.append(episode_dict)
-        break
 
-    podcast_episodes_result = podcast_services.podcast_episodes(1, in_memory_repo)[0]
+    podcast_episodes_result = podcast_services.podcast_episodes(1, in_memory_repo)
 
     assert podcast_episodes_result == expected_episodes
