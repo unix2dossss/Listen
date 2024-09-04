@@ -13,6 +13,7 @@ class MemoryRepository(AbstractRepository):
         self._authors = {}
         self._categories = {}
         self._podcasts_by_category = {}
+        self.__users = []
 
     # Getter for _podcasts
     @property
@@ -135,6 +136,9 @@ class MemoryRepository(AbstractRepository):
     def get_new_podcasts_list(self):
         new_podcasts = self._podcasts[280:292]
         return new_podcasts
+
+    def add_user(self, user: User):
+        self.__users.append(user)
 
 
 def populate(data_path: Path, repo: MemoryRepository):

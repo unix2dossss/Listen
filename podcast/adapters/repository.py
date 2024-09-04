@@ -110,3 +110,8 @@ class AbstractRepository(abc.ABC):
         """ return a new podcasts list for show all
         """
         raise NotImplementedError
+
+    def add_user(self, user: User):
+        """ add a user
+        """
+        raise NotImplementedError

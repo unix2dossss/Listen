@@ -3,6 +3,34 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, ValidationError
 from flask_wtf import FlaskForm
 from password_validator import PasswordValidator
+import podcast.adapters.repository as repo
+from podcast.authentication import services
+
+auth_blueprint = Blueprint("auth_bp", __name__)
+
+
+@auth_blueprint.route("/login", methods=["GET", "POST"])
+def login():
+    return render_template("hello")
+
+
+@auth_blueprint.route("/register", methods=["GET", "POST"])
+def register():
+    form = RegisterForm()
+    password_error = ("Your password must be at least 8 characters, "
+                      "and contain an upper case letter, lower case letter and a digit")
+
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        services.add_user(username, password, repo.repo_instance)
+        return redirect(url_for("auth_bp.login"))
+
+    return render_template(
+        "login.html",
+        form=form,
+        password_error=password_error,
+    )
 
 
 class PasswordValid:

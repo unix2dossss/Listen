@@ -41,4 +41,7 @@ def create_app():
         from .author import author
         app.register_blueprint(author.author_blueprint)
 
+        from .authentication import authentication
+        app.register_blueprint(authentication.auth_blueprint)
+
     return app
