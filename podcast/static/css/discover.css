@@ -242,13 +242,14 @@
     line-height: 35px;
 }
 
-.filter button {
+.filter select {
     white-space: nowrap;
-    background-color: #171a18;
+    background-color: #353744;
     font-size: 13px;
     font-family: Montserrat;
     color: white;
     border: none;
+    outline: none;
     margin-left: 10px;
 }
 
