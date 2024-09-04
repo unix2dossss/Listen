@@ -11,20 +11,25 @@ auth_blueprint = Blueprint("auth_bp", __name__)
 
 @auth_blueprint.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("hello")
+    return render_template("home/home.html")
 
 
 @auth_blueprint.route("/register", methods=["GET", "POST"])
+@auth_blueprint.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()
-    password_error = ("Your password must be at least 8 characters, "
-                      "and contain an upper case letter, lower case letter and a digit")
+    password_error = None  # Initialize password_error as None
 
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
         services.add_user(username, password, repo.repo_instance)
         return redirect(url_for("auth_bp.login"))
+
+    # If form validation fails, check if it's the password causing the issue
+    if form.errors.get("password"):
+        password_error = ("Your password must be at least 8 characters, "
+                          "and contain an upper case letter, lower case letter and a digit")
 
     return render_template(
         "auth/login.html",
