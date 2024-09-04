@@ -12,7 +12,11 @@ auth_blueprint = Blueprint("auth_bp", __name__)
 
 @auth_blueprint.route("/login", methods=["GET", "POST"])
 def login():
-    # utilities.check_valid_session(repo.repo_instance)
+    from_register = request.args.get('from_register')
+    if from_register:
+        from_register = True
+    else:
+        from_register = False
 
     form = LoginForm()
     username_error = None
@@ -37,8 +41,6 @@ def login():
             except services.UnknownUserException:
                 username_error = "This username is not registered!"
 
-    # utilities.check_valid_session(repo.repo_instance)
-
     return render_template(
         "auth/login.html",
         username=utilities.get_username(),
@@ -46,7 +48,8 @@ def login():
         form=form,
         username_error=username_error,
         password_error=password_error,
-        login_modal=True
+        login_modal=True,
+        from_register=from_register
     )
 
 
@@ -59,7 +62,7 @@ def register():
         username = form.username.data
         password = form.password.data
         services.add_user(username, password, repo.repo_instance)
-        return redirect(url_for("auth_bp.login"))
+        return redirect(url_for("auth_bp.login", from_register="true"))
 
     # If form validation fails, check if it's the password causing the issue
     if form.errors.get("password"):

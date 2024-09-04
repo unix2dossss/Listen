@@ -198,3 +198,11 @@ body {
     color: #fff;
     margin-top: -10px;
 }
+
+.from-register-message {
+    margin-top: -10px;
+    margin-bottom: 25px;
+    font-size: 1rem;
+    text-align: center;
+    color: white;
+}
