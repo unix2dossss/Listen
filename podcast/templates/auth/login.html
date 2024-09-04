@@ -20,12 +20,12 @@
         </div>
 
         <!-- Open modal if there is a password error -->
-        <div class="modal {{ 'active' if password_error else '' }}" id="modal" tabindex="-1">
+        <div class="modal {{ 'active' if password_error or login_modal else '' }}" id="modal" tabindex="-1">
           <a href="#" class="modal__overlay" aria-label="Close modal"></a>
           <div class="modal__content">
             <div>
                 <div class="login-box">
-                  <h2>Register</h2>
+                  <h2>{{login_type}}</h2>
                   <form method="POST" action="{{ url_for('auth_bp.register') }}">
                     {{ form.hidden_tag() }} <!-- Ensure you have this for CSRF token -->
                     <div class="user-box">
