@@ -27,7 +27,7 @@ def register():
         return redirect(url_for("auth_bp.login"))
 
     return render_template(
-        "login.html",
+        "auth/login.html",
         form=form,
         password_error=password_error,
     )

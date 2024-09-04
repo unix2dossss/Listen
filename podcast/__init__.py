@@ -6,13 +6,20 @@ import podcast.adapters.repository as repo
 from podcast.adapters.memory_repository import MemoryRepository, populate
 
 
-def create_app():
+def create_app(testing_config=None):
     """Construct the core application."""
 
     # Create the Flask app object.
     app = Flask(__name__)
 
+    # set configuration
+    app.config.from_object('config.Config')
     data_path = Path('podcast') / 'adapters' / 'data'
+
+    if testing_config is not None:
+        # set testing config
+        app.config.from_mapping(testing_config)
+        data_path = app.config['TEST_DATA_PATH']
 
     # Create the MemoryRepository implementation for a memory-based repository.
     repo.repo_instance = MemoryRepository()
