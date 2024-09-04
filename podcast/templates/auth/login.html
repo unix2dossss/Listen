@@ -11,26 +11,41 @@
 </head>
 <body>
     <div class="container">
-        <div class="image-box">
-            <img src="../../static/assets/illustration.png" alt="Placeholder Image">
+        <div class="hero" style="background: url('../../static/assets/loginbg.png') no-repeat center center/cover;">
+            <div class="overlay">
+                <a href="#modal">
+                    <img src="../../static/assets/logo-inverted.png" alt="Logo" class="center-logo">
+                </a>
+            </div>
         </div>
-        <div class="login-box">
-            <a href="/"><img src="../../static/assets/logo.png" alt="Logo" class="sidebar-logo"></a>
-            <form method="POST" action="{{ url_for('auth_bp.register') }}">
-                {{ form.hidden_tag() }}
 
-                <label>Username</label>
-                {{ form.username(class_="login") }}
-
-                <label>Password</label>
-                {{ form.password(class_="login") }}
-
-                {% if password_error %}
-                    <p class="error">{{ password_error }}</p>
-                {% endif %}
-
-                {{ form.submit(class_="login login-button") }}
-            </form>
+        <!-- Open modal if there is a password error -->
+        <div class="modal {{ 'active' if password_error else '' }}" id="modal" tabindex="-1">
+          <a href="#" class="modal__overlay" aria-label="Close modal"></a>
+          <div class="modal__content">
+            <div>
+                <div class="login-box">
+                  <h2>Register</h2>
+                  <form method="POST" action="{{ url_for('auth_bp.register') }}">
+                    {{ form.hidden_tag() }} <!-- Ensure you have this for CSRF token -->
+                    <div class="user-box">
+                      {{ form.username(class_="login") }}
+                      <label>Username</label>
+                    </div>
+                    <div class="user-box">
+                      {{ form.password(class_="login") }}
+                      {% if password_error %}
+                        <p class="error">{{ password_error }}</p>
+                      {% endif %}
+                      <label>Password</label>
+                    </div>
+                    <div class="submit-box">
+                      {{ form.submit(class_="login login-button") }}
+                    </div>
+                  </form>
+                </div>
+            </div>
+          </div>
         </div>
     </div>
 </body>

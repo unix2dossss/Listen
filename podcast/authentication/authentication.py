@@ -15,12 +15,12 @@ def login():
 
 
 @auth_blueprint.route("/register", methods=["GET", "POST"])
-@auth_blueprint.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()
     password_error = None  # Initialize password_error as None
 
     if form.validate_on_submit():
+        print("THIS IS SUPPOSED TO EXECEUTE")
         username = form.username.data
         password = form.password.data
         services.add_user(username, password, repo.repo_instance)
@@ -54,11 +54,10 @@ class PasswordValid:
 
 class RegisterForm(FlaskForm):
     username = StringField("Username",
-                           [DataRequired(message="Your username is required")],
-                           render_kw={"placeholder": "Username"})
+                           [DataRequired(message="Your username is required")])
     password = PasswordField("Password",
                              [DataRequired(message="Your password is required"),
-                              PasswordValid("Your password is invalid")], render_kw={"placeholder": "Password"})
+                              PasswordValid("Your password is invalid")])
     submit = SubmitField("Register")
 
 

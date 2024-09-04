@@ -1,0 +1,121 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: url('https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcm0zODAtMDIuanBn.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'League Spartan', sans-serif;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(25, 25, 25, 0.95);
+    backdrop-filter: blur(500px);
+    z-index: -1;
+}
+
+.container {
+    display: flex;
+    width: 60%;
+    max-width: 1200px;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 2;
+}
+
+.login-box {
+    width: 35%;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+label {
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    margin-top: 30px;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #2c2c2c;
+    border: 1px solid #555;
+    color: white;
+    border-radius: 5px;
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a1a1a;
+    border: 1px solid #555;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: white;
+}
+
+input[type="submit"]:hover {
+    background-color: #555;
+}
+
+.image-box {
+    width: 45%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.image-box img {
+    width: 70%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.sidebar-logo {
+    display: block;
+    margin-bottom: 45px;
+    height: auto;
+    width: 180px;
+/*    filter: drop-shadow(0 0 50px rgba(255, 255, 255, 0.1))
+            drop-shadow(0 0 15px rgba(255, 255, 255, 0.1))
+            drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+    transition: filter 0.5s ease;*/
+}
+/*
+.sidebar-logo:hover {
+    filter: drop-shadow(0 0 50px rgba(255, 255, 255, 0.15))
+            drop-shadow(0 0 15px rgba(255, 255, 255, 0.15))
+            drop-shadow(0 0 15px rgba(255, 255, 255, 0.15));
+}
+*/
+
+.login-button {
+    margin-top: 25px;
+}
+
+.error {
+    margin-bottom: 0;
+}
