@@ -123,3 +123,23 @@ def editor_picked_podcast(podcast_id):
 def filtered_podcast(podcast_id):
     url = url_for('podcast_blueprint.description', id=podcast_id)
     return redirect(url)
+
+
+@discover_blueprint.route('/search', methods=['POST'])
+def searched_podcast():
+    search_query = request.form.get('search_query')
+    search_attribute = request.form.get('search_attribute')
+
+    all_podcasts = services.get_all_podcasts(repo.repo_instance)
+
+
+    if search_attribute == 'podcast title':
+        pass
+    elif search_attribute == 'category':
+        pass
+    elif search_attribute == 'author':
+        pass
+    else:
+        pass
+
+    return

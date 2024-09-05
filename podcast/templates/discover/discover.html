@@ -54,18 +54,20 @@
                 </div>
 
                 <div class="podcast-list">
-                    <div class="filter">
-                        <p><i class="fa-solid fa-magnifying-glass search-icon"></i></p>
-                        <input type="text" placeholder="Search Podcasts" class="search-input">
-                        <div class="select-wrapper">
-<!--                            <i class="fa-solid fa-caret-down dropdown" style="margin-right: 8px;"></i>-->
-                            <select>
-                                <option value="podcast title">Podcast Title</option>
-                                <option value="category">Category</option>
-                                <option value="author">Author</option>
-                            </select>
+                    <form action="{{ url_for('discover_bp.searched_podcast') }}" method="POST">
+                        <div class="filter">
+                            <p><i class="fa-solid fa-magnifying-glass search-icon"></i></p>
+                            <input type="text" name="search_query" placeholder="Search Podcasts" class="search-input">
+                            <div class="select-wrapper">
+    <!--                            <i class="fa-solid fa-caret-down dropdown" style="margin-right: 8px;"></i>-->
+                                <select name="search_attribute">
+                                    <option value="podcast title">Podcast Title</option>
+                                    <option value="category">Category</option>
+                                    <option value="author">Author</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                     <div class="podcasts">
 
                         {% for podcast in podcast_search_list %}

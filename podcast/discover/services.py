@@ -83,3 +83,6 @@ def get_podcasts_by_author(author_name: str, repo: AbstractRepository):
     podcasts = repo.get_podcasts_by_author(author_name)
     formatted_podcasts = format_podcast_list(sorted(podcasts))
     return formatted_podcasts
+
+def get_podcast_by_title(title: str, repo: AbstractRepository):
+    pass
