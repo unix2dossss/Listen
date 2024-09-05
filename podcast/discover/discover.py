@@ -127,19 +127,30 @@ def filtered_podcast(podcast_id):
 
 @discover_blueprint.route('/search', methods=['POST'])
 def searched_podcast():
-    search_query = request.form.get('search_query')
-    search_attribute = request.form.get('search_attribute')
+    search_query = request.form.get('search_query', '').strip()
+    search_attribute = request.form.get('search_attribute', 'title')
 
-    all_podcasts = services.get_all_podcasts(repo.repo_instance)
+    print(search_query)
+    print(search_attribute)
+    # Initialize empty list for search results
+    podcast_search_list = []
 
-
+    # Determine the attribute to search by
     if search_attribute == 'podcast title':
-        pass
+        podcast_search_list = services.get_podcasts_by_title(search_query, repo.repo_instance)
     elif search_attribute == 'category':
-        pass
+        podcast_search_list = services.get_podcasts_in_category(search_query, repo.repo_instance)
     elif search_attribute == 'author':
-        pass
-    else:
-        pass
+        podcast_search_list = services.get_podcasts_by_author(search_query, repo.repo_instance)
 
-    return
+    # Render the template with the search results
+    popular_categories = services.get_popular_categories(repo.repo_instance)
+    editor_picks = services.get_editor_picks(repo.repo_instance)
+
+    print(podcast_search_list)
+    return render_template(
+        'discover/discover.html',
+        popular_categories=popular_categories,
+        editor_picks=editor_picks,
+        podcast_search_list=podcast_search_list[:4]
+    )

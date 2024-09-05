@@ -46,7 +46,7 @@ class AbstractRepository(abc.ABC):
         """
         raise NotImplementedError
 
-    def get_podcasts_by_author(self, category_name):
+    def get_podcasts_by_author(self, author_name):
         """ return a Podcast list by Category
         """
         raise NotImplementedError
@@ -108,5 +108,10 @@ class AbstractRepository(abc.ABC):
 
     def get_new_podcasts_list(self):
         """ return a new podcasts list for show all
+        """
+        raise NotImplementedError
+
+    def get_podcasts_by_title(self, title):
+        """ return all the podcasts that have the argument string as part of the podcast title
         """
         raise NotImplementedError

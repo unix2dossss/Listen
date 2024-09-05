@@ -81,10 +81,23 @@ class MemoryRepository(AbstractRepository):
         return [self._podcasts[288], self._podcasts[162], self._podcasts[799], self._podcasts[317]]
 
     def get_podcasts_in_category(self, category_name):
-        return self._podcasts_by_category[category_name]
+        formatted_category_name = category_name.strip()
 
-    def get_podcasts_by_author(self, author_name):
-        return self._authors[author_name].podcast_list
+        if category_name in self._podcasts_by_category:
+            return self._podcasts_by_category[formatted_category_name]
+
+        # Searching with incorrect category_name format
+        for category_key in self._podcasts_by_category:
+            if category_name in category_key or category_name.lower() in category_key.lower():
+                return self._podcasts_by_category[category_key]
+
+            # If no exact match, perform a partial match search
+            normalized_category_name = formatted_category_name.lower()
+            normalized_category_key = category_key.lower()
+
+            if any(word in normalized_category_key for word in normalized_category_name):
+                return self._podcasts_by_category[category_key]
+
 
     def get_all_podcasts(self):
         return self._podcasts
@@ -136,6 +149,8 @@ class MemoryRepository(AbstractRepository):
         new_podcasts = self._podcasts[280:292]
         return new_podcasts
 
+    def get_podcasts_by_title(self, title):
+        return [podcast for podcast in self.podcasts if title.lower() in podcast.title.lower()]
 
 def populate(data_path: Path, repo: MemoryRepository):
     # create instance of csvreader
