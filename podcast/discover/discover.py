@@ -130,8 +130,6 @@ def searched_podcast():
     search_query = request.form.get('search_query', '').strip()
     search_attribute = request.form.get('search_attribute', 'title')
 
-    print(search_query)
-    print(search_attribute)
     # Initialize empty list for search results
     podcast_search_list = []
 
