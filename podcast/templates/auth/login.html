@@ -29,10 +29,21 @@
                   {% if from_register %}
                       <p class="from-register-message">Registered Successfully - Now Login!</p>
                   {% endif %}
-                  <form method="POST" action="{{ url_for('auth_bp.register') }}">
-                    {{ form.hidden_tag() }} <!-- Ensure you have this for CSRF token -->
+                  <form method="POST" action="
+                  {% if login_type == 'Login' and (username_error or password_error) %}
+                      {{ url_for('auth_bp.login', from_register=True) }}
+                  {% elif login_type == 'Login' %}
+                      {{ url_for('auth_bp.login') }}
+                  {% else %}
+                      {{ url_for('auth_bp.register') }}
+                  {% endif %}
+                  ">
+                    {{ form.hidden_tag() }} <!-- CSRF token -->
                     <div class="user-box">
                       {{ form.username(class_="login") }}
+                      {% if username_error %}
+                        <p class="error">{{ username_error }}</p>
+                      {% endif %}
                       <label>Username</label>
                     </div>
                     <div class="user-box">

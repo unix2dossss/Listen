@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 from podcast.adapters.repository import AbstractRepository, RepositoryException
 from podcast.adapters.datareader.csvdatareader import CSVDataReader
@@ -139,6 +140,12 @@ class MemoryRepository(AbstractRepository):
 
     def add_user(self, user: User):
         self.__users.append(user)
+
+    def get_user(self, username: str) -> Any | None:
+        for user in self.__users:
+            if user.username == username.lower():
+                return user
+        return None
 
 
 def populate(data_path: Path, repo: MemoryRepository):

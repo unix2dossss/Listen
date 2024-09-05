@@ -115,3 +115,8 @@ class AbstractRepository(abc.ABC):
         """ add a user
         """
         raise NotImplementedError
+
+    def get_user(self, user_name):
+        """ get a user
+        """
+        raise NotImplementedError
