@@ -31,11 +31,26 @@ def podcasts_by_category(category_name):
     per_page = 12
     max_pages_to_show = 5
 
+    # Get search parameters from query string
+    search_query = request.args.get('search_query', '').strip()
+    search_attribute = request.args.get('search_attribute', 'title')
+
     category_page_title = category_name
 
     if category_name == 'all':
         category_podcasts = services.get_all_podcasts(repo.repo_instance)
         category_page_title = "All Podcasts..."
+
+        if search_attribute == 'podcast title':
+            category_podcasts = services.get_podcasts_by_title(search_query, repo.repo_instance)
+            category_page_title = f"All Podcasts with title containing '{search_query}'"
+        elif search_attribute == 'category':
+            category_podcasts = services.get_podcasts_in_category(search_query, repo.repo_instance)
+            category_page_title = f"All Podcasts in category '{search_query}'"
+        elif search_attribute == 'author':
+            category_podcasts = services.get_podcasts_by_author(search_query, repo.repo_instance)
+            category_page_title = f"All Podcasts by author '{search_query}'"
+
     elif category_name == 'top_podcasts':
         category_podcasts = services.get_top_podcasts(repo.repo_instance)
         category_page_title = "Top Podcasts..."
@@ -145,10 +160,11 @@ def searched_podcast():
     popular_categories = services.get_popular_categories(repo.repo_instance)
     editor_picks = services.get_editor_picks(repo.repo_instance)
 
-    print(podcast_search_list)
     return render_template(
         'discover/discover.html',
         popular_categories=popular_categories,
         editor_picks=editor_picks,
-        podcast_search_list=podcast_search_list[:4]
+        podcast_search_list=podcast_search_list[:4],
+        search_query=search_query,
+        search_attribute=search_attribute
     )

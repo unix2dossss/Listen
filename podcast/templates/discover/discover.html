@@ -92,8 +92,9 @@
 
                     </div>
                     <div class="show-all-container">
-                        <a href="{{ url_for('discover_bp.podcasts_by_category', category_name='all') }}">Show all Podcasts</a>
+                        <a href="{{ url_for('discover_bp.podcasts_by_category', category_name='all', search_query=search_query, search_attribute=search_attribute) }}">Show all Podcasts</a>
                     </div>
+
                 </div>
 
             </section>
