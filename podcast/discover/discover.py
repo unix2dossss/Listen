@@ -78,6 +78,9 @@ def podcasts_by_category(category_name):
 
     paginated_podcasts = category_podcasts[(page - 1) * per_page: page * per_page]
 
+    if len(paginated_podcasts) == 0:
+        category_page_title = f"no results for {search_query} found"
+
     return render_template(
         'all_podcasts.html',
         podcasts=paginated_podcasts,

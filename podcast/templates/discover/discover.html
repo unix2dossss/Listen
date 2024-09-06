@@ -70,25 +70,27 @@
                         </div>
                     </form>
                     <div class="podcasts">
-
-                        {% for podcast in podcast_search_list %}
-                            <a href="{{ url_for('discover_bp.filtered_podcast', podcast_id=podcast.id) }}">
-                                <div class="podcast {% if loop.last %}last{% endif %}">
-                                    <div class="podcast-id">0{{ loop.index0 + 1 }}</div>
-                                    <div class="podcast-info">
-                                        <div class="podcast-name-owner">
-                                            <span class="name">{{ podcast.title }}</span>
-                                            <br>
-                                            <span class="owner">{{ podcast.author }}</span>
+                        {% if podcast_search_list|length == 0 %}
+                            <p style="color: white;"> no results for {{ search_query }} found </p>
+                        {% else %}
+                            {% for podcast in podcast_search_list %}
+                                <a href="{{ url_for('discover_bp.filtered_podcast', podcast_id=podcast.id) }}">
+                                    <div class="podcast {% if loop.last %}last{% endif %}">
+                                        <div class="podcast-id">0{{ loop.index0 + 1 }}</div>
+                                        <div class="podcast-info">
+                                            <div class="podcast-name-owner">
+                                                <span class="name">{{ podcast.title }}</span>
+                                                <br>
+                                                <span class="owner">{{ podcast.author }}</span>
+                                            </div>
                                         </div>
+                                        <div class="podcast-category">{{ podcast.categories }}</div>
+                                        <div class="podcast-language">{{ podcast.language }}</div>
+                                        <div class="podcast-duration">{{ podcast.duration }}</div>
                                     </div>
-                                    <div class="podcast-category">{{ podcast.categories }}</div>
-                                    <div class="podcast-language">{{ podcast.language }}</div>
-                                    <div class="podcast-duration">{{ podcast.duration }}</div>
-                                </div>
-                            </a>
-                        {% endfor %}
-
+                                </a>
+                            {% endfor %}
+                        {% endif %}
 
                     </div>
                     <div class="show-all-container">

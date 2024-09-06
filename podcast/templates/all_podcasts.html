@@ -14,51 +14,52 @@
                     Alphabetically
                 </button>
             </div>
-            <div class="cards-section">
-                <div class="whole-container">
-                    <div class="podcast-cards">
-                        {% for podcast in podcasts %}
-                            <div class="podcast-card" onclick="window.location.href='{{ url_for('podcast_blueprint.description', id=podcast.id) }}'">
-                                <!-- Background with blur -->
-                                <div class="card-bg" style="background: url('{{ podcast.image_url }}') no-repeat center center; background-size: cover;"></div>
-                                <!-- Dark overlay -->
-                                <div class="card-darken"></div>
-                                <!-- Content -->
 
-                                <img src="{{ podcast.image_url }}" alt="{{ podcast.podcast_title }}">
-                                <div class="info">
-                                    <span class="podcast-card-name">{{ podcast.title }}</span>
-                                    <br>
-                                    <span class="podcast-card-owner">{{ podcast.author }}</span>
+            {% if podcasts|length != 0 %}
+                <div class="cards-section">
+                    <div class="whole-container">
+                        <div class="podcast-cards">
+                            {% for podcast in podcasts %}
+                                <div class="podcast-card" onclick="window.location.href='{{ url_for('podcast_blueprint.description', id=podcast.id) }}'">
+                                    <!-- Background with blur -->
+                                    <div class="card-bg" style="background: url('{{ podcast.image_url }}') no-repeat center center; background-size: cover;"></div>
+                                    <!-- Dark overlay -->
+                                    <div class="card-darken"></div>
+                                    <!-- Content -->
+
+                                    <img src="{{ podcast.image_url }}" alt="{{ podcast.podcast_title }}">
+                                    <div class="info">
+                                        <span class="podcast-card-name">{{ podcast.title }}</span>
+                                        <br>
+                                        <span class="podcast-card-owner">{{ podcast.author }}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            {% if current_page > 1 %}
+                                <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=1, search_query=search_query, search_attribute=search_attribute) }}">First</a>
+                                <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=current_page-1, search_query=search_query, search_attribute=search_attribute) }}">&laquo; Prev</a>
+                            {% endif %}
+
+                            <!-- Page Numbers -->
+                            {% for page_num in range(start_page, end_page + 1) %}
+                                <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=page_num, search_query=search_query, search_attribute=search_attribute) }}"
+                                   class="{% if page_num == current_page %}active{% endif %}">
+                                   {{ page_num }}
+                                </a>
+                            {% endfor %}
+
+                            {% if current_page < total_pages %}
+                                <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=current_page+1, search_query=search_query, search_attribute=search_attribute) }}">Next &raquo;</a>
+                                <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=total_pages, search_query=search_query, search_attribute=search_attribute) }}">Last</a>
+                            {% endif %}
+                        </div>
                     </div>
-
-                    <!-- Pagination -->
-                    <div class="pagination">
-                        {% if current_page > 1 %}
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=1, search_query=search_query, search_attribute=search_attribute) }}">First</a>
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=current_page-1, search_query=search_query, search_attribute=search_attribute) }}">&laquo; Prev</a>
-                        {% endif %}
-
-                        <!-- Page Numbers -->
-                        {% for page_num in range(start_page, end_page + 1) %}
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=page_num, search_query=search_query, search_attribute=search_attribute) }}"
-                               class="{% if page_num == current_page %}active{% endif %}">
-                               {{ page_num }}
-                            </a>
-                        {% endfor %}
-
-                        {% if current_page < total_pages %}
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=current_page+1, search_query=search_query, search_attribute=search_attribute) }}">Next &raquo;</a>
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=total_pages, search_query=search_query, search_attribute=search_attribute) }}">Last</a>
-                        {% endif %}
-                    </div>
-
-
                 </div>
-            </div>
+            {% endif %}
         </section>
     </main>
 {% endblock %}
