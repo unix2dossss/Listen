@@ -86,7 +86,9 @@ def podcasts_by_category(category_name):
         total_pages=total_pages,
         start_page=start_page,
         end_page=end_page,
-        category_name=category_name
+        category_name=category_name,
+        search_query=search_query,
+        search_attribute=search_attribute
     )
 
 

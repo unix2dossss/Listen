@@ -38,23 +38,24 @@
                     <!-- Pagination -->
                     <div class="pagination">
                         {% if current_page > 1 %}
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=1) }}">First</a>
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=current_page-1) }}">&laquo; Prev</a>
+                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=1, search_query=search_query, search_attribute=search_attribute) }}">First</a>
+                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=current_page-1, search_query=search_query, search_attribute=search_attribute) }}">&laquo; Prev</a>
                         {% endif %}
 
                         <!-- Page Numbers -->
                         {% for page_num in range(start_page, end_page + 1) %}
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=page_num) }}"
+                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=page_num, search_query=search_query, search_attribute=search_attribute) }}"
                                class="{% if page_num == current_page %}active{% endif %}">
                                {{ page_num }}
                             </a>
                         {% endfor %}
 
                         {% if current_page < total_pages %}
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=current_page+1) }}">Next &raquo;</a>
-                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=total_pages) }}">Last</a>
+                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=current_page+1, search_query=search_query, search_attribute=search_attribute) }}">Next &raquo;</a>
+                            <a href="{{ url_for('discover_bp.podcasts_by_category', category_name=category_name, page=total_pages, search_query=search_query, search_attribute=search_attribute) }}">Last</a>
                         {% endif %}
                     </div>
+
 
                 </div>
             </div>
