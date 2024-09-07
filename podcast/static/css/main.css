@@ -24,6 +24,7 @@ body {
     padding-top: 100px;
     position: relative;
     overflow: hidden;
+    height: 100vh;
 }
 
 .sidebar::before {
@@ -68,23 +69,21 @@ body {
     width: 100%;
 }
 
-.sidebar-menu li {
+.signout {
+    margin-top: auto;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.sidebar-menu li,
+.signout li {
     width: 100%;
     margin: 10px 0;
 }
 
-/*
-.sidebar-menu li a {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    padding-right: 110px;
-    color: white;
-    text-decoration: none;
-    font-size: 1.2em;
-} */
-
-.sidebar-menu li a {
+.sidebar-menu li a,
+.signout li a {
     display: flex;
     align-items: center;
     padding: 10px;
@@ -94,11 +93,13 @@ body {
     font-size: 1.2em;
 }
 
-.sidebar-menu li a i {
+.sidebar-menu li a i,
+.signout li a i {
     margin-right: 20px;
 }
 
-.sidebar-menu li a:hover {
+.sidebar-menu li a:hover,
+.signout li a:hover {
     background-color: #444;
     border-radius: 5px;
 }

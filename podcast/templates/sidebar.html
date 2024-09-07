@@ -2,7 +2,6 @@
 
 <nav class="sidebar" style="--bg-image-url: url('{{ p_about.podcast_image | default('https://i.pinimg.com/736x/6a/84/35/6a8435a26b813fe8ba85da5eee2df6c6.jpg') }}');">
     <a href="/"><img src="../static/assets/logo.png" alt="Logo" class="sidebar-logo"></a>
-<!--    <h2 class="sidebar-title">LISTEN</h2>-->
     <ul class="sidebar-menu">
         <li><a href="/"><i class="fas fa-home"></i>Home</a></li>
         <li><a href="/discover"><i class="fas fa-search"></i>Discover</a></li>
@@ -11,4 +10,9 @@
         <li><a href="/author"><i class="fa-solid fa-feather"></i>All Authors</a></li>
         <li><a href="/category"><i class="fa-solid fa-icons"></i>All Categories</a></li>
     </ul>
+    <ul class="signout">
+        <li><a href="/playlist"><i class="fa-solid fa-play"></i>My Playlist</a></li>
+        <li><a href="/playlist"><i class="fa-solid fa-right-from-bracket"></i>Sign Out</a></li>
+    </ul>
 </nav>
+
