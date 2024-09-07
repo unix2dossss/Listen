@@ -10,9 +10,11 @@
         <li><a href="/author"><i class="fa-solid fa-feather"></i>All Authors</a></li>
         <li><a href="/category"><i class="fa-solid fa-icons"></i>All Categories</a></li>
     </ul>
-    <ul class="signout">
-        <li><a href="/playlist"><i class="fa-solid fa-play"></i>My Playlist</a></li>
-        <li><a href="{{ url_for('auth_bp.logout') }}"><i class="fa-solid fa-right-from-bracket"></i>Sign Out</a></li>
-    </ul>
+    {% if session['logged_in'] %}
+        <ul class="signout">
+            <li><a href="/playlist"><i class="fa-solid fa-play"></i>My Playlist</a></li>
+            <li><a href="{{ url_for('auth_bp.logout') }}"><i class="fa-solid fa-right-from-bracket"></i>Sign Out</a></li>
+        </ul>
+    {% endif %}
 </nav>
 

@@ -35,6 +35,7 @@ def login():
 
             session.clear()
             session["username"] = username
+            session['logged_in'] = True
 
             return redirect(url_for("home_bp.home"))
 
