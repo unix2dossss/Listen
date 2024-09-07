@@ -79,6 +79,12 @@ def register():
     )
 
 
+@auth_blueprint.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('auth_blueprint.login'))
+
+
 class PasswordValid:
     def __init__(self, message=None):
         if not message:
