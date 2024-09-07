@@ -26,9 +26,13 @@
             <div>
                 <div class="login-box">
                   <h2>{{login_type}}</h2>
-                  {% if from_register %}
-                      <p class="from-register-message">Registered Successfully - Now Login!</p>
-                  {% endif %}
+                    <p class="from-register-message">
+                      {% if from_register %}
+                          Registered Successfully - Now Login!
+                      {% elif from_logout %}
+                          Successfully Logged Out!
+                      {% endif %}
+                    </p>
                   <form method="POST" action="
                   {% if login_type == 'Login' and (username_error or password_error) %}
                       {{ url_for('auth_bp.login', from_register=True) }}
@@ -57,10 +61,25 @@
                       {{ form.submit(class_="login login-button") }}
                     </div>
                   </form>
+
+                  <div class="login-link">
+                    {% if login_type == 'Register' %}
+                      <p>Already a user? <a href="{{ url_for('auth_bp.login') }}">Login</a></p>
+                    {% elif login_type == 'Login' %}
+                      <p>Have no account? <a href="{{ url_for('auth_bp.register') }}#modal">Register</a></p>
+                    {% endif %}
+                  </div>
                 </div>
             </div>
           </div>
         </div>
     </div>
+     {% if login_modal %}
+        <script>
+            $(document).ready(function(){
+                $('#loginModal').modal('show');
+            });
+        </script>
+    {% endif %}
 </body>
 </html>

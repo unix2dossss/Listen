@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from podcast.adapters.repository import AbstractRepository
 
 
-class NameNotUniqueException(Exception):
+class UsernameExistsException(Exception):
     pass
 
 
@@ -26,6 +26,14 @@ def get_user(user_name: str, repo: AbstractRepository):
     if not user:
         raise UnknownUserException
     return user_to_dict(user)
+
+
+def username_exists(user_name: str, repo: AbstractRepository):
+    user = repo.get_user(user_name)
+    print("DOES THE USER EXIST OR NOT:", user)
+    if user is not None:
+        raise UsernameExistsException
+    return False
 
 
 def authenticate_user(user_name: str, password: str, repo: AbstractRepository):

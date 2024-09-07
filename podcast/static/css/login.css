@@ -2,13 +2,10 @@ html {
   height: 100%;
 }
 
-/* --- Required CSS (not customizable) --- */
-
 .modal {
   display: none;
 }
 
-/* When modal has the "active" class, make it visible */
 .modal.active {
   display: flex;
   justify-content: space-around;
@@ -76,6 +73,7 @@ body {
   left: 50%;
   width: 400px;
   padding: 40px;
+  padding-bottom: 30px;
   transform: translate(-50%, -50%);
   background: rgba(0,0,0,.5);
   box-sizing: border-box;
@@ -140,10 +138,10 @@ body {
 
 .submit-box {
     display: flex;
-    justify-content: center; /* Horizontally center the button */
-    align-items: center; /* Vertically center if needed */
-    width: 100%; /* Ensure the container takes the full width of the form */
-    margin-top: 20px; /* Add some spacing from the inputs */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .login-box form input[type="submit"] {
@@ -205,4 +203,26 @@ body {
     font-size: 1rem;
     text-align: center;
     color: white;
+}
+
+.login-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.login-link p {
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+.login-link a {
+  color: #03e9f4;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+  color: #fff;
 }

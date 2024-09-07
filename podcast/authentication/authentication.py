@@ -13,6 +13,9 @@ auth_blueprint = Blueprint("auth_bp", __name__)
 @auth_blueprint.route("/login", methods=["GET", "POST"])
 def login():
     from_register = request.args.get('from_register')
+    from_logout = request.args.get('from_logout')
+    print(from_logout)
+
     if request.referrer:
         if from_register or request.referrer.split("/")[-1] == "login?from_register=true":
             from_register = True
@@ -50,14 +53,17 @@ def login():
         username_error=username_error,
         password_error=password_error,
         login_modal=True,
-        from_register=from_register
+        from_register=from_register,
+        from_logout=from_logout
     )
 
 
 @auth_blueprint.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()
-    password_error = None  # Initialize password_error as None
+    username_error = None
+    password_error = None
+    login_modal = False
 
     if form.validate_on_submit():
         username = form.username.data
@@ -70,19 +76,25 @@ def register():
         password_error = ("Your password must be at least 8 characters, "
                           "and contain an upper case letter, lower case letter and a digit")
 
+    # Invalid Username
+    if form.errors.get("username"):
+        username_error = "This username is already taken!"
+        login_modal = True
+
     return render_template(
         "auth/login.html",
         form=form,
         login_type="Register",
         password_error=password_error,
-        login_modal=False
+        username_error=username_error,
+        login_modal=login_modal
     )
 
 
 @auth_blueprint.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('auth_blueprint.login'))
+    return redirect(url_for('auth_bp.login', from_logout="true"))
 
 
 class PasswordValid:
@@ -99,9 +111,25 @@ class PasswordValid:
             raise ValidationError(self.message)
 
 
+class UsernameValid:
+    def __init__(self, message=None):
+        if not message:
+            message = "This username is already taken!"
+        self.message = message
+
+    def __call__(self, form, field):
+        try:
+            services.username_exists(user_name=field.data, repo=repo.repo_instance)
+        except services.UsernameExistsException:
+            raise ValidationError(self.message)
+
+
 class RegisterForm(FlaskForm):
     username = StringField("Username",
-                           [DataRequired(message="Your username is required")])
+                           [DataRequired(message="Your username is required"),
+                            UsernameValid("This username is already taken!")])
+    # username = StringField("Username",
+    #                        [DataRequired(message="Your username is required")])
     password = PasswordField("Password",
                              [DataRequired(message="Your password is required"),
                               PasswordValid("Your password is invalid")])
