@@ -15,6 +15,10 @@
             <li><a href="/playlist"><i class="fa-solid fa-play"></i>My Playlist</a></li>
             <li><a href="{{ url_for('auth_bp.logout') }}"><i class="fa-solid fa-right-from-bracket"></i>Sign Out</a></li>
         </ul>
+    {% else %}
+        <ul class="signout">
+            <li><a href="{{ url_for('auth_bp.login') }}"><i class="fa-solid fa-user"></i>Sign In</a></li>
+        </ul>
     {% endif %}
 </nav>
 
