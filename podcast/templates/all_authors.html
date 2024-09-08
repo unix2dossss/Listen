@@ -1,48 +1,58 @@
-{% extends 'layout.html' %}
-
-{% block component_css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/all_categories.css') }}">
-{% endblock %}
-
-{% block content %}
-    <main class="main-content">
-        <section>
-            <h1>All Authors...</h1>
-            <div class="categories">
-                {% for author in podcast_authors %}
-                    <div class="box" style="background:
+{% extends 'layout.html' %} {% block component_css %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/all_categories.css') }}"
+/>
+{% endblock %} {% block content %}
+<main class="main-content">
+  <section>
+    <h1>All Authors...</h1>
+    <div class="categories">
+      {% for author in podcast_authors %}
+      <div
+        class="box"
+        style="background:
                         linear-gradient(to right, rgba(0, 0, 0, .95), rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
                         url('{{ author.podcast_list[0].image }}') no-repeat center center;
-                        background-size: cover;">
-                        <a href="{{ url_for('author_bp.author_podcasts', author_name=author.name) }}">
-                            <div class="overlay">
-                                <h2>{{ author.name }}</h2>
-                            </div>
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
+                        background-size: cover;"
+      >
+        <a
+          href="{{ url_for('author_bp.author_podcasts', author_name=author.name) }}"
+        >
+          <div class="overlay">
+            <h2>{{ author.name }}</h2>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
 
-            <!-- Pagination -->
-            <div class="pagination">
-                {% if current_page > 1 %}
-                    <a href="{{ url_for('author_bp.all_authors', page=1) }}">First</a>
-                    <a href="{{ url_for('author_bp.all_authors', page=current_page-1) }}">&laquo; Prev</a>
-                {% endif %}
+    <!-- Pagination -->
+    <div class="pagination">
+      {% if current_page > 1 %}
+      <a href="{{ url_for('author_bp.all_authors', page=1) }}">First</a>
+      <a href="{{ url_for('author_bp.all_authors', page=current_page-1) }}"
+        >&laquo; Prev</a
+      >
+      {% endif %}
 
-                <!-- Page Numbers -->
-                {% for page_num in range(start_page, end_page + 1) %}
-                    <a href="{{ url_for('author_bp.all_authors', page=page_num) }}"
-                       class="{% if page_num == current_page %}active{% endif %}">
-                       {{ page_num }}
-                    </a>
-                {% endfor %}
-
-                {% if current_page < total_pages %}
-                    <a href="{{ url_for('author_bp.all_authors', page=current_page+1) }}">Next &raquo;</a>
-                    <a href="{{ url_for('author_bp.all_authors', page=total_pages) }}">Last</a>
-                {% endif %}
-            </div>
-        </section>
-    </main>
+      <!-- Page Numbers -->
+      {% for page_num in range(start_page, end_page + 1) %}
+      <a
+        href="{{ url_for('author_bp.all_authors', page=page_num) }}"
+        class="{% if page_num == current_page %}active{% endif %}"
+      >
+        {{ page_num }}
+      </a>
+      {% endfor %} {% if current_page < total_pages %}
+      <a href="{{ url_for('author_bp.all_authors', page=current_page+1) }}"
+        >Next &raquo;</a
+      >
+      <a href="{{ url_for('author_bp.all_authors', page=total_pages) }}"
+        >Last</a
+      >
+      {% endif %}
+    </div>
+  </section>
+</main>
 {% endblock %}

@@ -1,24 +1,50 @@
 {% set p_about = p_about | default({}) %}
 
-<nav class="sidebar" style="--bg-image-url: url('{{ p_about.podcast_image | default('https://i.pinimg.com/736x/6a/84/35/6a8435a26b813fe8ba85da5eee2df6c6.jpg') }}');">
-    <a href="/"><img src="../static/assets/logo.png" alt="Logo" class="sidebar-logo"></a>
-    <ul class="sidebar-menu">
-        <li><a href="/"><i class="fas fa-home"></i>Home</a></li>
-        <li><a href="/discover"><i class="fas fa-search"></i>Discover</a></li>
-        <li><br></li>
-        <li><a href="/all_podcasts/all"><i class="fa-solid fa-podcast"></i>All Podcasts</a></li>
-        <li><a href="/author"><i class="fa-solid fa-feather"></i>All Authors</a></li>
-        <li><a href="/category"><i class="fa-solid fa-icons"></i>All Categories</a></li>
-    </ul>
-    {% if session['logged_in'] %}
-        <ul class="signout">
-            <li><a href="/playlist"><i class="fa-solid fa-play"></i>My Playlist</a></li>
-            <li><a href="{{ url_for('auth_bp.logout') }}"><i class="fa-solid fa-right-from-bracket"></i>Sign Out</a></li>
-        </ul>
-    {% else %}
-        <ul class="signout">
-            <li><a href="{{ url_for('auth_bp.login') }}"><i class="fa-solid fa-user"></i>Sign In</a></li>
-        </ul>
-    {% endif %}
+<nav
+  class="sidebar"
+  style="--bg-image-url: url('{{ p_about.podcast_image | default('https://i.pinimg.com/736x/6a/84/35/6a8435a26b813fe8ba85da5eee2df6c6.jpg') }}');"
+>
+  <a href="/"
+    ><img src="../static/assets/logo.png" alt="Logo" class="sidebar-logo"
+  /></a>
+  <ul class="sidebar-menu">
+    <li>
+      <a href="/"><i class="fas fa-home"></i>Home</a>
+    </li>
+    <li>
+      <a href="/discover"><i class="fas fa-search"></i>Discover</a>
+    </li>
+    <li><br /></li>
+    <li>
+      <a href="/all_podcasts/all"
+        ><i class="fa-solid fa-podcast"></i>All Podcasts</a
+      >
+    </li>
+    <li>
+      <a href="/author"><i class="fa-solid fa-feather"></i>All Authors</a>
+    </li>
+    <li>
+      <a href="/category"><i class="fa-solid fa-icons"></i>All Categories</a>
+    </li>
+  </ul>
+  {% if session['logged_in'] %}
+  <ul class="signout">
+    <li>
+      <a href="/playlist"><i class="fa-solid fa-play"></i>My Playlist</a>
+    </li>
+    <li>
+      <a href="{{ url_for('auth_bp.logout') }}"
+        ><i class="fa-solid fa-right-from-bracket"></i>Sign Out</a
+      >
+    </li>
+  </ul>
+  {% else %}
+  <ul class="signout">
+    <li>
+      <a href="{{ url_for('auth_bp.login') }}"
+        ><i class="fa-solid fa-user"></i>Sign In</a
+      >
+    </li>
+  </ul>
+  {% endif %}
 </nav>
-

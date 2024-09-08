@@ -1,39 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/login.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="container">
-        <div class="hero" style="background: url('../../static/assets/loginbg.png') no-repeat center center/cover;">
-            <div class="overlay">
-                <a href="#modal">
-                    <img src="../../static/assets/logo-inverted.png" alt="Logo" class="center-logo">
-                </a>
-            </div>
+      <div
+        class="hero"
+        style="
+          background: url('../../static/assets/loginbg.png') no-repeat center
+            center/cover;
+        "
+      >
+        <div class="overlay">
+          <a href="#modal">
+            <img
+              src="../../static/assets/logo-inverted.png"
+              alt="Logo"
+              class="center-logo"
+            />
+          </a>
         </div>
+      </div>
 
-        <!-- Open modal if there is a password error -->
-        <div class="modal {{ 'active' if password_error or login_modal else '' }}" id="modal" tabindex="-1">
-          <a href="#" class="modal__overlay" aria-label="Close modal"></a>
-          <div class="modal__content">
-            <div>
-                <div class="login-box">
-                  <h2>{{login_type}}</h2>
-                    <p class="from-register-message">
-                      {% if from_register %}
-                          Registered Successfully - Now Login!
-                      {% elif from_logout %}
-                          Successfully Logged Out!
-                      {% endif %}
-                    </p>
-                  <form method="POST" action="
+      <!-- Open modal if there is a password error -->
+      <div
+        class="modal {{ 'active' if password_error or login_modal else '' }}"
+        id="modal"
+        tabindex="-1"
+      >
+        <a href="#" class="modal__overlay" aria-label="Close modal"></a>
+        <div class="modal__content">
+          <div>
+            <div class="login-box">
+              <h2>{{login_type}}</h2>
+              <p class="from-register-message">
+                {% if from_register %} Registered Successfully - Now Login! {%
+                elif from_logout %} Successfully Logged Out! {% endif %}
+              </p>
+              <form
+                method="POST"
+                action="
                   {% if login_type == 'Login' and (username_error or password_error) %}
                       {{ url_for('auth_bp.login', from_register=True) }}
                   {% elif login_type == 'Login' %}
@@ -41,45 +66,51 @@
                   {% else %}
                       {{ url_for('auth_bp.register') }}
                   {% endif %}
-                  ">
-                    {{ form.hidden_tag() }} <!-- CSRF token -->
-                    <div class="user-box">
-                      {{ form.username(class_="login") }}
-                      {% if username_error %}
-                        <p class="error">{{ username_error }}</p>
-                      {% endif %}
-                      <label>Username</label>
-                    </div>
-                    <div class="user-box">
-                      {{ form.password(class_="login") }}
-                      {% if password_error %}
-                        <p class="error">{{ password_error }}</p>
-                      {% endif %}
-                      <label>Password</label>
-                    </div>
-                    <div class="submit-box">
-                      {{ form.submit(class_="login login-button") }}
-                    </div>
-                  </form>
-
-                  <div class="login-link">
-                    {% if login_type == 'Register' %}
-                      <p>Already a user? <a href="{{ url_for('auth_bp.login') }}">Login</a></p>
-                    {% elif login_type == 'Login' %}
-                      <p>Have no account? <a href="{{ url_for('auth_bp.register') }}#modal">Register</a></p>
-                    {% endif %}
-                  </div>
+                  "
+              >
+                {{ form.hidden_tag() }}
+                <!-- CSRF token -->
+                <div class="user-box">
+                  {{ form.username(class_="login") }} {% if username_error %}
+                  <p class="error">{{ username_error }}</p>
+                  {% endif %}
+                  <label>Username</label>
                 </div>
+                <div class="user-box">
+                  {{ form.password(class_="login") }} {% if password_error %}
+                  <p class="error">{{ password_error }}</p>
+                  {% endif %}
+                  <label>Password</label>
+                </div>
+                <div class="submit-box">
+                  {{ form.submit(class_="login login-button") }}
+                </div>
+              </form>
+
+              <div class="login-link">
+                {% if login_type == 'Register' %}
+                <p>
+                  Already a user?
+                  <a href="{{ url_for('auth_bp.login') }}">Login</a>
+                </p>
+                {% elif login_type == 'Login' %}
+                <p>
+                  Have no account?
+                  <a href="{{ url_for('auth_bp.register') }}#modal">Register</a>
+                </p>
+                {% endif %}
+              </div>
             </div>
           </div>
         </div>
+      </div>
     </div>
-     {% if login_modal %}
-        <script>
-            $(document).ready(function(){
-                $('#loginModal').modal('show');
-            });
-        </script>
+    {% if login_modal %}
+    <script>
+      $(document).ready(function () {
+        $("#loginModal").modal("show");
+      });
+    </script>
     {% endif %}
-</body>
+  </body>
 </html>

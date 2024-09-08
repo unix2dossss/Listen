@@ -1,82 +1,118 @@
-{% extends 'layout.html' %}
+{% extends 'layout.html' %} {% block component_css %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/description.css') }}"
+/>
+{% endblock %} {% block content %}
+<main class="main-content">
+  <div class="hero-gap"></div>
+  <header
+    class="hero"
+    style="background-image: url('{{ p_about.podcast_image }}');"
+  >
+    <div
+      class="hero-blur"
+      style="background-image: url('{{ p_about.podcast_image }}');"
+    ></div>
+    <div class="hero-content">
+      <img
+        src="{{ p_about.podcast_image }}"
+        alt="Podcast Image"
+        class="hero-image"
+      />
+      <div class="hero-text">
+        <h1 class="hero-title">{{ p_about.podcast_title }}</h1>
+        <p class="hero-subtitle">{{ p_about.podcast_author }}</p>
+      </div>
+    </div>
+  </header>
+  <section class="about">
+    <div class="about-header">
+      <h2 class="about-title">Description</h2>
+      <div>
+        <button class="add-playlist-btn">Add to Playlist</button>
+        <a
+          href="{{ url_for('review_bp.review', podcast_id=p_about.podcast_id) }}"
+        >
+          <button class="add-playlist-btn">Reviews</button>
+        </a>
+      </div>
+    </div>
+    <p class="about-description">{{ p_about.podcast_description }}</p>
+    <p class="about-description">
+      <b>Language &rarr; </b>{{ p_about.podcast_language }}
+    </p>
+    <p class="about-description">
+      <b>Website &rarr; </b
+      ><a href="{{ p_about.podcast_website }}">{{ p_about.podcast_website }}</a>
+    </p>
+    <div class="about-tags">
+      {% for category in p_categories %}
+      <span class="tag">{{ category.category_name }}</span>
+      {% endfor %}
+    </div>
+    <hr class="about-separator" />
+  </section>
+  <section class="episodes">
+    <div class="episodes-header">
+      <h2 class="episodes-title">Episodes</h2>
+      <button class="episodes-sort-btn">
+        Newest to Oldest<i class="fa-solid fa-caret-down"></i>
+      </button>
+    </div>
+    {% for episode in p_episodes %}
+    <div class="episode">
+      <img
+        src="{{ p_about.podcast_image }}"
+        alt="Episode Image"
+        class="episode-image"
+      />
+      <div class="episode-content">
+        <h3 class="episode-title">
+          {{ episode.episode_number }}. {{ episode.episode_title }}
+        </h3>
+        <p class="episode-description">
+          {{ episode.episode_description }}
+          <br /><br />
+          {{ episode.episode_date }} • {{ episode.episode_length }}
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+    <br />
 
-{% block component_css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/description.css') }}">
-{% endblock %}
+    <!-- Pagination -->
+    <div class="pagination">
+      {% if current_page > 1 %}
+      <a
+        href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=1) }}"
+        >First</a
+      >
+      <a
+        href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=current_page-1) }}"
+        >&laquo; Prev</a
+      >
+      {% endif %}
 
-{% block content %}
- <main class="main-content">
-     <div class="hero-gap"></div>
-    <header class="hero" style="background-image: url('{{ p_about.podcast_image }}');">
-        <div class="hero-blur" style="background-image: url('{{ p_about.podcast_image }}');"></div>
-        <div class="hero-content">
-            <img src="{{ p_about.podcast_image }}" alt="Podcast Image" class="hero-image">
-            <div class="hero-text">
-                <h1 class="hero-title">{{ p_about.podcast_title }}</h1>
-                <p class="hero-subtitle">{{ p_about.podcast_author }}</p>
-            </div>
-        </div>
-    </header>
-    <section class="about">
-         <div class="about-header">
-            <h2 class="about-title">Description</h2>
-            <div>
-                <button class="add-playlist-btn">Add to Playlist</button>
-                <a href="{{ url_for('review_bp.review', podcast_id=p_about.podcast_id) }}">
-                    <button class="add-playlist-btn">Reviews</button>
-                </a>
-            </div>
-        </div>
-        <p class="about-description">{{ p_about.podcast_description }}</p>
-        <p class="about-description"><b>Language &rarr; </b>{{ p_about.podcast_language }}</p>
-        <p class="about-description"><b>Website &rarr; </b><a href="{{ p_about.podcast_website }}">{{ p_about.podcast_website }}</a></p>
-        <div class="about-tags">
-            {% for category in p_categories %}
-                <span class="tag">{{ category.category_name }}</span>
-            {% endfor %}
-        </div>
-        <hr class="about-separator">
-    </section>
-    <section class="episodes">
-         <div class="episodes-header">
-            <h2 class="episodes-title">Episodes</h2>
-            <button class="episodes-sort-btn">Newest to Oldest<i class="fa-solid fa-caret-down"></i></button>
-        </div>
-        {% for episode in p_episodes %}
-        <div class="episode">
-            <img src="{{ p_about.podcast_image }}" alt="Episode Image" class="episode-image">
-            <div class="episode-content">
-                <h3 class="episode-title">{{ episode.episode_number }}. {{ episode.episode_title }}</h3>
-                <p class="episode-description">
-                    {{ episode.episode_description }}
-                    <br><br>
-                    {{ episode.episode_date }} • {{ episode.episode_length }}
-                </p>
-            </div>
-        </div>
-        {% endfor %}
-        <br>
-
-        <!-- Pagination -->
-        <div class="pagination">
-            {% if current_page > 1 %}
-                <a href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=1) }}">First</a>
-                <a href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=current_page-1) }}">&laquo; Prev</a>
-            {% endif %}
-
-            <!-- Page Numbers -->
-            {% for page_num in range(start_page, end_page + 1) %}
-                <a href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=page_num) }}"
-                   class="{% if page_num == current_page %}active{% endif %}">
-                   {{ page_num }}
-                </a>
-            {% endfor %}
-
-            {% if current_page < total_pages %}
-                <a href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=current_page+1) }}">Next &raquo;</a>
-                <a href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=total_pages) }}">Last</a>
-            {% endif %}
-        </div>
-    </section>
+      <!-- Page Numbers -->
+      {% for page_num in range(start_page, end_page + 1) %}
+      <a
+        href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=page_num) }}"
+        class="{% if page_num == current_page %}active{% endif %}"
+      >
+        {{ page_num }}
+      </a>
+      {% endfor %} {% if current_page < total_pages %}
+      <a
+        href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=current_page+1) }}"
+        >Next &raquo;</a
+      >
+      <a
+        href="{{ url_for('podcast_blueprint.description', id=p_about.podcast_id, page=total_pages) }}"
+        >Last</a
+      >
+      {% endif %}
+    </div>
+  </section>
 </main>
 {% endblock %}

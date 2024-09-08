@@ -7,195 +7,193 @@
 }
 
 .main-content {
-    flex: 1;
-    padding: 30px;
-    align-items: flex-start;
-    background-color: #222423;
-    overflow-y: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+  flex: 1;
+  padding: 30px;
+  align-items: flex-start;
+  background-color: #222423;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .main-content::-webkit-scrollbar {
-    width: 0;
-    height: 0;
+  width: 0;
+  height: 0;
 }
 
 .header-with-sort {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 25px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
 }
 
 .header-with-sort h1 {
-    font-size: 40px;
-    font-family: League Spartan, sans-serif;
-    text-align: left;
-    color: #fff;
-    flex-grow: 1;
+  font-size: 40px;
+  font-family: League Spartan, sans-serif;
+  text-align: left;
+  color: #fff;
+  flex-grow: 1;
 }
 
 .sort-button {
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
-    font-size: 16px;
-    background-color: #222423;
-    color: #fff;
-    border: 1px solid #444;
-    border-radius: 4px;
-    cursor: pointer;
-    outline: none;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: 16px;
+  background-color: #222423;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
 }
 
 .sort-button:hover {
-    background-color: #333333;
+  background-color: #333333;
 }
 
 .sort-button i {
-    margin-right: 8px;
+  margin-right: 8px;
 }
 
 .sort-button:focus {
-    outline: none;
+  outline: none;
 }
 
-
 .cards-section {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .podcast-cards {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-gap: 20px;
-    width: 100%;
-    text-align: center;
-    align-items: center;
-    background: #171a18;
-    padding: 20px;
-    border-radius: 5px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 20px;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  background: #171a18;
+  padding: 20px;
+  border-radius: 5px;
 }
 
 .podcast-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #222423;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    transition: transform 0.4s ease-in-out, box-shadow 0.2s;
-    height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #222423;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  transition: transform 0.4s ease-in-out, box-shadow 0.2s;
+  height: 100%;
 }
 
 .podcast-card:hover {
-    transform: translateY(-5px) scale(1.03);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
 }
 
 .podcast-card img {
-    width: 100%;
-    height: auto;
-    border-bottom: 1px solid #333;
-    z-index: 2;
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #333;
+  z-index: 2;
 }
 
 .podcast-card .info {
-    position: relative;
-    padding: 10px;
-    text-align: left;
-    z-index: 2;
-    color: white;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    transition: all 0.9s ease-in-out;
+  position: relative;
+  padding: 10px;
+  text-align: left;
+  z-index: 2;
+  color: white;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: all 0.9s ease-in-out;
 }
 
 .podcast-card:hover .info {
-    overflow: visible;
-    white-space: normal;
-    height: auto;
-    background: rgba(0, 0, 0, 0.55);
+  overflow: visible;
+  white-space: normal;
+  height: auto;
+  background: rgba(0, 0, 0, 0.55);
 }
 
-
 .podcast-card-name {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #d2d5d9;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #d2d5d9;
 }
 
 .podcast-card-owner {
-    font-size: 0.9em;
-    color: #b3b3b3;
-    margin-top: 5px;
+  font-size: 0.9em;
+  color: #b3b3b3;
+  margin-top: 5px;
 }
 
 .card-bg {
-    position: absolute;
-    top: auto;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    filter: blur(15px);
-    z-index: 0;
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  filter: blur(15px);
+  z-index: 0;
 }
 
 .card-darken {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
 /* Pagination styling */
 .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #171a18;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #171a18;
 }
 
 .pagination a {
-    color: #ffffff;
-    padding: 10px 18px;
-    margin: 0 10px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    text-decoration: none;
-    background-color: #222423;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+  color: #ffffff;
+  padding: 10px 18px;
+  margin: 0 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  text-decoration: none;
+  background-color: #222423;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .pagination a:hover {
-    background-color: #333333;
-    transform: translateY(-2px);
+  background-color: #333333;
+  transform: translateY(-2px);
 }
 
 .pagination a.active {
-    background-color: #4CAF50;
-    font-weight: bold;
-    pointer-events: none;
+  background-color: #4caf50;
+  font-weight: bold;
+  pointer-events: none;
 }
 
 .pagination a:disabled {
-    background-color: #555555;
-    cursor: not-allowed;
-    pointer-events: none;
+  background-color: #555555;
+  cursor: not-allowed;
+  pointer-events: none;
 }
