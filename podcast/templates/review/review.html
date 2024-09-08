@@ -15,11 +15,11 @@
       style="background-image: url('{{ p_about.podcast_image }}');"
     ></div>
     <div class="hero-content">
-      <img
-        src="{{ p_about.podcast_image }}"
-        alt="Podcast Image"
-        class="hero-image"
-      />
+<!--      <img-->
+<!--        src="{{ p_about.podcast_image }}"-->
+<!--        alt="Podcast Image"-->
+<!--        class="hero-image"-->
+<!--      />-->
       <div class="hero-text">
         <h1 class="hero-title">{{ p_about.podcast_title }}</h1>
         <p class="hero-subtitle">{{ p_about.podcast_author }}</p>
@@ -42,73 +42,74 @@
     <!--                <span class="tag">{{ category.category_name }}</span>-->
     <!--            {% endfor %}-->
     <!--        </div>-->
-    <form action="/submit-review" method="post">
-      <div class="form-group rating-container">
-        <label>How was it?</label>
-        <div
-          class="rating rating--interactive"
-          itemprop="reviewRating"
-          itemscope
-          itemtype="https://schema.org/Rating"
-        >
-          <p class="sr-only">
-            <meta itemprop="ratingValue" content="1" />
-            Not yet rated
-          </p>
-          <form action="#" class="clearfix">
-            <!-- Radio buttons for selecting the rating -->
-            <input type="radio" id="star5" name="rating" value="5" />
-            <label class="star" for="star5" title="5 stars">
-              <span class="sr-only">Rate 5 star</span>
-            </label>
-
-            <input type="radio" id="star4" name="rating" value="4" />
-            <label class="star" for="star4" title="4 stars">
-              <span class="sr-only">Rate 4 star</span>
-            </label>
-
-            <input type="radio" id="star3" name="rating" value="3" />
-            <label class="star" for="star3" title="3 stars">
-              <span class="sr-only">Rate 3 star</span>
-            </label>
-
-            <input type="radio" id="star2" name="rating" value="2" />
-            <label class="star" for="star2" title="2 stars">
-              <span class="sr-only">Rate 2 star</span>
-            </label>
-
-            <input type="radio" id="star1" name="rating" value="1" checked />
-            <label class="star" for="star1" title="1 star">
-              <span class="sr-only">Rate 1 star</span>
-            </label>
-          </form>
+    {% if submit_disabled %}
+      <p class="already-reviewed">You have already reviewed this podcast!</p>
+    {% else %}
+    <form action="{{ url_for('review_bp.submit_review', podcast_id=p_about.podcast_id) }}" method="post">
+        <div class="form-group rating-container">
+            <label>How was it?</label>
+            <div class="rating rating--interactive" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                <input type="radio" id="star5" name="rating" value="5" />
+                <label class="star" for="star5" title="5 stars"></label>
+                <input type="radio" id="star4" name="rating" value="4" />
+                <label class="star" for="star4" title="4 stars"></label>
+                <input type="radio" id="star3" name="rating" value="3" />
+                <label class="star" for="star3" title="3 stars"></label>
+                <input type="radio" id="star2" name="rating" value="2" />
+                <label class="star" for="star2" title="2 stars"></label>
+                <input type="radio" id="star1" name="rating" value="1" checked />
+                <label class="star" for="star1" title="1 star"></label>
+            </div>
         </div>
-      </div>
-      <div class="form-group">
-        <textarea
-          id="reviewText"
-          name="reviewText"
-          maxlength="500"
-          placeholder="Write your review here..."
-          required
-        ></textarea>
-      </div>
-      <div class="form-group">
-        <button type="submit" class="submit-btn">Submit Review</button>
-      </div>
+        <div class="form-group">
+            <textarea id="reviewText" name="reviewText" maxlength="500" placeholder="Write your review here..." required></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="submit-btn">Submit Review</button>
+        </div>
     </form>
     <hr class="about-separator" />
+    {% endif %}
   </section>
   <section class="episodes">
     <div class="episodes-header">
-      <h2 class="episodes-title">Reviews</h2>
-      <button class="episodes-sort-btn">
+      {% if p_reviews|length == 0 %}
+        <p class="no-reviews">It’s quiet here... your review could break the silence!</p>
+      {% else %}
+        <h2 class="episodes-title">Reviews</h2>
+        <button class="episodes-sort-btn">
         Newest to Oldest<i class="fa-solid fa-caret-down"></i>
       </button>
+      {% endif %}
     </div>
-    <br />
-
     <!-- Pagination -->
   </section>
+    <section class="reviews">
+        {% for review in p_reviews %}
+        <div class="review-card">
+            <div class="profile-section">
+            <div class="profile-circle">{{ review.initial }}</div>
+                <div class="profile-header">
+                    <div class="name-date">
+                        <h4 class="name">{{ review.reviewer }}</h4>
+                        <p class="date-time">{{ review.datetime | safe }}</p>
+                    </div>
+                    <div class="s-rating">
+                        {% for i in range(review.rating_full) %}
+                            <span class="rstar">&#9733;</span>
+                        {% endfor %}
+                        {% for i in range(review.rating_empty) %}
+                            <span class="rstar">&#9734;</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="review-content">
+                <p>{{ review.comment }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+
 </main>
 {% endblock %}

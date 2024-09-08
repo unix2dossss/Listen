@@ -111,3 +111,11 @@ class AbstractRepository(abc.ABC):
     def get_user(self, user_name):
         """get a user"""
         raise NotImplementedError
+
+    def get_reviews_of_podcast(self, pc_id):
+        """get a reviews of a podcast"""
+        raise NotImplementedError
+
+    def add_review(self, review, podcast_id):
+        """add review to podcast"""
+        raise NotImplementedError

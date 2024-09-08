@@ -190,6 +190,15 @@ class MemoryRepository(AbstractRepository):
                 return user
         return None
 
+    def get_reviews_of_podcast(self, pc_id: int):
+        podcast = self.get_podcast(pc_id)
+        reviews = podcast.reviews
+        return reviews
+
+    def add_review(self, review, podcast_id):
+        podcast = self.get_podcast(podcast_id)
+        podcast.add_review(review)
+
 
 def populate(data_path: Path, repo: MemoryRepository):
     # create instance of csvreader

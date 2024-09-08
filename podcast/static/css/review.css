@@ -72,6 +72,7 @@
   text-align: left;
   position: relative;
   z-index: 3;
+  padding: 30px;
 }
 
 .hero-image {
@@ -179,13 +180,13 @@
 .episodes {
   color: white;
   padding: 40px;
+  padding-bottom: 20px;
 }
 
 .episodes-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
 }
 
 .episodes-title {
@@ -351,23 +352,24 @@
 .submit-btn {
   width: 100%;
   padding: 12px;
-  background-color: #007bff;
+  font-family: "Montserrat", sans-serif;
+  background-color: #404248;
   border: none;
   color: white;
   font-size: 1.2em;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 1s ease;
 }
 
 .submit-btn:hover {
-  background-color: #0056b3;
+  background-color: #404248ab;
 }
 
 .rating-container {
   display: flex;
-  align-items: center; /* Vertically aligns the stars and label */
-  gap: 10px; /* Adjust the gap between the label and stars */
+  align-items: center;
+  gap: 10px;
 }
 
 .rating {
@@ -399,10 +401,6 @@
   color: #777;
 }
 
-/* Floating this right, means that the stars
- * fill from the left, because of the successor
- * rule defined below. @see https://css-tricks.com/star-ratings/
- */
 .rating--interactive .star {
   float: right;
 }
@@ -418,7 +416,7 @@
 }
 
 .rating input {
-  display: none; /* Hide the radio buttons */
+  display: none;
 }
 
 .rating label {
@@ -451,4 +449,95 @@
 .rating label:hover ~ label:before {
   content: "\f005";
   color: #e3cf7a;
+}
+
+
+
+.reviews {
+  padding: 40px;
+  padding-top: 0px;
+  background-color: #222423;
+}
+
+.review-card {
+  background-color: #333;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profile-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #555;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.name-date {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.date-time {
+  font-size: 0.9em;
+  color: #888;
+}
+
+.review-content {
+  margin-bottom: 15px;
+}
+
+.review-content p {
+  line-height: 1.6;
+  font-size: 1em;
+  color: #eee;
+}
+
+.s-rating {
+  display: flex;
+  align-items: center;
+}
+
+.rstar {
+  color: gold;
+  font-size: 1.5em;
+  margin-right: 5px;
+}
+
+.no-reviews {
+    font-size: 1.2em;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.already-reviewed {
+    font-size: 1.2em;
+    color: #888;
 }

@@ -94,6 +94,7 @@ class Podcast:
         self._itunes_id = itunes_id
         self.categories = []
         self.episodes = []
+        self._reviews = []
 
     @property
     def id(self) -> int:
@@ -155,6 +156,14 @@ class Podcast:
         validate_non_empty_string(new_website, "Podcast website")
         self._website = new_website
 
+    @property
+    def reviews(self):
+        return self._reviews
+
+    @reviews.setter
+    def reviews(self, new_reviews):
+        self._reviews = new_reviews
+
     def add_category(self, category: Category):
         if not isinstance(category, Category):
             raise TypeError("Expected a Category instance.")
@@ -174,6 +183,12 @@ class Podcast:
     def remove_episode(self, episode: Episode):
         if episode in self.episodes:
             self.episodes.remove(episode)
+
+    def add_review(self, review: Review):
+        if not isinstance(review, Review):
+            raise TypeError("Expected a Review instance.")
+        if review not in self._reviews:
+            self._reviews.append(review)
 
     def __repr__(self):
         return f"<Podcast {self.id}: '{self.title}' by {self.author.name}>"
@@ -230,11 +245,14 @@ class Category:
 
 
 class User:
+    next_user_id = 1
+
     def __init__(self, user_id: int, username: str, password: str):
         validate_non_negative_int(user_id)
         validate_non_empty_string(username, "Username")
         validate_non_empty_string(password, "Password")
-        self._id = user_id
+        self._id = User.next_user_id
+        User.next_user_id += 1
         self._username = username.lower().strip()
         self._password = password
         self._subscription_list = []
@@ -494,14 +512,14 @@ class Episode:
 
 
 class Comment:
-    def __init__(
-        self, comment_id: int, owner: User, comment_text: str, comment_date: datetime
-    ):
-        validate_non_negative_int(comment_id)
+    next_comment_id = 1
+
+    def __init__(self, owner: User, comment_text: str, comment_date: datetime):
         if not isinstance(owner, User):
             raise TypeError("Owner must be a User object.")
         validate_non_empty_string(comment_text, "New text")
-        self._id = comment_id
+        self._id = Comment.next_comment_id
+        Comment.next_comment_id += 1
         self._owner = owner
         self._comment_text = comment_text.strip()
         self._comment_date = comment_date
@@ -558,13 +576,16 @@ class Comment:
 
 
 class Review:
-    def __init__(self, review_id: int, owner: User, comment: Comment):
-        validate_non_negative_int(review_id)
+    next_id = 1
+
+    def __init__(self, owner: User, comment: Comment, rating=1):
         if not isinstance(owner, User):
             raise TypeError("Owner must be a User object.")
-        self._id = review_id
+        # self incrementing id
+        self._id = Review.next_id
+        Review.next_id += 1
         self._owner = owner
-        self._rating = ""
+        self._rating = rating
         self._comment = comment
 
     @property
@@ -582,13 +603,12 @@ class Review:
         self._owner = new_owner
 
     @property
-    def rating(self) -> str:
+    def rating(self) -> int:
         return self._rating
 
     @rating.setter
-    def rating(self, new_rating: str):
-        validate_non_empty_string(new_rating, "New rating")
-        self._rating = new_rating.strip()
+    def rating(self, new_rating: int):
+        self._rating = new_rating
 
     @property
     def comment(self) -> Comment:

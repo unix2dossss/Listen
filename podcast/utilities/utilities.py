@@ -17,3 +17,7 @@ def get_username():
     if "username" in session:
         username = session["username"]
     return username
+
+
+def get_user_by_username(username: str, repo: AbstractRepository):
+    return services.get_user_by_username(username, repo)
