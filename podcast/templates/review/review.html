@@ -19,17 +19,46 @@
     </header>
     <section class="about">
          <div class="about-header">
-            <h2 class="about-title">Description</h2>
-            <button class="add-playlist-btn">Add to Playlist</button>
+            <h2 class="about-title">Rate & Review</h2>
+            <div>
+                <a href="{{ url_for('review_bp.redirect_to_podcast', podcast_id=p_about.podcast_id) }}">
+                    <button class="add-playlist-btn">Episodes</button>
+                </a>
+            </div>
         </div>
-        <p class="about-description">{{ p_about.podcast_description }}</p>
-        <p class="about-description"><b>Language &rarr; </b>{{ p_about.podcast_language }}</p>
-        <p class="about-description"><b>Website &rarr; </b><a href="{{ p_about.podcast_website }}">{{ p_about.podcast_website }}</a></p>
-        <div class="about-tags">
-            {% for category in p_categories %}
-                <span class="tag">{{ category.category_name }}</span>
-            {% endfor %}
-        </div>
+<!--        <div class="about-tags">-->
+<!--            {% for category in p_categories %}-->
+<!--                <span class="tag">{{ category.category_name }}</span>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+        <form action="/submit-review" method="post">
+            <div class="form-group">
+                <textarea id="reviewText" name="reviewText" maxlength="500" placeholder="Write your review here..." required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Rating</label>
+                <div class="rating-group">
+                    <input type="radio" id="star5" name="rating" value="5" required>
+                    <label for="star5" title="5 stars"><i class="fas fa-star"></i></label>
+
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4" title="4 stars"><i class="fas fa-star"></i></label>
+
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3" title="3 stars"><i class="fas fa-star"></i></label>
+
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2" title="2 stars"><i class="fas fa-star"></i></label>
+
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1" title="1 star"><i class="fas fa-star"></i></label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="submit-btn">Submit Review</button>
+            </div>
+        </form>
         <hr class="about-separator">
     </section>
     <section class="episodes">

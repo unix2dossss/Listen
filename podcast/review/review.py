@@ -20,3 +20,9 @@ def review(podcast_id):
         p_about=p_about,
         p_categories=p_categories
     )
+
+
+@review_blueprint.route('/review/episode/redirect/<podcast_id>', methods=['GET'])
+def redirect_to_podcast(podcast_id):
+    url = url_for('podcast_blueprint.description', id=podcast_id)
+    return redirect(url)

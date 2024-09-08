@@ -20,7 +20,12 @@
     <section class="about">
          <div class="about-header">
             <h2 class="about-title">Description</h2>
-            <button class="add-playlist-btn">Add to Playlist</button>
+            <div>
+                <button class="add-playlist-btn">Add to Playlist</button>
+                <a href="{{ url_for('review_bp.review', podcast_id=p_about.podcast_id) }}">
+                    <button class="add-playlist-btn">Reviews</button>
+                </a>
+            </div>
         </div>
         <p class="about-description">{{ p_about.podcast_description }}</p>
         <p class="about-description"><b>Language &rarr; </b>{{ p_about.podcast_language }}</p>
