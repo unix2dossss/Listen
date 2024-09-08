@@ -43,7 +43,9 @@ def podcast_episodes(podcast_id: int, repo: AbstractRepository):
 
     episodes_list = []
 
-    sorted_episodes = sorted(podcast.episodes, key=lambda ep: ep.episode_publish_date, reverse=True)
+    sorted_episodes = sorted(
+        podcast.episodes, key=lambda ep: ep.episode_publish_date, reverse=True
+    )
 
     ep_n = 1
     for episode in sorted_episodes:
@@ -53,7 +55,7 @@ def podcast_episodes(podcast_id: int, repo: AbstractRepository):
         ep_n += 1
         episode_dict["episode_title"] = episode.episode_title
         episode_dict["episode_description"] = episode.episode_description
-        episode_dict["episode_date"] = episode.episode_publish_date.strftime('%Y-%m-%d')
+        episode_dict["episode_date"] = episode.episode_publish_date.strftime("%Y-%m-%d")
         episode_dict["episode_length"] = str(episode.episode_audio_length)
 
         episodes_list.append(episode_dict)

@@ -1,16 +1,17 @@
 import requests
 import os
 
-access_key = ''  # Replace with your actual Unsplash API key
+access_key = ""  # Replace with your actual Unsplash API key
 
 # List of categories to search for
-with open('categories.txt', 'r') as file:
+with open("categories.txt", "r") as file:
     # Read all lines from the file and strip any leading/trailing whitespace
     categories = [line.strip() for line in file.readlines()]
 
 # Directory to save images
 save_dir = "category_images"
 os.makedirs(save_dir, exist_ok=True)
+
 
 # Function to search and download images
 def download_image(category):
@@ -23,15 +24,15 @@ def download_image(category):
 
         data = response.json()
 
-        if 'results' in data and data['results']:
+        if "results" in data and data["results"]:
             # Get the URL of the first image in the results
-            raw_image_url = data['results'][0]['urls']['raw']
+            raw_image_url = data["results"][0]["urls"]["raw"]
             # Append size parameters to the URL for 1920x1080 resolution
             image_url = f"{raw_image_url}&w=1920&h=1080"
 
             img_data = requests.get(image_url).content
             file_path = os.path.join(save_dir, f"{category}.jpg")
-            with open(file_path, 'wb') as img_file:
+            with open(file_path, "wb") as img_file:
                 img_file.write(img_data)
             print(f"Downloaded {category}.jpg to {file_path}")
         else:

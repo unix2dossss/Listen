@@ -3,14 +3,13 @@ import podcast.adapters.repository as repo
 import podcast.podcastbp.services as services
 
 
-podcast_blueprint = Blueprint(
-    'podcast_blueprint', __name__)
+podcast_blueprint = Blueprint("podcast_blueprint", __name__)
 
 
-@podcast_blueprint.route('/podcast', methods=['GET'])
+@podcast_blueprint.route("/podcast", methods=["GET"])
 def description():
-    podcast_id = int(request.args.get('id'))
-    page = request.args.get('page', 1, type=int)
+    podcast_id = int(request.args.get("id"))
+    page = request.args.get("page", 1, type=int)
     per_page = 2  # Number of episodes per page
     max_pages_to_show = 5
 
@@ -36,15 +35,15 @@ def description():
     if end_page - start_page < max_pages_to_show:
         start_page = max(1, end_page - max_pages_to_show + 1)
 
-    paginated_episodes = p_episodes[(page - 1) * per_page: page * per_page]
+    paginated_episodes = p_episodes[(page - 1) * per_page : page * per_page]
 
     return render_template(
-        'description/description.html',
+        "description/description.html",
         p_about=p_about,
         p_episodes=paginated_episodes,
         p_categories=p_categories,
         current_page=page,
         total_pages=total_pages,
         start_page=start_page,
-        end_page=end_page
+        end_page=end_page,
     )

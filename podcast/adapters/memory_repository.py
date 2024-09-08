@@ -3,8 +3,18 @@ from typing import Any
 
 from podcast.adapters.repository import AbstractRepository, RepositoryException
 from podcast.adapters.datareader.csvdatareader import CSVDataReader
-from podcast.domainmodel.model import (Author, Podcast, Category, User, PodcastSubscription, Episode, AudioTime,
-                                       Comment, Review, Playlist)
+from podcast.domainmodel.model import (
+    Author,
+    Podcast,
+    Category,
+    User,
+    PodcastSubscription,
+    Episode,
+    AudioTime,
+    Comment,
+    Review,
+    Playlist,
+)
 
 
 class MemoryRepository(AbstractRepository):
@@ -70,17 +80,26 @@ class MemoryRepository(AbstractRepository):
         raise NotImplementedError
 
     def get_podcast(self, pc_id):
-        return self._podcasts[pc_id-1]
+        return self._podcasts[pc_id - 1]
 
     def get_popular_categories(self):
-        popular_categories = [(list(self._categories.values())[1]), (list(self._categories.values())[5]), (list(self._categories.values())[16])]
+        popular_categories = [
+            (list(self._categories.values())[1]),
+            (list(self._categories.values())[5]),
+            (list(self._categories.values())[16]),
+        ]
         return popular_categories
 
     def get_editor_picks(self):
         return [self._podcasts[106], self._podcasts[503], self._podcasts[829]]
 
     def get_podcast_search_list(self):
-        return [self._podcasts[288], self._podcasts[162], self._podcasts[799], self._podcasts[317]]
+        return [
+            self._podcasts[288],
+            self._podcasts[162],
+            self._podcasts[799],
+            self._podcasts[317],
+        ]
 
     def get_podcasts_in_category(self, category_name):
         return self._podcasts_by_category[category_name]
@@ -100,19 +119,39 @@ class MemoryRepository(AbstractRepository):
         return all_authors
 
     def get_top_podcasts(self):
-        top_podcasts = [self._podcasts[771], self._podcasts[531], self._podcasts[88], self._podcasts[438]]
+        top_podcasts = [
+            self._podcasts[771],
+            self._podcasts[531],
+            self._podcasts[88],
+            self._podcasts[438],
+        ]
         return top_podcasts
 
     def get_recently_played(self):
-        recently_played_podcasts = [self._podcasts[670], self._podcasts[219], self._podcasts[728], self._podcasts[8]]
+        recently_played_podcasts = [
+            self._podcasts[670],
+            self._podcasts[219],
+            self._podcasts[728],
+            self._podcasts[8],
+        ]
         return recently_played_podcasts
 
     def get_new_podcasts(self):
-        new_podcasts = [self._podcasts[739], self._podcasts[268], self._podcasts[639], self._podcasts[200]]
+        new_podcasts = [
+            self._podcasts[739],
+            self._podcasts[268],
+            self._podcasts[639],
+            self._podcasts[200],
+        ]
         return new_podcasts
 
     def get_continue_listening_podcasts(self):
-        continue_listening_podcasts = [self._podcasts[546], self._podcasts[823], self._podcasts[908], self._podcasts[675]]
+        continue_listening_podcasts = [
+            self._podcasts[546],
+            self._podcasts[823],
+            self._podcasts[908],
+            self._podcasts[675],
+        ]
         return continue_listening_podcasts
 
     def get_total_audio_time(self, audio_times):
@@ -123,7 +162,11 @@ class MemoryRepository(AbstractRepository):
 
     def get_top_authors(self):
         # top_authors = list(self._authors.values())[117:120]
-        top_authors = [list(self._authors.values())[22], list(self._authors.values())[45], list(self._authors.values())[52]]
+        top_authors = [
+            list(self._authors.values())[22],
+            list(self._authors.values())[45],
+            list(self._authors.values())[52],
+        ]
         return top_authors
 
     def get_top_podcasts_list(self):

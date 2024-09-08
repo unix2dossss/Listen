@@ -71,8 +71,17 @@ class Author:
 
 
 class Podcast:
-    def __init__(self, podcast_id: int, author: Author, title: str = "Untitled", image: str = None,
-                 description: str = "", website: str = "", itunes_id: int = None, language: str = "Unspecified"):
+    def __init__(
+        self,
+        podcast_id: int,
+        author: Author,
+        title: str = "Untitled",
+        image: str = None,
+        description: str = "",
+        website: str = "",
+        itunes_id: int = None,
+        language: str = "Unspecified",
+    ):
         validate_non_negative_int(podcast_id)
         self._id = podcast_id
         self._author = author
@@ -314,7 +323,11 @@ class PodcastSubscription:
     def __eq__(self, other):
         if not isinstance(other, PodcastSubscription):
             return False
-        return self.id == other.id and self.owner == other.owner and self.podcast == other.podcast
+        return (
+            self.id == other.id
+            and self.owner == other.owner
+            and self.podcast == other.podcast
+        )
 
     def __lt__(self, other):
         if not isinstance(other, PodcastSubscription):
@@ -341,15 +354,20 @@ class AudioTime:
     def __eq__(self, other):
         if not isinstance(other, AudioTime):
             return NotImplemented
-        return (self.audio_hours == other.audio_hours and
-                self.audio_minutes == other.audio_minutes and
-                self.audio_seconds == other.audio_seconds)
+        return (
+            self.audio_hours == other.audio_hours
+            and self.audio_minutes == other.audio_minutes
+            and self.audio_seconds == other.audio_seconds
+        )
 
     def __lt__(self, other):
         if not isinstance(other, AudioTime):
             return False
-        return ((self.audio_hours, self.audio_minutes, self.audio_seconds) <
-                (other.audio_hours, other.audio_minutes, other.audio_seconds))
+        return (self.audio_hours, self.audio_minutes, self.audio_seconds) < (
+            other.audio_hours,
+            other.audio_minutes,
+            other.audio_seconds,
+        )
 
     def add_time(self, other):
         if not isinstance(other, AudioTime):
@@ -367,8 +385,16 @@ class AudioTime:
 
 
 class Episode:
-    def __init__(self, episode_id: int, episode_podcast: Podcast, episode_title: str, episode_audio_link: str,
-                 episode_audio_length: AudioTime, episode_description: str, episode_publish_date: datetime):
+    def __init__(
+        self,
+        episode_id: int,
+        episode_podcast: Podcast,
+        episode_title: str,
+        episode_audio_link: str,
+        episode_audio_length: AudioTime,
+        episode_description: str,
+        episode_publish_date: datetime,
+    ):
 
         validate_non_negative_int(episode_id)
         validate_non_empty_string(episode_title, field_name="Episode Title")
@@ -468,7 +494,9 @@ class Episode:
 
 
 class Comment:
-    def __init__(self, comment_id: int, owner: User, comment_text: str, comment_date: datetime):
+    def __init__(
+        self, comment_id: int, owner: User, comment_text: str, comment_date: datetime
+    ):
         validate_non_negative_int(comment_id)
         if not isinstance(owner, User):
             raise TypeError("Owner must be a User object.")

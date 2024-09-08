@@ -12,12 +12,15 @@ auth_blueprint = Blueprint("auth_bp", __name__)
 
 @auth_blueprint.route("/login", methods=["GET", "POST"])
 def login():
-    from_register = request.args.get('from_register')
-    from_logout = request.args.get('from_logout')
+    from_register = request.args.get("from_register")
+    from_logout = request.args.get("from_logout")
     print(from_logout)
 
     if request.referrer:
-        if from_register or request.referrer.split("/")[-1] == "login?from_register=true":
+        if (
+            from_register
+            or request.referrer.split("/")[-1] == "login?from_register=true"
+        ):
             from_register = True
         else:
             from_register = False
@@ -35,7 +38,7 @@ def login():
 
             session.clear()
             session["username"] = username
-            session['logged_in'] = True
+            session["logged_in"] = True
 
             return redirect(url_for("home_bp.home"))
 
@@ -55,7 +58,7 @@ def login():
         password_error=password_error,
         login_modal=True,
         from_register=from_register,
-        from_logout=from_logout
+        from_logout=from_logout,
     )
 
 
@@ -74,8 +77,10 @@ def register():
 
     # Invalid Password
     if form.errors.get("password"):
-        password_error = ("Your password must be at least 8 characters, "
-                          "and contain an upper case letter, lower case letter and a digit")
+        password_error = (
+            "Your password must be at least 8 characters, "
+            "and contain an upper case letter, lower case letter and a digit"
+        )
 
     # Invalid Username
     if form.errors.get("username"):
@@ -88,14 +93,14 @@ def register():
         login_type="Register",
         password_error=password_error,
         username_error=username_error,
-        login_modal=login_modal
+        login_modal=login_modal,
     )
 
 
-@auth_blueprint.route('/logout')
+@auth_blueprint.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for('auth_bp.login', from_logout="true"))
+    return redirect(url_for("auth_bp.login", from_logout="true"))
 
 
 class PasswordValid:
@@ -126,18 +131,30 @@ class UsernameValid:
 
 
 class RegisterForm(FlaskForm):
-    username = StringField("Username",
-                           [DataRequired(message="Your username is required"),
-                            UsernameValid("This username is already taken!")])
+    username = StringField(
+        "Username",
+        [
+            DataRequired(message="Your username is required"),
+            UsernameValid("This username is already taken!"),
+        ],
+    )
     # username = StringField("Username",
     #                        [DataRequired(message="Your username is required")])
-    password = PasswordField("Password",
-                             [DataRequired(message="Your password is required"),
-                              PasswordValid("Your password is invalid")])
+    password = PasswordField(
+        "Password",
+        [
+            DataRequired(message="Your password is required"),
+            PasswordValid("Your password is invalid"),
+        ],
+    )
     submit = SubmitField("Register")
 
 
 class LoginForm(FlaskForm):
-    username = StringField("Username", [DataRequired(message="Your username is required")])
-    password = PasswordField("Password", [DataRequired(message="Your password is required")])
+    username = StringField(
+        "Username", [DataRequired(message="Your username is required")]
+    )
+    password = PasswordField(
+        "Password", [DataRequired(message="Your password is required")]
+    )
     submit = SubmitField("Login")

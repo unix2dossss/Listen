@@ -1,4 +1,5 @@
 """Initialize Flask app."""
+
 from pathlib import Path
 from flask import Flask
 from podcast.domainmodel.model import Podcast, Author
@@ -13,13 +14,13 @@ def create_app(testing_config=None):
     app = Flask(__name__)
 
     # set configuration
-    app.config.from_object('config.Config')
-    data_path = Path('podcast') / 'adapters' / 'data'
+    app.config.from_object("config.Config")
+    data_path = Path("podcast") / "adapters" / "data"
 
     if testing_config is not None:
         # set testing config
         app.config.from_mapping(testing_config)
-        data_path = app.config['TEST_DATA_PATH']
+        data_path = app.config["TEST_DATA_PATH"]
 
     # Create the MemoryRepository implementation for a memory-based repository.
     repo.repo_instance = MemoryRepository()
@@ -31,27 +32,35 @@ def create_app(testing_config=None):
 
     with app.app_context():
         from .utilities import utilities
+
         app.register_blueprint(utilities.utilities_blueprint)
 
         from .podcastbp import podcastbp
+
         app.register_blueprint(podcastbp.podcast_blueprint)
 
         from .home import home
+
         app.register_blueprint(home.home_blueprint)
 
         from .discover import discover
+
         app.register_blueprint(discover.discover_blueprint)
 
         from .category import category
+
         app.register_blueprint(category.category_blueprint)
 
         from .author import author
+
         app.register_blueprint(author.author_blueprint)
 
         from .authentication import authentication
+
         app.register_blueprint(authentication.auth_blueprint)
 
         from .review import review
+
         app.register_blueprint(review.review_blueprint)
 
     return app

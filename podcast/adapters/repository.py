@@ -1,6 +1,16 @@
 import abc
-from podcast.domainmodel.model import (Author, Podcast, Category, User, PodcastSubscription, Episode, AudioTime,
-                                       Comment, Review, Playlist)
+from podcast.domainmodel.model import (
+    Author,
+    Podcast,
+    Category,
+    User,
+    PodcastSubscription,
+    Episode,
+    AudioTime,
+    Comment,
+    Review,
+    Playlist,
+)
 
 
 repo_instance = None
@@ -14,109 +24,90 @@ class RepositoryException(Exception):
 class AbstractRepository(abc.ABC):
     @abc.abstractmethod
     def get_n_podcasts(self, n):
-        """ Returns n number of articles
+        """Returns n number of articles
         Returns None if the repository is empty.
         """
         raise NotImplementedError
 
     @abc.abstractmethod
     def get_podcast(self, pc_id):
-        """ Returns a Podcast whose id matches id, from the repository.
+        """Returns a Podcast whose id matches id, from the repository.
         If there are no matches, this method returns an empty list.
         """
         raise NotImplementedError
 
     def get_popular_categories(self):
-        """ return three Popular Categories
-        """
+        """return three Popular Categories"""
         raise NotImplementedError
 
     def get_editor_picks(self):
-        """ return three Editor picked podcasts
-        """
+        """return three Editor picked podcasts"""
         raise NotImplementedError
 
     def get_podcast_search_list(self):
-        """ return a podcast list according to filtered criteria
-        """
+        """return a podcast list according to filtered criteria"""
         raise NotImplementedError
 
     def get_podcasts_in_category(self, category_name):
-        """ return a Podcast list by Category
-        """
+        """return a Podcast list by Category"""
         raise NotImplementedError
 
     def get_podcasts_by_author(self, category_name):
-        """ return a Podcast list by Category
-        """
+        """return a Podcast list by Category"""
         raise NotImplementedError
 
     def get_all_podcasts(self):
-        """ return all Podcasts
-        """
+        """return all Podcasts"""
         raise NotImplementedError
 
     def get_all_categories(self):
-        """ return all Categories
-        """
+        """return all Categories"""
         raise NotImplementedError
 
     def get_all_authors(self):
-        """ return all Categories
-        """
+        """return all Categories"""
         raise NotImplementedError
 
     def get_top_podcasts(self):
-        """ return top podcasts
-        """
+        """return top podcasts"""
         raise NotImplementedError
 
     def get_recently_played(self):
-        """ return recently played podcasts
-        """
+        """return recently played podcasts"""
         raise NotImplementedError
 
     def get_new_podcasts(self):
-        """ return new podcasts
-        """
+        """return new podcasts"""
         raise NotImplementedError
 
     def get_continue_listening_podcasts(self):
-        """ return a list of continue listening podcasts
-        """
+        """return a list of continue listening podcasts"""
         raise NotImplementedError
 
     def get_top_authors(self):
-        """ return a list of top authors
-        """
+        """return a list of top authors"""
         raise NotImplementedError
 
     def get_total_audio_time(self, audio_times):
-        """ return a list of top authors
-        """
+        """return a list of top authors"""
         raise NotImplementedError
 
     def get_top_podcasts_list(self):
-        """ return a top podcasts list for show all
-        """
+        """return a top podcasts list for show all"""
         raise NotImplementedError
 
     def get_recently_played_list(self):
-        """ return a recently played podcasts list for show all
-        """
+        """return a recently played podcasts list for show all"""
         raise NotImplementedError
 
     def get_new_podcasts_list(self):
-        """ return a new podcasts list for show all
-        """
+        """return a new podcasts list for show all"""
         raise NotImplementedError
 
     def add_user(self, user: User):
-        """ add a user
-        """
+        """add a user"""
         raise NotImplementedError
 
     def get_user(self, user_name):
-        """ get a user
-        """
+        """get a user"""
         raise NotImplementedError

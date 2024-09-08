@@ -4,8 +4,7 @@ from podcast.adapters.repository import AbstractRepository
 from podcast.domainmodel.model import User
 
 
-utilities_blueprint = Blueprint(
-    'utilities_bp', __name__)
+utilities_blueprint = Blueprint("utilities_bp", __name__)
 
 
 def get_n_podcasts(quantity=3):

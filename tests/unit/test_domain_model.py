@@ -3,8 +3,19 @@ import os
 import pytest
 from datetime import datetime
 from podcast.adapters.datareader.csvdatareader import CSVDataReader
-from podcast.domainmodel.model import (Author, Podcast, Category, User, PodcastSubscription, Episode, AudioTime,
-                                       Comment, Review, Playlist)
+from podcast.domainmodel.model import (
+    Author,
+    Podcast,
+    Category,
+    User,
+    PodcastSubscription,
+    Episode,
+    AudioTime,
+    Comment,
+    Review,
+    Playlist,
+)
+
 
 # noinspection PyTypeChecker
 def test_author_initialization():
@@ -55,10 +66,15 @@ def test_author_hash():
     authors.add(author2)
     authors.add(author3)
     assert len(authors) == 3
-    assert repr(
-        sorted(authors)) == "[<Author 1: Doctor Squee>, <Author 3: Jesmond Parish Church>, <Author 2: USA Radio>]"
+    assert (
+        repr(sorted(authors))
+        == "[<Author 1: Doctor Squee>, <Author 3: Jesmond Parish Church>, <Author 2: USA Radio>]"
+    )
     authors.discard(author1)
-    assert repr(sorted(authors)) == "[<Author 3: Jesmond Parish Church>, <Author 2: USA Radio>]"
+    assert (
+        repr(sorted(authors))
+        == "[<Author 3: Jesmond Parish Church>, <Author 2: USA Radio>]"
+    )
 
 
 def test_author_name_setter():
@@ -156,17 +172,20 @@ def my_user():
 
 @pytest.fixture
 def my_episode(my_podcast, my_audio_time, my_date_time):
-    return Episode(1,
-                   my_podcast,
-                   "1: Festive food and farming",
-                   "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                   my_audio_time,
-                   """
+    return Episode(
+        1,
+        my_podcast,
+        "1: Festive food and farming",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        """
                        <p>John Bates hosts this festive special from the AHDB consumer insights team looking at how the 
                        season of goodwill changes what and how we buy, how Brexit might impact our favourite festive 
                        foods and what farmers and growers need to think about to gear up for Christmas future.</p><p>
                        <a href="https://ahdb.org.uk/">https://ahdb.org.uk/</a></p><p>Photo by Keenan Loo on Unsplash</p>
-                       """, my_date_time)
+                       """,
+        my_date_time,
+    )
 
 
 @pytest.fixture
@@ -214,7 +233,7 @@ def test_podcast_initialization():
         podcast3 = Podcast(-123, "Todd Clayton")
 
     podcast4 = Podcast(123, " ")
-    assert podcast4.title is 'Untitled'
+    assert podcast4.title is "Untitled"
     assert podcast4.image is None
 
 
@@ -251,7 +270,7 @@ def test_podcast_remove_category(my_podcast):
 
 def test_podcast_title_setter(my_podcast):
     my_podcast.title = "Dark Throne"
-    assert my_podcast.title == 'Dark Throne'
+    assert my_podcast.title == "Dark Throne"
 
     with pytest.raises(ValueError):
         my_podcast.title = " "
@@ -346,7 +365,9 @@ def test_user_lt():
 
 def test_user_add_remove_favourite_podcasts(my_user, my_subscription):
     my_user.add_subscription(my_subscription)
-    assert repr(my_user.subscription_list) == "[<PodcastSubscription 1: Owned by shyamli>]"
+    assert (
+        repr(my_user.subscription_list) == "[<PodcastSubscription 1: Owned by shyamli>]"
+    )
     my_user.add_subscription(my_subscription)
     assert len(my_user.subscription_list) == 1
     my_user.remove_subscription(my_subscription)
@@ -356,7 +377,10 @@ def test_user_add_remove_favourite_podcasts(my_user, my_subscription):
 def test_podcast_subscription_initialization(my_subscription):
     assert my_subscription.id == 1
     assert repr(my_subscription.owner) == "<User 1: shyamli>"
-    assert repr(my_subscription.podcast) == "<Podcast 100: 'Joe Toste Podcast - Sales Training Expert' by Joe Toste>"
+    assert (
+        repr(my_subscription.podcast)
+        == "<Podcast 100: 'Joe Toste Podcast - Sales Training Expert' by Joe Toste>"
+    )
 
     assert repr(my_subscription) == "<PodcastSubscription 1: Owned by shyamli>"
 
@@ -391,7 +415,10 @@ def test_podcast_subscription_equality(my_user, my_podcast):
 def test_podcast_subscription_hash(my_user, my_podcast):
     sub1 = PodcastSubscription(1, my_user, my_podcast)
     sub2 = PodcastSubscription(1, my_user, my_podcast)
-    sub_set = {sub1, sub2}  # Should only contain one element since hash should be the same
+    sub_set = {
+        sub1,
+        sub2,
+    }  # Should only contain one element since hash should be the same
     assert len(sub_set) == 1
 
 
@@ -460,62 +487,96 @@ def test_audiotime_lt():
 
 # Episode Class Tests
 def test_episode_initialization(my_podcast, my_audio_time, my_date_time):
-    episode1 = Episode(1,
-                       my_podcast,
-                       "1: Festive food and farming",
-                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                       my_audio_time,
-                       """
+    episode1 = Episode(
+        1,
+        my_podcast,
+        "1: Festive food and farming",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        """
                        <p>John Bates hosts this festive special from the AHDB consumer insights team looking at how the 
                        season of goodwill changes what and how we buy, how Brexit might impact our favourite festive 
                        foods and what farmers and growers need to think about to gear up for Christmas future.</p><p>
                        <a href="https://ahdb.org.uk/">https://ahdb.org.uk/</a></p><p>Photo by Keenan Loo on Unsplash</p>
-                       """, my_date_time)
+                       """,
+        my_date_time,
+    )
 
     # Random Episode 2 for same Podcast as episode1
-    episode2 = Episode(2,
-                       my_podcast,
-                       "2: Episode 2 Under Same Podcast",
-                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                       my_audio_time,
-                       "This is a test episode. Episode 2", my_date_time)
+    episode2 = Episode(
+        2,
+        my_podcast,
+        "2: Episode 2 Under Same Podcast",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        "This is a test episode. Episode 2",
+        my_date_time,
+    )
 
     assert repr(episode1) == "<Episode 1: 1: Festive food and farming, 5h 36m 0s>"
     assert repr(episode2) == "<Episode 2: 2: Episode 2 Under Same Podcast, 5h 36m 0s>"
 
     assert episode2.episode_description == "This is a test episode. Episode 2"
-    assert episode2.episode_audio_link == "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1"
+    assert (
+        episode2.episode_audio_link
+        == "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1"
+    )
 
     # test validate_non_negative_int
     with pytest.raises(ValueError):
-        episode3 = Episode(-3,
-                           my_podcast, "2: Episode 2 Under Same Podcast",
-                           "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                           my_audio_time, "This is a test episode. Episode 3", my_date_time)
+        episode3 = Episode(
+            -3,
+            my_podcast,
+            "2: Episode 2 Under Same Podcast",
+            "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+            my_audio_time,
+            "This is a test episode. Episode 3",
+            my_date_time,
+        )
 
     # test validate_non_empty_string
     with pytest.raises(ValueError):
-        episode4 = Episode(4,
-                           my_podcast, "",
-                           "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                           my_audio_time, "This is a test episode. Episode 4", my_date_time)
+        episode4 = Episode(
+            4,
+            my_podcast,
+            "",
+            "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+            my_audio_time,
+            "This is a test episode. Episode 4",
+            my_date_time,
+        )
 
 
 def test_episode_eq(my_podcast, my_audio_time, my_date_time):
-    episode1 = Episode(1,
-                       my_podcast, "4 Spaces",
-                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                       my_audio_time, "This is a test episode. Episode 1", my_date_time)
+    episode1 = Episode(
+        1,
+        my_podcast,
+        "4 Spaces",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        "This is a test episode. Episode 1",
+        my_date_time,
+    )
 
-    episode2 = Episode(1,
-                       my_podcast, "4 Spaces",
-                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                       my_audio_time, "This is a test episode. Episode 1", my_date_time)
+    episode2 = Episode(
+        1,
+        my_podcast,
+        "4 Spaces",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        "This is a test episode. Episode 1",
+        my_date_time,
+    )
 
-    episode3 = Episode(3,
-                       my_podcast, "A different Episode",
-                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                       my_audio_time, "This is a test episode. Episode 3", my_date_time)
+    episode3 = Episode(
+        3,
+        my_podcast,
+        "A different Episode",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        "This is a test episode. Episode 3",
+        my_date_time,
+    )
 
     assert episode1 == episode2
     assert episode1 != episode3
@@ -523,20 +584,35 @@ def test_episode_eq(my_podcast, my_audio_time, my_date_time):
 
 
 def test_episode_hash(my_podcast, my_audio_time, my_date_time):
-    episode1 = Episode(1,
-                       my_podcast, "Test Episode 1",
-                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                       my_audio_time, "This is a test episode. Episode 1", my_date_time)
+    episode1 = Episode(
+        1,
+        my_podcast,
+        "Test Episode 1",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        "This is a test episode. Episode 1",
+        my_date_time,
+    )
 
-    episode2 = Episode(2,
-                       my_podcast, "Test Episode 2",
-                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                       my_audio_time, "This is a test episode. Episode 2", my_date_time)
+    episode2 = Episode(
+        2,
+        my_podcast,
+        "Test Episode 2",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        "This is a test episode. Episode 2",
+        my_date_time,
+    )
 
-    episode3 = Episode(3,
-                       my_podcast, "Test Episode 3",
-                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                       my_audio_time, "This is a test episode. Episode 3", my_date_time)
+    episode3 = Episode(
+        3,
+        my_podcast,
+        "Test Episode 3",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        "This is a test episode. Episode 3",
+        my_date_time,
+    )
 
     episode_set = set()
     episode_set.add(episode1)
@@ -551,20 +627,35 @@ def test_episode_hash(my_podcast, my_audio_time, my_date_time):
 
 
 def test_episode_lt(my_podcast, my_audio_time, my_date_time):
-    episode1 = Episode(1,
-                       my_podcast, "Test Episode 1",
-                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                       my_audio_time, "This is a test episode. Episode 1", my_date_time)
+    episode1 = Episode(
+        1,
+        my_podcast,
+        "Test Episode 1",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        "This is a test episode. Episode 1",
+        my_date_time,
+    )
 
-    episode2 = Episode(2,
-                       my_podcast, "Test Episode 2",
-                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                       my_audio_time, "This is a test episode. Episode 2", my_date_time)
+    episode2 = Episode(
+        2,
+        my_podcast,
+        "Test Episode 2",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        "This is a test episode. Episode 2",
+        my_date_time,
+    )
 
-    episode3 = Episode(3,
-                       my_podcast, "Test Episode 3",
-                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                       my_audio_time, "This is a test episode. Episode 3", my_date_time)
+    episode3 = Episode(
+        3,
+        my_podcast,
+        "Test Episode 3",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        "This is a test episode. Episode 3",
+        my_date_time,
+    )
 
     assert episode1 < episode2
     assert episode2 < episode3
@@ -574,10 +665,15 @@ def test_episode_lt(my_podcast, my_audio_time, my_date_time):
 
 
 def test_episode_setters(my_podcast, my_audio_time, my_date_time):
-    episode1 = Episode(1,
-                       my_podcast, "1: Festive food and farming",
-                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                       my_audio_time, "Temporary shortened test description", my_date_time)
+    episode1 = Episode(
+        1,
+        my_podcast,
+        "1: Festive food and farming",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        "Temporary shortened test description",
+        my_date_time,
+    )
 
     # set new invalid ID
     with pytest.raises(ValueError):
@@ -605,11 +701,15 @@ def test_episode_setters(my_podcast, my_audio_time, my_date_time):
     episode1.episode_description = "This is the new episode description"
     assert episode1.episode_description == "This is the new episode description"
 
-    new_date_time_obj = datetime.strptime("2012-12-12 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z")
+    new_date_time_obj = datetime.strptime(
+        "2012-12-12 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z"
+    )
     episode1.episode_publish_date = new_date_time_obj
     assert episode1.episode_publish_date == new_date_time_obj
     # test str(Episode)
-    assert str(episode1) == """
+    assert (
+        str(episode1)
+        == """
             Episode ID: 2
             Episode Podcast: <Podcast 100: 'Joe Toste Podcast - Sales Training Expert' by Joe Toste>
             Episode Title: The Forbidden Tomb
@@ -618,6 +718,7 @@ def test_episode_setters(my_podcast, my_audio_time, my_date_time):
             Episode Length: 4h 20m 24s
             Episode Link: https://testlink.com
         """
+    )
 
 
 # Comment Class Tests
@@ -657,12 +758,15 @@ def test_comment_eq(my_user, my_date_time):
 
 def test_comment_str(my_user, my_date_time):
     comment1 = Comment(1, my_user, "Good!", my_date_time)
-    assert str(comment1) == """
+    assert (
+        str(comment1)
+        == """
             Comment ID: 1
             Comment Owner: <User 1: shyamli>
             Commented Date: 2017-12-11 15:00:00+00:00
             Comment Text: Good!
         """
+    )
 
 
 # Test setters
@@ -686,7 +790,9 @@ def test_comment_setters(my_user, my_date_time, my_author):
     assert comment1.owner == user1
 
     # set new comment_date
-    new_date_time_obj = datetime.strptime("2024-11-01 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z")
+    new_date_time_obj = datetime.strptime(
+        "2024-11-01 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z"
+    )
     comment1.comment_date = new_date_time_obj
     assert comment1.comment_date == new_date_time_obj
 
@@ -896,16 +1002,23 @@ def test_playlist_add_episode(my_user, my_episode, my_podcast):
     assert len(playlist1._episodes) == 1
 
 
-def test_playlist_remove_episode(my_user, my_episode, my_podcast, my_date_time, my_audio_time):
+def test_playlist_remove_episode(
+    my_user, my_episode, my_podcast, my_date_time, my_audio_time
+):
     playlist1 = Playlist(1, my_user)
     playlist1.add_episode(my_episode)
     playlist1.remove_episode(my_episode)
     assert len(playlist1._episodes) == 0
 
-    episode2 = Episode(2,
-                       my_podcast, "Test Episode 2",
-                       "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-                       my_audio_time, "This is a test episode. Episode 2", my_date_time)
+    episode2 = Episode(
+        2,
+        my_podcast,
+        "Test Episode 2",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        "This is a test episode. Episode 2",
+        my_date_time,
+    )
     playlist1.add_episode(my_episode)
     playlist1.remove_episode(episode2)
     assert len(playlist1._episodes) == 1
@@ -922,8 +1035,14 @@ def test_csvdatareader_return_types(my_csv_data_reader):
     # test all objects inside the above data types is of the correct type
     assert all(isinstance(podcast, Podcast) for podcast in my_csv_data_reader.podcasts)
     assert all(isinstance(episode, Episode) for episode in my_csv_data_reader.episodes)
-    assert all(isinstance(author_obj, Author) for author_obj in my_csv_data_reader.authors.values())
-    assert all(isinstance(category, Category) for category in my_csv_data_reader.categories.values())
+    assert all(
+        isinstance(author_obj, Author)
+        for author_obj in my_csv_data_reader.authors.values()
+    )
+    assert all(
+        isinstance(category, Category)
+        for category in my_csv_data_reader.categories.values()
+    )
 
     # Write episodes in output file to check if all episodes are being stored correctly.
     # with open('output.txt', 'w') as file:
