@@ -51,4 +51,7 @@ def create_app(testing_config=None):
         from .authentication import authentication
         app.register_blueprint(authentication.auth_blueprint)
 
+        from .review import review
+        app.register_blueprint(review.review_blueprint)
+
     return app
