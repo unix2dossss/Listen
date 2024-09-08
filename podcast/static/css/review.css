@@ -291,7 +291,6 @@
 
 .form-group label {
     display: block;
-    margin-bottom: 10px;
     font-size: 1em;
 }
 
@@ -308,8 +307,18 @@
 }
 
 .form-group textarea {
-    height: 75px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background-color: #404248;
+    color: white;
+    font-size: 1em;
+    font-family: 'Montserrat', sans-serif;
+    height: 100px;
     resize: none;
+    box-sizing: border-box;
 }
 
 .rating-group {
@@ -348,4 +357,94 @@
 
 .submit-btn:hover {
     background-color: #0056b3;
+}
+
+.rating-container {
+    display: flex;
+    align-items: center; /* Vertically aligns the stars and label */
+    gap: 10px; /* Adjust the gap between the label and stars */
+}
+
+.rating {
+    font-size:1.2rem;
+    display: inline-block;
+}
+
+.rating .star {
+  position: relative;
+  float: left;
+  width: 1.4rem;
+  height: 1.2rem;
+	font-family:FontAwesome;
+	font-weight:normal;
+	font-style:normal;
+  text-shadow: 1px 1px 2px rgba(0,0,0,.4);
+  border: 0;
+  background: transparent;
+}
+
+.rating .star:before {
+	position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.2rem;
+  height: 1.2rem;
+  transform: translate(-50%, -50%);
+  content:"\f006";
+	color:#777;
+}
+
+/* Floating this right, means that the stars
+ * fill from the left, because of the successor
+ * rule defined below. @see https://css-tricks.com/star-ratings/
+ */
+.rating--interactive .star {
+  float: right;
+}
+
+.rating--interactive .star:hover {
+	cursor:pointer;
+}
+
+.rating--interactive .star:hover:before,
+.rating--interactive .star:hover ~ .star:before {
+	content:"\f005";
+	color:#e3cf7a
+}
+
+
+.rating input {
+  display: none; /* Hide the radio buttons */
+}
+
+.rating label {
+  position: relative;
+  float: left;
+  width: 1.4rem;
+  height: 1.2rem;
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, .4);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.rating label:before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.2rem;
+  height: 1.2rem;
+  transform: translate(-50%, -50%);
+  content: "\f006";
+  color: #777;
+}
+
+.rating input:checked ~ label:before,
+.rating label:hover:before,
+.rating label:hover ~ label:before {
+  content: "\f005";
+  color: #e3cf7a;
 }
