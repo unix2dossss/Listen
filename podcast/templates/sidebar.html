@@ -37,12 +37,20 @@
         ><i class="fa-solid fa-right-from-bracket"></i>Sign Out</a
       >
     </li>
+    <li class="user-card">
+      <a><i class="fa-solid fa-circle-user"></i>Vandan Bhatt</a
+      >
+    </li>
   </ul>
   {% else %}
   <ul class="signout">
     <li>
       <a href="{{ url_for('auth_bp.login') }}"
         ><i class="fa-solid fa-user"></i>Sign In</a
+      >
+    </li>
+    <li class="user-card">
+      <a><i class="fa-regular fa-circle-user"></i>Guest</a
       >
     </li>
   </ul>

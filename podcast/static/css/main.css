@@ -117,3 +117,10 @@ body {
     drop-shadow(0 0 15px rgba(255, 255, 255, 0.35))
     drop-shadow(0 0 15px rgba(255, 255, 255, 0.15));
 }
+
+
+.signout .user-card a:hover {
+  background-color: rgba(0,0,0,0);
+  padding-right: 0;
+  cursor: default;
+}

@@ -92,11 +92,15 @@
                 <p>
                   Already a user?
                   <a href="{{ url_for('auth_bp.login') }}">Login</a>
+                  or
+                  <a href="{{ url_for('auth_bp.register') }}#modal">Guest</a>
                 </p>
                 {% elif login_type == 'Login' %}
                 <p>
                   Have no account?
                   <a href="{{ url_for('auth_bp.register') }}#modal">Register</a>
+                  or
+                  <a href="{{ url_for('auth_bp.register') }}#modal">Guest</a>
                 </p>
                 {% endif %}
               </div>
