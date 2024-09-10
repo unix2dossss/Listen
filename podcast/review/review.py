@@ -29,11 +29,11 @@ def submit_review(podcast_id):
     print(username)
     print(current_user)
 
-    # Don't allow if the user has already reviewed a podcast
-    if services.user_has_reviewed_podcast(current_user, podcast_id, repo.repo_instance):
-        flash("You have already reviewed this podcast.", "error")
-        print("you have already reviewed this podcast")
-        return redirect(url_for("review_bp.review", podcast_id=podcast_id))
+    # # Don't allow if the user has already reviewed a podcast
+    # if services.user_has_reviewed_podcast(current_user, podcast_id, repo.repo_instance):
+    #     flash("You have already reviewed this podcast.", "error")
+    #     print("you have already reviewed this podcast")
+    #     return redirect(url_for("review_bp.review", podcast_id=podcast_id))
 
     # Create a comment
     now = datetime.now()
