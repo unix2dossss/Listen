@@ -1,0 +1,40 @@
+{% extends 'layout.html' %} {% block component_css %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/playlist.css') }}"
+/>
+{% endblock %} {% block content %}
+<main class="main-content">
+  <section>
+    <h1>Your Playlists...</h1>
+    <div class="header">
+      <div class="header-items">
+        <a href="{{ url_for('home_bp.home', facet_name='top_podcasts') }}">
+          <div
+            class="header-item {% if facet_name not in ['recently_played', 'new_podcasts'] %}active{% endif %}"
+          >
+            Top Podcasts
+          </div>
+        </a>
+        <a href="{{ url_for('home_bp.home', facet_name='recently_played') }}">
+          <div
+            class="header-item {% if facet_name == 'recently_played' %}active{% endif %}"
+          >
+            Recently Played
+          </div>
+        </a>
+        <a href="{{ url_for('home_bp.home', facet_name='new_podcasts') }}">
+          <div
+            class="header-item {% if facet_name == 'new_podcasts' %}active{% endif %}"
+          >
+            New Podcasts
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="bottom-section">
+
+    </div>
+  </section>
+</main>
+{% endblock %}

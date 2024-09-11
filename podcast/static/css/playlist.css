@@ -1,0 +1,481 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+  background: #222423;
+  font-family: Montserrat;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px;
+  align-items: flex-start;
+  background-color: #222423;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.main-content h1 {
+  margin-top: 10px;
+  margin-bottom: 25px;
+  font-size: 40px;
+  font-family: League Spartan;
+  text-align: left;
+  color: #fff;
+}
+
+.right-side {
+  width: 80%;
+  position: absolute;
+  right: 0;
+}
+
+.top-section {
+  text-align: center;
+}
+
+.top-section h1 {
+  color: white;
+  font-size: 2.5em;
+  padding-top: 3%;
+  padding-left: 30px;
+  text-align: left;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 30px;
+  width: 100%;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+.header-items {
+  display: flex;
+  align-items: center;
+}
+
+.header-item {
+  margin: 0 10px;
+  padding: 8px 16px;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.header-item a {
+  text-decoration: none;
+  color: white;
+}
+
+.header-item:hover {
+  background-color: #353744;
+  border-radius: 20px;
+}
+
+.header-item.active {
+  background-color: #353744;
+  color: #fff;
+  border-radius: 20px;
+}
+
+.show-all {
+  color: #fff;
+  padding-right: 20px;
+  cursor: pointer;
+}
+
+.show-all:hover {
+  text-decoration: underline;
+}
+
+.show-all a {
+  text-decoration: none;
+  color: white;
+}
+
+.podcast-cards {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.podcast-card {
+  background-color: #171a18;
+  width: calc(25% - 30px);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.podcast-card:hover {
+  transform: scale(1.05);
+}
+
+.podcast-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-bottom: 2px solid #444;
+}
+
+.podcast-info {
+  padding: 10px;
+  text-align: left;
+  color: white;
+  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0.85),
+    rgba(0, 0, 0, 0.05)
+  );
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.podcast-info h3 {
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.podcast-info p {
+  margin: 0;
+  font-size: 12px;
+  color: #b5b5b5;
+}
+
+.bottom-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%; /* Ensure it takes up the full width of the container */
+}
+
+.podcasts {
+  background: #171a18;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.podcast {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.podcast .podcast-id {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 44px;
+  width: 44px;
+  text-align: center;
+  font-size: 13px;
+  margin-right: 12px;
+}
+
+.podcast-details {
+  display: flex;
+  justify-content: left;
+  align-items: center; /*Vertically centers items */
+  /*width: 380px; */
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.podcast-details .podcast-name-owner {
+  width: 200px;
+  font-size: 14px;
+}
+.podcast-name-owner .name {
+  margin-bottom: 10px;
+}
+
+.podcast-name-owner .owner {
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.podcast-category {
+  text-align: left;
+  color: gainsboro;
+  font-size: 13px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.podcast-duration {
+  flex-basis: 80px;
+  text-align: left;
+  /*padding: 2px 10px; */
+  font-size: 13px;
+}
+
+.podcast-list {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  width: 100%;
+  font-size: 13px;
+}
+.podcast-list a {
+  color: #d2d5d9;
+}
+
+.continue-listening-heading,
+.top-authors-heading {
+  font-size: 20px;
+  font-family: Montserrat;
+  font-weight: normal;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.continue-listening {
+  flex-basis: 90%;
+  margin-right: 20px;
+}
+
+.continue-listening,
+.top-authors {
+  flex: 1 1 48%; /* Allow these sections to take up to 48% of the available space */
+  min-width: 300px;
+  max-width: 100%; /* Ensure they don’t exceed the available width */
+  box-sizing: border-box;
+}
+
+/*
+.categories{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 10px;
+    width: 100%;
+    height: 290px;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #171A18;
+    align-items: center;
+ } */
+
+.authors,
+.categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #171a18;
+  align-items: center;
+  height: auto;
+  box-sizing: border-box;
+}
+
+.top-authors .author,
+.continue-listening .podcasts {
+  width: 100%; /* Make sure these containers take up the full width of their parent */
+}
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: grey;
+  border-radius: 4px;
+  overflow: hidden;
+  text-align: center;
+  height: 50px;
+  object-fit: cover;
+}
+
+.category-card img {
+  width: 96%; /* Makes the image take up the full width of the card */
+  height: 100px; /* Ensures the image covers the full height of the card */
+  object-fit: cover; /* Ensures the image scales and crops to fill the card without distortion */
+  border-radius: 4px; /* Adds rounded corners to match the card's style */
+}
+
+.categories a {
+  margin: 3px;
+  font-size: 15px;
+  display: inline-block;
+  vertical-align: middle; /* Center the inline-block element */
+  line-height: normal;
+}
+
+.categories {
+  display: flex;
+  justify-content: flex-end; /* Align to the left */
+  margin-top: 1px;
+  margin-right: 2px;
+  font-size: 11px;
+  color: #d2d5d9;
+}
+
+.continue-listening {
+  color: #d2d5d9;
+}
+
+.author {
+  position: relative;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.author-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.author-info h2 {
+  color: white;
+  font-size: 18px;
+  font-weight: normal;
+  margin-left: 20px;
+  text-align: left;
+}
+
+.top-authors {
+  flex-basis: 10%;
+  align-items: center;
+  text-align: left;
+}
+
+.authors {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 10px;
+  width: 100%;
+  height: 239px;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #171a18;
+  align-items: center;
+}
+
+.authors {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 10px;
+  width: 100%;
+  height: 239px;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #171a18;
+  align-items: center;
+}
+
+.author {
+  position: relative;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.author-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.author-info p {
+  color: white;
+  font-size: 1.1em;
+  font-weight: normal;
+  margin-left: 20px;
+}
+
+.author-info img {
+  width: auto;
+  height: 80%;
+  border-radius: 100px;
+}
+
+.profile-circle {
+  width: 2.5em; /* Relative to the font size */
+  height: 2.5em; /* Relative to the font size */
+  background-color: #4caf50; /* Change the color as needed */
+  color: white;
+  font-size: 1.5em; /* Relative to the surrounding text */
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.overlay h2 {
+  color: white;
+  font-size: 18px;
+  font-weight: normal;
+  margin-left: 20px;
+  transition: color 0.3s ease;
+}
