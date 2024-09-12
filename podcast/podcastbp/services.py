@@ -51,6 +51,7 @@ def podcast_episodes(podcast_id: int, repo: AbstractRepository):
     for episode in sorted_episodes:
         episode_dict = dict()
 
+        episode_dict["episode_id"] = episode.episode_id
         episode_dict["episode_number"] = ep_n
         ep_n += 1
         episode_dict["episode_title"] = episode.episode_title

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 import podcast.adapters.repository as repo
 import podcast.playlist.services as services
 
@@ -45,3 +45,9 @@ def playlist(facet_name):
         end_page=end_page,
         facet_name=facet_name
     )
+
+
+@playlist_blueprint.route("/playlist/add/<item_type>/<item_id>", methods=["GET"])
+def add_to_playlist(item_type, item_id):
+    print(item_type, item_id)
+    return "<h1>okay</h1>"

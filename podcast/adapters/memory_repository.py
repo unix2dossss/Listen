@@ -25,6 +25,8 @@ class MemoryRepository(AbstractRepository):
         self._categories = {}
         self._podcasts_by_category = {}
         self.__users = []
+        self.__podcasts_playlist = []
+        self.__episodes_playlist = []
 
     # Getter for _podcasts
     @property

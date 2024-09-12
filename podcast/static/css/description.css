@@ -226,17 +226,18 @@
 .episode-content {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Adds space between elements */
+  gap: 10px;
+  width: 100%;
 }
 
 .add-playlist-btn {
   margin-bottom: 10px;
-  align-self: flex-start; /* Aligns the button to the left within the episode-content */
+  align-self: flex-start;
 }
 
 .episode-header {
   display: flex;
-  justify-content: space-between; /* Align title to the left and button to the right */
+  justify-content: space-between;
   align-items: center; /* Vertically align items */
 }
 
