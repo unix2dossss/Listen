@@ -119,3 +119,7 @@ class AbstractRepository(abc.ABC):
     def add_review(self, review, podcast_id):
         """add review to podcast"""
         raise NotImplementedError
+
+    def get_podcast_average_rating(self, podcast_id):
+        """get average rating of a podcast"""
+        raise NotImplementedError

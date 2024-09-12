@@ -199,6 +199,17 @@ class MemoryRepository(AbstractRepository):
         podcast = self.get_podcast(podcast_id)
         podcast.add_review(review)
 
+    def get_podcast_average_rating(self, podcast_id):
+        podcast = self.get_podcast(podcast_id)
+        average_rating = None
+        total_rating = 0
+
+        if len(podcast.reviews) != 0:
+            for review in podcast.reviews:
+                total_rating += review.rating
+            average_rating = round(total_rating / len(podcast.reviews), 1)
+
+        return average_rating
 
 def populate(data_path: Path, repo: MemoryRepository):
     # create instance of csvreader

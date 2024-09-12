@@ -61,3 +61,11 @@ def podcast_episodes(podcast_id: int, repo: AbstractRepository):
         episodes_list.append(episode_dict)
 
     return episodes_list
+
+def get_podcast_average_rating(podcast_id: int, repo: AbstractRepository):
+    average_rating = repo.get_podcast_average_rating(podcast_id)
+    return average_rating
+
+def get_podcast_review_count(podcast_id: int, repo: AbstractRepository):
+    podcast_reviews = repo.get_reviews_of_podcast(podcast_id)
+    return len(podcast_reviews)

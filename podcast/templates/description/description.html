@@ -47,6 +47,12 @@
       ><a href="{{ p_about.podcast_website }}">{{ p_about.podcast_website }}</a>
     </p>
     <div class="about-tags">
+      {% if p_average_rating == None %}
+        <span class="tag"><i class="fa-solid fa-star"></i>None</span>
+      {% else %}
+        <span class="tag"><i class="fa-solid fa-star"></i>{{ p_average_rating }} ({{ p_review_count }})</span>
+      {% endif %}
+
       {% for category in p_categories %}
       <span class="tag">{{ category.category_name }}</span>
       {% endfor %}
