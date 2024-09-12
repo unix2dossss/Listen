@@ -76,6 +76,9 @@ class MemoryRepository(AbstractRepository):
     def get_podcast(self, pc_id):
         return self._podcasts[pc_id - 1]
 
+    def get_episode(self, ep_id):
+        return self._episodes[ep_id - 1]
+
     def get_popular_categories(self):
         popular_categories = [
             (list(self._categories.values())[1]),

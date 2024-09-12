@@ -696,6 +696,14 @@ class Playlist:
         if podcast in self._episodes:
             self._podcasts.remove(podcast)
 
+    @property
+    def episodes(self) -> [Episode]:
+        return self._episodes
+
+    @property
+    def podcasts(self) -> [Podcast]:
+        return self._podcasts
+
     def __repr__(self) -> str:
         return f"<Playlist {self._id}: {self._name}>"
 

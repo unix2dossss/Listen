@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
 import podcast.adapters.repository as repo
 import podcast.playlist.services as services
-
+import podcast.utilities.services as utilities
 
 playlist_blueprint = Blueprint("playlist_bp", __name__)
 
@@ -13,8 +13,11 @@ def playlist(facet_name):
     per_page = 12
     max_pages_to_show = 5
 
+    username = session["username"]
+    user = utilities.get_user_by_username(username, repo.repo_instance)
+
     if facet_name == "podcasts":
-        playlist_items = services.get_user_playlist_podcasts(repo.repo_instance)
+        playlist_items = services.get_user_playlist_podcasts(user, repo.repo_instance)
         playlist_page_title = "Your Saved Podcasts"
     else:
         playlist_items = services.get_user_playlist_episodes(repo.repo_instance)
@@ -50,9 +53,12 @@ def playlist(facet_name):
 @playlist_blueprint.route("/playlist/add/<item_type>/<item_id>/<podcast_id>", methods=["GET"])
 def add_to_playlist(item_type, item_id, podcast_id):
 
+    username = session["username"]
+    user = utilities.get_user_by_username(username, repo.repo_instance)
+
     if item_type == 'podcast':
-        services.add_to_podcast_playlist(item_id, repo.repo_instance)
+        services.add_to_podcast_playlist(user, podcast_id, repo.repo_instance)
     else:   # episode
-        services.add_to_episode_playlist(item_id, repo.repo_instance)
+        services.add_to_episode_playlist(user, item_id, repo.repo_instance)
 
     return redirect(url_for("podcast_blueprint.description", id=podcast_id))

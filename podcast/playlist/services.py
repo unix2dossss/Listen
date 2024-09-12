@@ -1,5 +1,5 @@
 from podcast.adapters.repository import AbstractRepository
-from podcast.domainmodel.model import User
+from podcast.domainmodel.model import User, Playlist
 
 
 def format_podcast_list(podcasts, repo=None):
@@ -35,8 +35,9 @@ def format_podcast_list(podcasts, repo=None):
     return formatted_podcasts
 
 
-def get_user_playlist_podcasts(repo_instance):
-    podcasts = repo_instance.get_recently_played_list()
+def get_user_playlist_podcasts(user: User, repo_instance):
+    user_playlist: Playlist = get_user_playlist(user, repo_instance)
+    podcasts = user_playlist.podcasts
     formatted_podcasts = format_podcast_list(sorted(podcasts))
     return formatted_podcasts
 
@@ -51,11 +52,19 @@ def get_user_playlist(user: User, repo: AbstractRepository):
     return repo.get_user_playlist(user)
 
 
-def add_to_podcast_playlist(user: User, item_id, repo: AbstractRepository):
+def add_to_podcast_playlist(user: User, podcast_id, repo: AbstractRepository):
     playlist = get_user_playlist(user, repo)
     print(playlist)
+    podcast = repo.get_podcast(int(podcast_id))
+    playlist.add_podcast_to_playlist(podcast)
+    print(playlist.podcasts)
     return None
 
 
-def add_to_episode_playlist(item_id, repo: AbstractRepository):
+def add_to_episode_playlist(user: User, episode_id, repo: AbstractRepository):
+    playlist = get_user_playlist(user, repo)
+    print(playlist)
+    episode = repo.get_episode(int(episode_id))
+    playlist.add_episode(episode)
+    print(playlist.episodes)
     return None
