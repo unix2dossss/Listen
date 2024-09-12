@@ -18,7 +18,7 @@ def playlist(facet_name):
         playlist_page_title = "Your Saved Podcasts"
     else:
         playlist_items = services.get_user_playlist_episodes(repo.repo_instance)
-        playlist_page_title = "Your Savede Episodes"
+        playlist_page_title = "Your Saved Episodes"
 
     total_pages = (len(playlist_items) + per_page - 1) // per_page
 
