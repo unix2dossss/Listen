@@ -50,12 +50,14 @@ def submit_review(podcast_id):
 @review_blueprint.route("/review/<podcast_id>", methods=["GET"])
 def review(podcast_id):
     podcast_id = int(podcast_id)
+    page = request.args.get("page", 1, type=int)
+    per_page = 2  # Number of reviews per page
+    max_pages_to_show = 5
+
     # Get podcast details to display on the page
     p_about = podcastbp_services.podcast_about(podcast_id, repo.repo_instance)
     p_categories = podcastbp_services.podcast_categories(podcast_id, repo.repo_instance)
     p_reviews = services.get_reviews_of_podcast(podcast_id, repo.repo_instance)
-    p_reviews_dict = services.podcast_reviews_dict(p_reviews)
-    print(p_reviews_dict)
 
     submit_disabled = True
     user_status = "Guest"
@@ -74,11 +76,35 @@ def review(podcast_id):
         )
     print(submit_disabled)
 
+    # Calculate pagination details
+    total_reviews = len(p_reviews)
+    total_pages = (total_reviews + per_page - 1) // per_page
+
+    if page < 1:
+        page = 1
+    elif page > total_pages:
+        page = total_pages
+
+    start_page = max(1, page - max_pages_to_show // 2)
+    end_page = min(total_pages, start_page + max_pages_to_show - 1)
+
+    if end_page - start_page < max_pages_to_show:
+        start_page = max(1, end_page - max_pages_to_show + 1)
+
+    paginated_reviews = p_reviews[(page - 1) * per_page: page * per_page]
+
+    p_reviews_dict = services.podcast_reviews_dict(paginated_reviews)
+    print(p_reviews_dict)
+
     return render_template(
         "review/review.html",
         p_about=p_about,
         p_categories=p_categories,
         p_reviews=p_reviews_dict,
+        current_page=page,
+        total_pages=total_pages,
+        start_page=start_page,
+        end_page=end_page,
         submit_disabled=submit_disabled,
         user_status=user_status
     )
