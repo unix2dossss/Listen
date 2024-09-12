@@ -42,32 +42,32 @@
     <!--                <span class="tag">{{ category.category_name }}</span>-->
     <!--            {% endfor %}-->
     <!--        </div>-->
-    {% if submit_disabled %}
+    {% if submit_disabled and user_status != "Guest" %}
       <p class="already-reviewed">You have already reviewed this podcast!</p>
-    {% else %}
-    <form action="{{ url_for('review_bp.submit_review', podcast_id=p_about.podcast_id) }}" method="post">
-        <div class="form-group rating-container">
-            <label>How was it?</label>
-            <div class="rating rating--interactive" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
-                <input type="radio" id="star5" name="rating" value="5" />
-                <label class="star" for="star5" title="5 stars"></label>
-                <input type="radio" id="star4" name="rating" value="4" />
-                <label class="star" for="star4" title="4 stars"></label>
-                <input type="radio" id="star3" name="rating" value="3" />
-                <label class="star" for="star3" title="3 stars"></label>
-                <input type="radio" id="star2" name="rating" value="2" />
-                <label class="star" for="star2" title="2 stars"></label>
-                <input type="radio" id="star1" name="rating" value="1" checked />
-                <label class="star" for="star1" title="1 star"></label>
+    {% elif not submit_disabled and user_status != "Guest" %}
+        <form action="{{ url_for('review_bp.submit_review', podcast_id=p_about.podcast_id) }}" method="post">
+            <div class="form-group rating-container">
+                <label>How was it?</label>
+                <div class="rating rating--interactive" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                    <input type="radio" id="star5" name="rating" value="5" />
+                    <label class="star" for="star5" title="5 stars"></label>
+                    <input type="radio" id="star4" name="rating" value="4" />
+                    <label class="star" for="star4" title="4 stars"></label>
+                    <input type="radio" id="star3" name="rating" value="3" />
+                    <label class="star" for="star3" title="3 stars"></label>
+                    <input type="radio" id="star2" name="rating" value="2" />
+                    <label class="star" for="star2" title="2 stars"></label>
+                    <input type="radio" id="star1" name="rating" value="1" checked />
+                    <label class="star" for="star1" title="1 star"></label>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <textarea id="reviewText" name="reviewText" maxlength="500" placeholder="Write your review here..." required></textarea>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="submit-btn">Submit Review</button>
-        </div>
-    </form>
+            <div class="form-group">
+                <textarea id="reviewText" name="reviewText" maxlength="500" placeholder="Write your review here..." required></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="submit-btn">Submit Review</button>
+            </div>
+        </form>
     <hr class="about-separator" />
     {% endif %}
   </section>

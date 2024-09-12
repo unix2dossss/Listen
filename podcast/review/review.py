@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Blueprint, render_template, url_for, redirect, request, flash
+from flask import Blueprint, render_template, url_for, redirect, request, flash, session
 import podcast.adapters.repository as repo
 import podcast.review.services as services
 import podcast.podcastbp.services as podcastbp_services
@@ -57,15 +57,21 @@ def review(podcast_id):
     p_reviews_dict = services.podcast_reviews_dict(p_reviews)
     print(p_reviews_dict)
 
-    username = utilities.get_username()
-    current_user = utilities.get_user_by_username(username, repo.repo_instance)
-    print(username)
-    print(current_user)
+    submit_disabled = True
+    user_status = "Guest"
+    print(session)
 
-    # Disable Submit Button if user has already reviewed!
-    submit_disabled = services.user_has_reviewed_podcast(
-        current_user, podcast_id, repo.repo_instance
-    )
+    if "logged_in" in session:
+        username = utilities.get_username()
+        current_user = utilities.get_user_by_username(username, repo.repo_instance)
+        user_status = username
+        print(username)
+        print(current_user)
+
+        # Disable Submit Button if user has already reviewed!
+        submit_disabled = services.user_has_reviewed_podcast(
+            current_user, podcast_id, repo.repo_instance
+        )
     print(submit_disabled)
 
     return render_template(
@@ -74,6 +80,7 @@ def review(podcast_id):
         p_categories=p_categories,
         p_reviews=p_reviews_dict,
         submit_disabled=submit_disabled,
+        user_status=user_status
     )
 
 
