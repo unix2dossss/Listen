@@ -1,18 +1,11 @@
 from pathlib import Path
 from typing import Any
 
-from podcast.adapters.repository import AbstractRepository, RepositoryException
+from podcast.adapters.repository import AbstractRepository
 from podcast.adapters.datareader.csvdatareader import CSVDataReader
 from podcast.domainmodel.model import (
-    Author,
-    Podcast,
-    Category,
     User,
-    PodcastSubscription,
-    Episode,
     AudioTime,
-    Comment,
-    Review,
     Playlist,
 )
 
@@ -25,8 +18,7 @@ class MemoryRepository(AbstractRepository):
         self._categories = {}
         self._podcasts_by_category = {}
         self.__users = []
-        self.__podcasts_playlist = []
-        self.__episodes_playlist = []
+        self.__playlists = []
 
     # Getter for _podcasts
     @property
@@ -186,6 +178,9 @@ class MemoryRepository(AbstractRepository):
     def add_user(self, user: User):
         self.__users.append(user)
 
+    def add_playlist(self, playlist: Playlist):
+        self.__playlists.append(playlist)
+
     def get_user(self, username: str) -> Any | None:
         for user in self.__users:
             if user.username == username.lower():
@@ -200,6 +195,11 @@ class MemoryRepository(AbstractRepository):
     def add_review(self, review, podcast_id):
         podcast = self.get_podcast(podcast_id)
         podcast.add_review(review)
+
+    def get_user_playlist(self, user: User):
+        for playlist in self.__playlists:
+            if playlist.user == user:
+                return playlist
 
 
 def populate(data_path: Path, repo: MemoryRepository):

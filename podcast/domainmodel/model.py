@@ -640,14 +640,18 @@ class Review:
 
 
 class Playlist:
+    next_playlist_id = 1
+
     def __init__(self, playlist_id: int, user: User, name: str = "Untitled"):
         validate_non_negative_int(playlist_id)
         if not isinstance(user, User):
             raise TypeError("User must be a User object.")
-        self._id = playlist_id
+        self._id = Playlist.next_playlist_id
+        Playlist.next_playlist_id += 1
         self._name = name.strip()
         self._user = user
         self._episodes = []
+        self._podcasts = []
 
     @property
     def id(self) -> int:
@@ -681,6 +685,16 @@ class Playlist:
     def remove_episode(self, episode: Episode):
         if episode in self._episodes:
             self._episodes.remove(episode)
+
+    def add_podcast_to_playlist(self, podcast: Podcast):
+        if not isinstance(podcast,Podcast):
+            raise TypeError("Expected an Episode instance.")
+        if podcast not in self._podcasts:
+            self._podcasts.append(podcast)
+
+    def remove_podcast_to_playlist(self, podcast: Podcast):
+        if podcast in self._episodes:
+            self._podcasts.remove(podcast)
 
     def __repr__(self) -> str:
         return f"<Playlist {self._id}: {self._name}>"

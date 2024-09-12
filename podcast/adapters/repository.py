@@ -119,3 +119,11 @@ class AbstractRepository(abc.ABC):
     def add_review(self, review, podcast_id):
         """add review to podcast"""
         raise NotImplementedError
+
+    def add_playlist(self, playlist):
+        """add review to podcast"""
+        raise NotImplementedError
+
+    def get_user_playlist(self, user: User):
+        """add review to podcast"""
+        raise NotImplementedError

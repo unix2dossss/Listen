@@ -47,7 +47,12 @@ def playlist(facet_name):
     )
 
 
-@playlist_blueprint.route("/playlist/add/<item_type>/<item_id>", methods=["GET"])
-def add_to_playlist(item_type, item_id):
-    print(item_type, item_id)
-    return "<h1>okay</h1>"
+@playlist_blueprint.route("/playlist/add/<item_type>/<item_id>/<podcast_id>", methods=["GET"])
+def add_to_playlist(item_type, item_id, podcast_id):
+
+    if item_type == 'podcast':
+        services.add_to_podcast_playlist(item_id, repo.repo_instance)
+    else:   # episode
+        services.add_to_episode_playlist(item_id, repo.repo_instance)
+
+    return redirect(url_for("podcast_blueprint.description", id=podcast_id))

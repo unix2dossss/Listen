@@ -1,4 +1,4 @@
-from podcast.domainmodel.model import User
+from podcast.domainmodel.model import User, Playlist
 from werkzeug.security import generate_password_hash, check_password_hash
 from podcast.adapters.repository import AbstractRepository
 
@@ -18,7 +18,9 @@ class AuthenticationException(Exception):
 def add_user(user_name: str, password: str, repo: AbstractRepository):
     password_hash = generate_password_hash(password)
     user = User(1, user_name, password_hash)
+    playlist = Playlist(1, user, name=f"{user_name.title()}'s Playlist")
     repo.add_user(user)
+    repo.add_playlist(playlist)
 
 
 def get_user(user_name: str, repo: AbstractRepository):
