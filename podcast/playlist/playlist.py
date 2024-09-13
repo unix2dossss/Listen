@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 import podcast.adapters.repository as repo
 import podcast.playlist.services as services
 import podcast.utilities.services as utilities
+from podcast.authentication.authentication import login_required
 
 playlist_blueprint = Blueprint("playlist_bp", __name__)
 
@@ -10,6 +11,7 @@ playlist_blueprint = Blueprint("playlist_bp", __name__)
     "/playlist", defaults={"facet_name": "podcasts"}, methods=["GET"]
 )
 @playlist_blueprint.route("/playlist/<facet_name>", methods=["GET"])
+@login_required
 def playlist(facet_name):
     page = request.args.get("page", 1, type=int)
     max_pages_to_show = 5
@@ -56,6 +58,7 @@ def playlist(facet_name):
 @playlist_blueprint.route(
     "/playlist/add/<item_type>/<item_id>/<podcast_id>/<page>", methods=["GET"]
 )
+@login_required
 def add_to_playlist(item_type, item_id, podcast_id, page):
 
     username = session["username"]

@@ -6,6 +6,7 @@ from password_validator import PasswordValidator
 import podcast.adapters.repository as repo
 from podcast.authentication import services
 from podcast.utilities import utilities
+from functools import wraps
 
 auth_blueprint = Blueprint("auth_bp", __name__)
 
@@ -165,3 +166,11 @@ class LoginForm(FlaskForm):
         "Password", [DataRequired(message="Your password is required")]
     )
     submit = SubmitField("Login")
+
+def login_required(view):
+    @wraps(view)
+    def wrapped_view(**kwargs):
+        if 'username' not in session:
+            return redirect(url_for('auth_bp.login'))
+        return view(**kwargs)
+    return wrapped_view
