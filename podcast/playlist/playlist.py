@@ -6,7 +6,9 @@ import podcast.utilities.services as utilities
 playlist_blueprint = Blueprint("playlist_bp", __name__)
 
 
-@playlist_blueprint.route("/playlist", defaults={"facet_name": "podcasts"}, methods=["GET"])
+@playlist_blueprint.route(
+    "/playlist", defaults={"facet_name": "podcasts"}, methods=["GET"]
+)
 @playlist_blueprint.route("/playlist/<facet_name>", methods=["GET"])
 def playlist(facet_name):
     page = request.args.get("page", 1, type=int)
@@ -47,19 +49,21 @@ def playlist(facet_name):
         total_pages=total_pages,
         start_page=start_page,
         end_page=end_page,
-        facet_name=facet_name
+        facet_name=facet_name,
     )
 
 
-@playlist_blueprint.route("/playlist/add/<item_type>/<item_id>/<podcast_id>/<page>", methods=["GET"])
+@playlist_blueprint.route(
+    "/playlist/add/<item_type>/<item_id>/<podcast_id>/<page>", methods=["GET"]
+)
 def add_to_playlist(item_type, item_id, podcast_id, page):
 
     username = session["username"]
     user = utilities.get_user_by_username(username, repo.repo_instance)
 
-    if item_type == 'podcast':
+    if item_type == "podcast":
         services.add_to_podcast_playlist(user, podcast_id, repo.repo_instance)
-    else:   # episode
+    else:  # episode
         services.add_to_episode_playlist(user, item_id, repo.repo_instance)
 
     return redirect(url_for("podcast_blueprint.description", id=podcast_id, page=page))

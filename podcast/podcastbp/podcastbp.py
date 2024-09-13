@@ -20,7 +20,9 @@ def description():
     # episodes - list of episodes
     p_episodes = services.podcast_episodes(podcast_id, repo.repo_instance)
     # average_rating of a podcast
-    p_average_rating = services.get_podcast_average_rating(podcast_id, repo.repo_instance)
+    p_average_rating = services.get_podcast_average_rating(
+        podcast_id, repo.repo_instance
+    )
     # number of reviews podcast has
     p_review_count = services.get_podcast_review_count(podcast_id, repo.repo_instance)
 
@@ -51,5 +53,5 @@ def description():
         start_page=start_page,
         end_page=end_page,
         p_average_rating=p_average_rating,
-        p_review_count=p_review_count
+        p_review_count=p_review_count,
     )
