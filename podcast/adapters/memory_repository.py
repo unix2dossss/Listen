@@ -25,6 +25,7 @@ class MemoryRepository(AbstractRepository):
         self._categories = {}
         self._podcasts_by_category = {}
         self.__users = []
+        self.__playlists = []
 
     # Getter for _podcasts
     @property
@@ -81,6 +82,9 @@ class MemoryRepository(AbstractRepository):
 
     def get_podcast(self, pc_id):
         return self._podcasts[pc_id - 1]
+
+    def get_episode(self, ep_id):
+        return self._episodes[ep_id - 1]
 
     def get_popular_categories(self):
         popular_categories = [
@@ -184,6 +188,9 @@ class MemoryRepository(AbstractRepository):
     def add_user(self, user: User):
         self.__users.append(user)
 
+    def add_playlist(self, playlist: Playlist):
+        self.__playlists.append(playlist)
+
     def get_user(self, username: str) -> Any | None:
         for user in self.__users:
             if user.username == username.lower():
@@ -199,6 +206,11 @@ class MemoryRepository(AbstractRepository):
         podcast = self.get_podcast(podcast_id)
         podcast.add_review(review)
 
+    def get_user_playlist(self, user: User):
+        for playlist in self.__playlists:
+            if playlist.user == user:
+                return playlist
+
     def get_podcast_average_rating(self, podcast_id):
         podcast = self.get_podcast(podcast_id)
         average_rating = None
@@ -210,6 +222,7 @@ class MemoryRepository(AbstractRepository):
             average_rating = round(total_rating / len(podcast.reviews), 1)
 
         return average_rating
+
 
 def populate(data_path: Path, repo: MemoryRepository):
     # create instance of csvreader

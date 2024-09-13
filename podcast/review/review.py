@@ -91,7 +91,7 @@ def review(podcast_id):
     if end_page - start_page < max_pages_to_show:
         start_page = max(1, end_page - max_pages_to_show + 1)
 
-    paginated_reviews = p_reviews[(page - 1) * per_page: page * per_page]
+    paginated_reviews = p_reviews[::-1][(page - 1) * per_page: page * per_page]
 
     p_reviews_dict = services.podcast_reviews_dict(paginated_reviews)
     print(p_reviews_dict)

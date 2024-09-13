@@ -226,11 +226,39 @@
 .episode-content {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.add-playlist-btn {
+  margin-bottom: 10px;
+  align-self: flex-start;
+}
+
+.episode-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Vertically align items */
 }
 
 .episode-title {
   font-size: 1.5em;
   margin-bottom: 10px;
+}
+
+.add-playlist-btn {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.7s, color 0.7s;
+}
+
+.add-playlist-btn:hover {
+  background-color: white;
+  color: #282c34;
 }
 
 .episode-description {

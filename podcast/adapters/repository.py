@@ -123,3 +123,15 @@ class AbstractRepository(abc.ABC):
     def get_podcast_average_rating(self, podcast_id):
         """get average rating of a podcast"""
         raise NotImplementedError
+
+    def add_playlist(self, playlist):
+        """add review to podcast"""
+        raise NotImplementedError
+
+    def get_user_playlist(self, user: User):
+        """add review to podcast"""
+        raise NotImplementedError
+
+    def get_episode(self, param):
+        """add review to podcast"""
+        raise NotImplementedError

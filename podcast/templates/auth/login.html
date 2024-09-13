@@ -53,14 +53,14 @@
             <div class="login-box">
               <h2>{{login_type}}</h2>
               <p class="from-register-message">
-                {% if from_register %} Registered Successfully - Now Login! {%
+                {% if from_register == 'True' %} Registered Successfully - Now Login! {%
                 elif from_logout %} Successfully Logged Out! {% endif %}
               </p>
               <form
                 method="POST"
                 action="
                   {% if login_type == 'Login' and (username_error or password_error) %}
-                      {{ url_for('auth_bp.login', from_register=True) }}
+                      {{ url_for('auth_bp.login', from_register=False) }}
                   {% elif login_type == 'Login' %}
                       {{ url_for('auth_bp.login') }}
                   {% else %}

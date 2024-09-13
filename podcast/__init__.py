@@ -63,4 +63,8 @@ def create_app(testing_config=None):
 
         app.register_blueprint(review.review_blueprint)
 
+        from .playlist import playlist
+
+        app.register_blueprint(playlist.playlist_blueprint)
+
     return app

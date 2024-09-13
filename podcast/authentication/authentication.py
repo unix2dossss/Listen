@@ -14,6 +14,9 @@ auth_blueprint = Blueprint("auth_bp", __name__)
 def login():
     from_register = request.args.get("from_register")
     from_logout = request.args.get("from_logout")
+
+    print("TUNAKTUNAKTUNAKTUJNAK")
+    print(from_register)
     print(from_logout)
 
     if request.referrer:
@@ -24,6 +27,10 @@ def login():
             from_register = True
         else:
             from_register = False
+
+    print("222222TUNAKTUNAKTUNAKTUJNAK")
+    print(from_register)
+    print(from_logout)
 
     form = LoginForm()
     username_error = None
