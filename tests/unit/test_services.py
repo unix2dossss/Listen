@@ -208,6 +208,7 @@ def test_can_retrieve_podcasts_episodes(in_memory_repo):
     ):
         episode_dict = dict()
 
+        episode_dict["episode_id"] = episode.episode_id
         episode_dict["episode_number"] = ep_n
         ep_n += 1
         episode_dict["episode_title"] = episode.episode_title

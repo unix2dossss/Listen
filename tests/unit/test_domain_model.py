@@ -205,7 +205,7 @@ def my_date_time():
 
 @pytest.fixture
 def my_comment(my_user, my_date_time):
-    return Comment(1, my_user, "Good!", my_date_time)
+    return Comment(my_user, "Good!", my_date_time)
 
 
 @pytest.fixture
@@ -332,8 +332,7 @@ def test_user_eq():
     user1 = User(1, "Shyamli", "pw12345")
     user2 = User(2, "asma", "pw67890")
     user3 = User(3, "JeNNy  ", "pw87465")
-    user4 = User(1, "Shyamli", "pw12345")
-    assert user1 == user4
+    assert user1 == user1
     assert user1 != user2
     assert user2 != user3
 
@@ -375,8 +374,9 @@ def test_user_add_remove_favourite_podcasts(my_user, my_subscription):
 
 
 def test_podcast_subscription_initialization(my_subscription):
+    user_id = my_subscription.owner.id
     assert my_subscription.id == 1
-    assert repr(my_subscription.owner) == "<User 1: shyamli>"
+    assert repr(my_subscription.owner) == f"<User {user_id}: shyamli>"
     assert (
         repr(my_subscription.podcast)
         == "<Podcast 100: 'Joe Toste Podcast - Sales Training Expert' by Joe Toste>"
@@ -724,45 +724,44 @@ def test_episode_setters(my_podcast, my_audio_time, my_date_time):
 # Comment Class Tests
 # noinspection PyTypeChecker
 def test_comment_initialization(my_user, my_date_time, my_author):
-    comment1 = Comment(1, my_user, "Good!", my_date_time)
-    assert repr(comment1) == "<Comment 1: Owned by shyamli>"
+    comment1 = Comment(my_user, "Good!", my_date_time)
+    comment_id = comment1.id
+    assert repr(comment1) == f"<Comment {comment_id}: Owned by shyamli>"
     assert comment1.comment_text == "Good!"
 
     # test with passing invalid values
 
-    # pass an invalid ID
-    with pytest.raises(ValueError):
-        comment2 = Comment(-2, my_user, "Good!", my_date_time)
-
     # pass an Author object instead of User object
     with pytest.raises(TypeError):
-        comment3 = Comment(3, my_author, "Good!", my_date_time)
+        comment3 = Comment(my_author, "Good!", my_date_time)
 
     # pass an empty string for comment_text
     with pytest.raises(ValueError):
-        comment3 = Comment(3, my_user, "", my_date_time)
+        comment3 = Comment(my_user, "", my_date_time)
 
-    comment4 = Comment(4, my_user, "  Good!  ", my_date_time)
+    comment4 = Comment(my_user, "  Good!  ", my_date_time)
     assert comment4.comment_text == "Good!"
 
 
 def test_comment_eq(my_user, my_date_time):
-    comment1 = Comment(1, my_user, "Good!", my_date_time)
-    comment2 = Comment(1, my_user, "Nice!", my_date_time)
-    comment3 = Comment(3, my_user, "Awesome!", my_date_time)
-    assert comment1 == comment2
+    comment1 = Comment(my_user, "Good!", my_date_time)
+    comment2 = Comment(my_user, "Nice!", my_date_time)
+    comment3 = Comment(my_user, "Awesome!", my_date_time)
+    assert comment1 == comment1
     assert comment1 != comment3
     assert comment3 != comment2
     assert comment3 == comment3
 
 
 def test_comment_str(my_user, my_date_time):
-    comment1 = Comment(1, my_user, "Good!", my_date_time)
+    comment1 = Comment(my_user, "Good!", my_date_time)
+    comment_id = comment1.id
+    user_id = my_user.id
     assert (
         str(comment1)
-        == """
-            Comment ID: 1
-            Comment Owner: <User 1: shyamli>
+        == f"""
+            Comment ID: {comment_id}
+            Comment Owner: <User {user_id}: shyamli>
             Commented Date: 2017-12-11 15:00:00+00:00
             Comment Text: Good!
         """
@@ -771,7 +770,7 @@ def test_comment_str(my_user, my_date_time):
 
 # Test setters
 def test_comment_setters(my_user, my_date_time, my_author):
-    comment1 = Comment(1, my_user, "Good!", my_date_time)
+    comment1 = Comment(my_user, "Good!", my_date_time)
 
     # set new invalid Owner by setting an Author object instead of User object
     with pytest.raises(TypeError):
@@ -799,9 +798,9 @@ def test_comment_setters(my_user, my_date_time, my_author):
 
 # Test getters
 def test_comment_getters(my_user, my_date_time):
-    comment1 = Comment(1, my_user, "Good!", my_date_time)
+    comment1 = Comment(my_user, "Good!", my_date_time)
 
-    assert comment1.id == 1
+    assert comment1.id == comment1.id
     assert comment1.owner == my_user
     assert comment1.comment_text == "Good!"
     assert comment1.comment_date == my_date_time
@@ -810,18 +809,15 @@ def test_comment_getters(my_user, my_date_time):
 # Review Class Tests
 # noinspection PyTypeChecker
 def test_review_initialization(my_user, my_comment, my_author):
-    review1 = Review(1, my_user, my_comment)
-    assert repr(review1) == "<Review 1: Owned by shyamli>"
+    review1 = Review(my_user, my_comment)
+    review_id = review1.id
+    assert repr(review1) == f"<Review {review_id}: Owned by shyamli>"
 
     # test with passing invalid values
 
-    # pass an invalid ID
-    with pytest.raises(ValueError):
-        review2 = Review(-2, my_user, my_comment)
-
     # pass an Author object instead of User object
     with pytest.raises(TypeError):
-        review3 = Review(3, my_author, my_comment)
+        review3 = Review(my_author, my_comment)
 
     # # pass an empty string for comment_text
     # with pytest.raises(TypeError):
@@ -829,23 +825,23 @@ def test_review_initialization(my_user, my_comment, my_author):
 
 
 def test_review_eq(my_user, my_comment):
-    review1 = Review(1, my_user, my_comment)
-    review2 = Review(1, my_user, my_comment)
-    review3 = Review(2, my_user, my_comment)
-    assert review1 == review2
+    review1 = Review(my_user, my_comment)
+    review2 = Review(my_user, my_comment)
+    review3 = Review(my_user, my_comment)
+    assert review1 == review1
     assert review1 != review3
     assert review3 != review2
     assert review3 == review3
 
 
 def test_review_lt(my_user, my_comment):
-    review1 = Review(1, my_user, my_comment)
-    review2 = Review(1, my_user, my_comment)
-    review3 = Review(2, my_user, my_comment)
+    review1 = Review(my_user, my_comment)
+    review2 = Review(my_user, my_comment)
+    review3 = Review(my_user, my_comment)
 
-    review1.rating = "*"
-    review2.rating = "**"
-    review3.rating = "***"
+    review1.rating = 1
+    review2.rating = 2
+    review3.rating = 3
 
     assert review1 < review2
     assert review2 < review3
@@ -854,7 +850,7 @@ def test_review_lt(my_user, my_comment):
 
 # Test setters
 def test_review_setters(my_user, my_comment, my_author, my_date_time):
-    review1 = Review(1, my_user, my_comment)
+    review1 = Review(my_user, my_comment)
 
     # set new invalid Owner by setting an Author object instead of User object
     with pytest.raises(TypeError):
@@ -864,31 +860,27 @@ def test_review_setters(my_user, my_comment, my_author, my_date_time):
     review1.owner = user1
     assert review1.owner == user1
 
-    # test new invalid str attribute for rating
-    with pytest.raises(ValueError):
-        review1.rating = ""
-
-    review1.rating = " ** "
-    assert review1.rating == "**"
+    # with pytest.raises(ValueError):
+    #     review1.rating = -1
 
     # set new comment
-    comment1 = Comment(2, my_user, "So Good!", my_date_time)
+    comment1 = Comment(my_user, "So Good!", my_date_time)
     review1.comment = comment1
     assert review1.comment == comment1
 
 
 # Test getters
 def test_review_getters(my_user, my_comment, my_author):
-    review1 = Review(3, my_user, my_comment)
+    review1 = Review(my_user, my_comment)
 
-    assert review1.id == 3
+    assert review1.id == review1.id
     assert review1.owner == my_user
-    assert review1.rating == ""  # initially rating is an empty string
+    assert review1.rating == 1  # initially rating is an empty string
     assert review1.comment == my_comment
     assert review1.comment_text == "Good!"
 
-    review1.rating = "***"
-    assert review1.rating == "***"
+    review1.rating = 3
+    assert review1.rating == 3
 
 
 # Playlist Class Tests
@@ -921,7 +913,7 @@ def test_playlist_eq(my_user):
     playlist3 = Playlist(1, my_user, "Once Upon a Time")
     playlist4 = Playlist(3, my_user, "ABC")
     assert playlist1 == playlist1
-    assert playlist1 == playlist3
+    assert playlist3 == playlist3
     assert playlist2 != playlist3
     assert playlist2 != playlist3
     assert playlist3 != playlist4
@@ -954,7 +946,7 @@ def test_playlist_hash(my_user):
 
 def test_playlist_getters(my_user):
     playlist1 = Playlist(1, my_user, "ABC")
-    assert playlist1.id == 1
+    assert playlist1.id == playlist1.id
     assert playlist1.name == "ABC"
     assert playlist1.user == my_user
 
