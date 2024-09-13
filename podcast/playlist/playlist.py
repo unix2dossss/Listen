@@ -10,7 +10,6 @@ playlist_blueprint = Blueprint("playlist_bp", __name__)
 @playlist_blueprint.route("/playlist/<facet_name>", methods=["GET"])
 def playlist(facet_name):
     page = request.args.get("page", 1, type=int)
-    per_page = 12
     max_pages_to_show = 5
 
     username = session["username"]
@@ -19,9 +18,11 @@ def playlist(facet_name):
     if facet_name == "podcasts":
         playlist_items = services.get_user_playlist_podcasts(user, repo.repo_instance)
         playlist_page_title = "Your Saved Podcasts"
+        per_page = 12
     else:
-        playlist_items = services.get_user_playlist_episodes(repo.repo_instance)
+        playlist_items = services.get_user_playlist_episodes(user, repo.repo_instance)
         playlist_page_title = "Your Saved Episodes"
+        per_page = 3
 
     total_pages = (len(playlist_items) + per_page - 1) // per_page
 
@@ -36,11 +37,11 @@ def playlist(facet_name):
     if end_page - start_page < max_pages_to_show:
         start_page = max(1, end_page - max_pages_to_show + 1)
 
-    paginated_podcasts = playlist_items[(page - 1) * per_page : page * per_page]
+    paginated_items = playlist_items[(page - 1) * per_page : page * per_page]
 
     return render_template(
         "playlist/playlist.html",
-        podcasts=paginated_podcasts,
+        paginated_items=paginated_items,
         category_page_title=playlist_page_title,
         current_page=page,
         total_pages=total_pages,
@@ -50,8 +51,8 @@ def playlist(facet_name):
     )
 
 
-@playlist_blueprint.route("/playlist/add/<item_type>/<item_id>/<podcast_id>", methods=["GET"])
-def add_to_playlist(item_type, item_id, podcast_id):
+@playlist_blueprint.route("/playlist/add/<item_type>/<item_id>/<podcast_id>/<page>", methods=["GET"])
+def add_to_playlist(item_type, item_id, podcast_id, page):
 
     username = session["username"]
     user = utilities.get_user_by_username(username, repo.repo_instance)
@@ -61,4 +62,4 @@ def add_to_playlist(item_type, item_id, podcast_id):
     else:   # episode
         services.add_to_episode_playlist(user, item_id, repo.repo_instance)
 
-    return redirect(url_for("podcast_blueprint.description", id=podcast_id))
+    return redirect(url_for("podcast_blueprint.description", id=podcast_id, page=page))

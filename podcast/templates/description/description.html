@@ -30,7 +30,7 @@
     <div class="about-header">
       <h2 class="about-title">Description</h2>
       <div>
-        <a href="{{ url_for('playlist_bp.add_to_playlist', item_type='podcast', item_id=p_about.podcast_id, podcast_id=p_about.podcast_id) }}">
+        <a href="{{ url_for('playlist_bp.add_to_playlist', item_type='podcast', item_id=p_about.podcast_id, podcast_id=p_about.podcast_id, page=current_page) }}">
           <button class="add-playlist-btn">Add Podcast to Playlist</button>
         </a>
         <a
@@ -74,7 +74,7 @@
           <h3 class="episode-title">
             {{ episode.episode_number }}. {{ episode.episode_title }}
           </h3>
-          <a href="{{ url_for('playlist_bp.add_to_playlist', item_type='episode', item_id=episode.episode_id, podcast_id=p_about.podcast_id) }}">
+          <a href="{{ url_for('playlist_bp.add_to_playlist', item_type='episode', item_id=episode.episode_id, podcast_id=p_about.podcast_id, page=current_page) }}">
             <button class="add-playlist-btn">Add Episode to Playlist</button>
           </a>
         </div>

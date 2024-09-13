@@ -4,6 +4,7 @@
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
+  color: white;
 }
 
 body {
@@ -260,4 +261,90 @@ body {
   background-color: #555555;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+.episodes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.episodes-title {
+  font-size: 1.7em;
+}
+
+.episodes-sort-btn {
+  background-color: transparent;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.episodes-sort-btn i {
+  margin-left: 10px;
+}
+
+.episode {
+  display: flex;
+  align-items: flex-start;
+  margin: 40px 0;
+}
+
+.episode:last-child {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0;
+}
+
+.episode-image {
+  width: 120px;
+  margin-right: 20px;
+  border-radius: 10px;
+}
+
+.episode-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.add-playlist-btn {
+  margin-bottom: 10px;
+  align-self: flex-start;
+}
+
+.episode-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Vertically align items */
+}
+
+.episode-title {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.add-playlist-btn {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.7s, color 0.7s;
+}
+
+.add-playlist-btn:hover {
+  background-color: white;
+  color: #282c34;
+}
+
+.episode-description {
+  font-size: 0.8em;
+  font-family: "Montserrat", sans-serif;
+  margin-bottom: 10px;
 }

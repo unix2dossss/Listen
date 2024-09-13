@@ -42,10 +42,28 @@ def get_user_playlist_podcasts(user: User, repo_instance):
     return formatted_podcasts
 
 
-def get_user_playlist_episodes(repo_instance):
-    podcasts = repo_instance.get_new_podcasts_list()
-    formatted_podcasts = format_podcast_list(sorted(podcasts))
-    return formatted_podcasts
+def get_user_playlist_episodes(user: User, repo_instance):
+    user_playlist: Playlist = get_user_playlist(user, repo_instance)
+    playlist_episodes = user_playlist.episodes
+
+    playlist_episodes_out = []
+
+    ep_n = 1
+    for episode in playlist_episodes:
+        episode_dict = dict()
+
+        episode_dict["podcast_image"] = episode.episode_podcast.image
+        episode_dict["episode_id"] = episode.episode_id
+        episode_dict["episode_number"] = ep_n
+        ep_n += 1
+        episode_dict["episode_title"] = episode.episode_title
+        episode_dict["episode_description"] = episode.episode_description
+        episode_dict["episode_date"] = episode.episode_publish_date.strftime("%Y-%m-%d")
+        episode_dict["episode_length"] = str(episode.episode_audio_length)
+
+        playlist_episodes_out.append(episode_dict)
+
+    return playlist_episodes_out
 
 
 def get_user_playlist(user: User, repo: AbstractRepository):
@@ -62,7 +80,7 @@ def add_to_podcast_playlist(user: User, podcast_id, repo: AbstractRepository):
 
 
 def add_to_episode_playlist(user: User, episode_id, repo: AbstractRepository):
-    playlist = get_user_playlist(user, repo)
+    playlist: Playlist = get_user_playlist(user, repo)
     print(playlist)
     episode = repo.get_episode(int(episode_id))
     playlist.add_episode(episode)

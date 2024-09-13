@@ -25,10 +25,12 @@
         </a>
       </div>
     </div>
+
+    {% if facet_name == 'podcasts' %}
     <div class="cards-section">
       <div class="whole-container">
         <div class="podcast-cards">
-          {% for podcast in podcasts %}
+          {% for podcast in paginated_items %}
           <div
             class="podcast-card"
             onclick="window.location.href='{{ url_for('podcast_blueprint.description', id=podcast.id) }}'"
@@ -59,6 +61,41 @@
         </div>
       </div>
     </div>
+    {% elif facet_name == 'episodes' %}
+      <section class="episodes">
+        <div class="episodes-header">
+          <h2 class="episodes-title">Your Saved Episodes</h2>
+          <button class="episodes-sort-btn">
+            Newest to Oldest<i class="fa-solid fa-caret-down"></i>
+          </button>
+        </div>
+        {% for episode in paginated_items %}
+        <div class="episode">
+          <img
+            src="{{ episode.podcast_image }}"
+            alt="Episode Image"
+            class="episode-image"
+          />
+          <div class="episode-content">
+            <div class="episode-header">
+              <h3 class="episode-title">
+                {{ episode.episode_number }}. {{ episode.episode_title }}
+              </h3>
+              <a href="">
+                <button class="add-playlist-btn">Remove Episode from Playlist</button>
+              </a>
+            </div>
+            <p class="episode-description">
+              {{ episode.episode_description }}
+              <br /><br />
+              {{ episode.episode_date }} • {{ episode.episode_length }}
+            </p>
+          </div>
+        </div>
+        {% endfor %}
+        <br />
+      </section>
+    {% endif %}
     <!-- Pagination -->
     <div class="pagination">
       {% if current_page > 1 %}
