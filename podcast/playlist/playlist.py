@@ -79,8 +79,25 @@ def add_to_playlist(item_type, item_id, podcast_id, page, not_remove):
             print("okayyy removeremovermove")
     else:  # episode
         if not_remove == 'True':
+            print("episode add")
             services.add_to_episode_playlist(user, item_id, repo.repo_instance)
         else:
+            print("episode remove")
             services.remove_from_episode_playlist(user, item_id, repo.repo_instance)
 
     return redirect(url_for("podcast_blueprint.description", id=podcast_id, page=page))
+
+
+@playlist_blueprint.route(
+    "/playlist/remove/<item_type>/<item_id>/<podcast_id>/<page>", methods=["GET"]
+)
+def remove_from_playlist(item_type, item_id, podcast_id, page):
+    username = session["username"]
+    user = utilities.get_user_by_username(username, repo.repo_instance)
+
+    if item_type == "podcasts":
+        services.remove_from_podcast_playlist(user, podcast_id, repo.repo_instance)
+    else:  # episode
+        services.remove_from_episode_playlist(user, item_id, repo.repo_instance)
+
+    return redirect(url_for("playlist_bp.playlist", page=page, facet_name=item_type))

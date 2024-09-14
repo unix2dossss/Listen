@@ -699,10 +699,13 @@ class Playlist:
             raise TypeError("Expected an Episode instance.")
         if episode not in self._episodes:
             self._episodes.append(episode)
+            episode.episode_in_playlist = True
+            print('episode in playlist: ', episode.episode_in_playlist)
 
     def remove_episode(self, episode: Episode):
         if episode in self._episodes:
             self._episodes.remove(episode)
+            episode.episode_in_playlist = False
 
     def add_podcast_to_playlist(self, podcast: Podcast):
         if not isinstance(podcast, Podcast):

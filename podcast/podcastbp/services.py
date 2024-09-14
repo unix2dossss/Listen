@@ -60,6 +60,7 @@ def podcast_episodes(podcast_id: int, repo: AbstractRepository):
         episode_dict["episode_description"] = episode.episode_description
         episode_dict["episode_date"] = episode.episode_publish_date.strftime("%Y-%m-%d")
         episode_dict["episode_length"] = str(episode.episode_audio_length)
+        episode_dict["episode_in_playlist"] = episode.episode_in_playlist
 
         episodes_list.append(episode_dict)
 

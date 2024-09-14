@@ -35,9 +35,11 @@
             class="podcast-card"
             onclick="window.location.href='{{ url_for('podcast_blueprint.description', id=podcast.id) }}'"
           >
-            <button class="remove-button" onclick="removePodcast('{{ podcast.id }}')">
-              &times;
-            </button>
+            <a href="{{ url_for('playlist_bp.remove_from_playlist', item_type='podcasts', item_id=podcast.id, podcast_id=podcast.id, page=current_page) }}">
+              <button class="remove-button" onclick="removePodcast('{{ podcast.id }}')">
+                &times;
+              </button>
+            </a>
             <!-- Background with blur -->
             <div
               class="card-bg"
@@ -81,7 +83,7 @@
               <h3 class="episode-title">
                 {{ episode.episode_number }}. {{ episode.episode_title }}
               </h3>
-              <a href="">
+              <a href="{{ url_for('playlist_bp.remove_from_playlist', item_type='episodes', item_id=episode.episode_id, podcast_id='na', page=current_page) }}">
                 <button class="add-playlist-btn">Remove Episode from Playlist</button>
               </a>
             </div>

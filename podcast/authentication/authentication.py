@@ -167,6 +167,7 @@ class LoginForm(FlaskForm):
     )
     submit = SubmitField("Login")
 
+
 def login_required(view):
     @wraps(view)
     def wrapped_view(**kwargs):
