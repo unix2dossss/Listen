@@ -348,3 +348,9 @@ body {
   font-family: "Montserrat", sans-serif;
   margin-bottom: 10px;
 }
+
+.playlist-none {
+    font-size: 1.2em;
+    color: #888;
+    margin-bottom: 20px;
+}

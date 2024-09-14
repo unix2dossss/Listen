@@ -29,6 +29,9 @@
     {% if facet_name == 'podcasts' %}
     <div class="cards-section">
       <div class="whole-container">
+        {% if not paginated_items %}
+        <p class="playlist-none">No podcasts in your playlist yet. Discover and add your favorites!</p>
+        {% else %}
         <div class="podcast-cards">
           {% for podcast in paginated_items %}
           <div
@@ -61,9 +64,13 @@
           </div>
           {% endfor %}
         </div>
+        {% endif %}
       </div>
     </div>
     {% elif facet_name == 'episodes' %}
+      {% if not paginated_items %}
+      <p class="playlist-none">Looks like your playlist has no episodes. Begin adding some to enjoy!</p>
+      {% else %}
       <section class="episodes">
         <div class="episodes-header">
           <h2 class="episodes-title">Your Saved Episodes</h2>
@@ -97,6 +104,7 @@
         {% endfor %}
         <br />
       </section>
+      {% endif %}
     {% endif %}
     <!-- Pagination -->
     <div class="pagination">
