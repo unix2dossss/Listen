@@ -22,7 +22,7 @@ def login():
 
     if request.referrer:
         if (
-            from_register
+            from_register == 'true'
             or request.referrer.split("/")[-1] == "login?from_register=true"
         ):
             from_register = True
