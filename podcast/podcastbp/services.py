@@ -13,12 +13,14 @@ def podcast_about(podcast_id: int, repo: AbstractRepository):
 
     about = dict()
     about["podcast_id"] = podcast.id
+
     about["podcast_image"] = podcast.image
     about["podcast_title"] = podcast.title
     about["podcast_author"] = podcast.author.name
     about["podcast_description"] = podcast.description
     about["podcast_language"] = podcast.language
     about["podcast_website"] = podcast.website
+    about["podcast_in_playlist"] = podcast.podcast_in_playlist
 
     return about
 

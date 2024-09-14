@@ -56,17 +56,31 @@ def playlist(facet_name):
 
 
 @playlist_blueprint.route(
-    "/playlist/add/<item_type>/<item_id>/<podcast_id>/<page>", methods=["GET"]
+    "/playlist/add/<item_type>/<item_id>/<podcast_id>/<page>/<not_remove>", methods=["GET"]
 )
 @login_required
-def add_to_playlist(item_type, item_id, podcast_id, page):
+def add_to_playlist(item_type, item_id, podcast_id, page, not_remove):
 
     username = session["username"]
     user = utilities.get_user_by_username(username, repo.repo_instance)
 
+    print("printing not remove:")
+
     if item_type == "podcast":
-        services.add_to_podcast_playlist(user, podcast_id, repo.repo_instance)
+        print("step 2")
+        print(not_remove)
+        if not_remove == 'True':
+            print("step 3")
+            print(not_remove)
+            services.add_to_podcast_playlist(user, podcast_id, repo.repo_instance)
+            print("okayyy adadadadadada")
+        else:
+            services.remove_from_podcast_playlist(user, podcast_id, repo.repo_instance)
+            print("okayyy removeremovermove")
     else:  # episode
-        services.add_to_episode_playlist(user, item_id, repo.repo_instance)
+        if not_remove == 'True':
+            services.add_to_episode_playlist(user, item_id, repo.repo_instance)
+        else:
+            services.remove_from_episode_playlist(user, item_id, repo.repo_instance)
 
     return redirect(url_for("podcast_blueprint.description", id=podcast_id, page=page))

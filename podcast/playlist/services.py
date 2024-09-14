@@ -12,6 +12,8 @@ def format_podcast_list(podcasts, repo=None):
         about_podcast["author"] = podcasts[i].author.name
         about_podcast["image_url"] = podcasts[i].image
         about_podcast["language"] = podcasts[i].language
+        about_podcast["podcast_in_playlist"] = podcasts[i].podcast_in_playlist
+
         if repo is not None:
             if len(podcasts[i].episodes) > 0:
                 audio_times = [
@@ -52,6 +54,7 @@ def get_user_playlist_episodes(user: User, repo_instance):
     for episode in playlist_episodes:
         episode_dict = dict()
 
+        episode_dict["episode_in_playlist"] = episode.episode_in_playlist
         episode_dict["podcast_image"] = episode.episode_podcast.image
         episode_dict["episode_id"] = episode.episode_id
         episode_dict["episode_number"] = ep_n
@@ -79,10 +82,25 @@ def add_to_podcast_playlist(user: User, podcast_id, repo: AbstractRepository):
     return None
 
 
+def remove_from_podcast_playlist(user, podcast_id, repo_instance: AbstractRepository):
+    playlist = get_user_playlist(user, repo_instance)
+    podcast = repo_instance.get_podcast(int(podcast_id))
+    print(podcast)
+    playlist.remove_podcast_from_playlist(podcast)
+    return None
+
+
 def add_to_episode_playlist(user: User, episode_id, repo: AbstractRepository):
     playlist: Playlist = get_user_playlist(user, repo)
     print(playlist)
     episode = repo.get_episode(int(episode_id))
     playlist.add_episode(episode)
     print(playlist.episodes)
+    return None
+
+
+def remove_from_episode_playlist(user, episode_id, repo_instance: AbstractRepository):
+    playlist: Playlist = get_user_playlist(user, repo_instance)
+    episode = repo_instance.get_episode(int(episode_id))
+    playlist.remove_episode(episode)
     return None

@@ -95,6 +95,7 @@ class Podcast:
         self.categories = []
         self.episodes = []
         self._reviews = []
+        self._in_playlist = False
 
     @property
     def id(self) -> int:
@@ -163,6 +164,14 @@ class Podcast:
     @reviews.setter
     def reviews(self, new_reviews):
         self._reviews = new_reviews
+
+    @property
+    def podcast_in_playlist(self):
+        return self._in_playlist
+
+    @podcast_in_playlist.setter
+    def podcast_in_playlist(self, new_in_playlist_value):
+        self._in_playlist = new_in_playlist_value
 
     def add_category(self, category: Category):
         if not isinstance(category, Category):
@@ -424,6 +433,7 @@ class Episode:
         self._episode_audio_length: AudioTime = episode_audio_length
         self._episode_description: str = episode_description
         self._episode_publish_date: datetime = episode_publish_date
+        self._in_playlist: bool = False
 
     @property
     def episode_id(self) -> int:
@@ -482,6 +492,14 @@ class Episode:
     @episode_publish_date.setter
     def episode_publish_date(self, new_episode_publish_date: datetime):
         self._episode_publish_date = new_episode_publish_date
+
+    @property
+    def episode_in_playlist(self):
+        return self._in_playlist
+
+    @episode_in_playlist.setter
+    def episode_in_playlist(self, new_in_playlist_value):
+        self._in_playlist = new_in_playlist_value
 
     def __repr__(self) -> str:
         return f"<Episode {self._episode_id}: {self._episode_title}, {self._episode_audio_length}>"
@@ -691,10 +709,12 @@ class Playlist:
             raise TypeError("Expected an Episode instance.")
         if podcast not in self._podcasts:
             self._podcasts.append(podcast)
+            podcast.podcast_in_playlist = True
 
-    def remove_podcast_to_playlist(self, podcast: Podcast):
-        if podcast in self._episodes:
+    def remove_podcast_from_playlist(self, podcast: Podcast):
+        if podcast in self._podcasts:
             self._podcasts.remove(podcast)
+            podcast.podcast_in_playlist = False
 
     @property
     def episodes(self) -> [Episode]:
