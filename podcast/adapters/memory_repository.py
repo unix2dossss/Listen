@@ -106,10 +106,50 @@ class MemoryRepository(AbstractRepository):
         ]
 
     def get_podcasts_in_category(self, category_name):
-        return self._podcasts_by_category[category_name]
+        formatted_category_name = category_name.strip()
+
+        if formatted_category_name in self._podcasts_by_category:
+            return self._podcasts_by_category[formatted_category_name]
+
+        # Searching with incorrect category_name format
+        for category_key in self._podcasts_by_category:
+            if formatted_category_name in category_key or formatted_category_name.lower() in category_key.lower():
+                return self._podcasts_by_category[category_key]
+
+            # If no exact match, perform a partial match search
+            splited_category_name = formatted_category_name.lower().split(" ")
+            normalized_category_key = category_key.lower()
+
+            for word in splited_category_name:
+                if word in normalized_category_key:
+                    return self._podcasts_by_category[category_key]
+        return []
+
 
     def get_podcasts_by_author(self, author_name):
-        return self._authors[author_name].podcast_list
+        formatted_author_name = author_name.strip()
+
+        if formatted_author_name in self._authors:
+            return self._authors[formatted_author_name].podcast_list
+
+        specific_authors_podcasts = []
+        # Searching with incorrect author_name format
+        for author_key in self._authors:
+            if formatted_author_name in author_key or formatted_author_name.lower() in author_key.lower():
+                for podcast in self._authors[author_key].podcast_list:
+                    specific_authors_podcasts.append(podcast)
+
+            # If no exact match, perform a partial match search
+            else:
+                splited_author_name = formatted_author_name.lower().split(" ")
+                normalized_author_key = author_key.lower()
+
+                for word in splited_author_name:
+                    if word in normalized_author_key:
+                        for podcast in self._authors[author_key].podcast_list:
+                            specific_authors_podcasts.append(podcast)
+        return specific_authors_podcasts
+
 
     def get_all_podcasts(self):
         return self._podcasts
@@ -184,6 +224,9 @@ class MemoryRepository(AbstractRepository):
     def get_new_podcasts_list(self):
         new_podcasts = self._podcasts[280:292]
         return new_podcasts
+
+    def get_podcasts_by_title(self, title):
+        return [podcast for podcast in self.podcasts if title.lower() in podcast.title.lower()]
 
     def add_user(self, user: User):
         self.__users.append(user)

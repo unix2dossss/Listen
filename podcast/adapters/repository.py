@@ -52,8 +52,9 @@ class AbstractRepository(abc.ABC):
         """return a Podcast list by Category"""
         raise NotImplementedError
 
-    def get_podcasts_by_author(self, category_name):
-        """return a Podcast list by Category"""
+    def get_podcasts_by_author(self, author_name):
+        """ return a Podcast list by Category
+        """
         raise NotImplementedError
 
     def get_all_podcasts(self):
@@ -134,4 +135,9 @@ class AbstractRepository(abc.ABC):
 
     def get_episode(self, param):
         """add review to podcast"""
+        raise NotImplementedError
+
+    def get_podcasts_by_title(self, title):
+        """ return all the podcasts that have the argument string as part of the podcast title
+        """
         raise NotImplementedError
