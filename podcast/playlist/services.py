@@ -1,5 +1,17 @@
+from flask import session
+
 from podcast.adapters.repository import AbstractRepository
-from podcast.domainmodel.model import User, Playlist
+from podcast.domainmodel.model import User, Playlist, Podcast
+from podcast.utilities import utilities
+import podcast.adapters.repository as repo_i
+
+
+def item_in_playist(podcast: Podcast):
+    username = session["username"]
+    user = utilities.get_user_by_username(username, repo_i.repo_instance)
+    if user in podcast.podcast_playlist_users:
+        return True
+    return False
 
 
 def format_podcast_list(podcasts, repo=None):
@@ -12,7 +24,7 @@ def format_podcast_list(podcasts, repo=None):
         about_podcast["author"] = podcasts[i].author.name
         about_podcast["image_url"] = podcasts[i].image
         about_podcast["language"] = podcasts[i].language
-        about_podcast["podcast_in_playlist"] = podcasts[i].podcast_in_playlist
+        about_podcast["podcast_in_playlist"] = item_in_playist(podcasts[i])
 
         if repo is not None:
             if len(podcasts[i].episodes) > 0:
@@ -77,7 +89,7 @@ def add_to_podcast_playlist(user: User, podcast_id, repo: AbstractRepository):
     playlist = get_user_playlist(user, repo)
     print(playlist)
     podcast = repo.get_podcast(int(podcast_id))
-    playlist.add_podcast_to_playlist(podcast)
+    playlist.add_podcast_to_playlist(podcast, user)
     print(playlist.podcasts)
     return None
 
@@ -86,7 +98,7 @@ def remove_from_podcast_playlist(user, podcast_id, repo_instance: AbstractReposi
     playlist = get_user_playlist(user, repo_instance)
     podcast = repo_instance.get_podcast(int(podcast_id))
     print(podcast)
-    playlist.remove_podcast_from_playlist(podcast)
+    playlist.remove_podcast_from_playlist(podcast, user)
     return None
 
 

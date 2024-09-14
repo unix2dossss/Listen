@@ -1,11 +1,24 @@
+from podcast import Podcast
 from podcast.adapters.repository import AbstractRepository
-from flask import url_for
+from flask import url_for, session
 import datetime
+import podcast.adapters.repository as repo_i
+
+
+from podcast.utilities import utilities
 
 
 def get_podcast(podcast_id: int, repo: AbstractRepository):
     podcast = repo.get_podcast(podcast_id)
     return podcast
+
+
+def item_in_playist(podcast: Podcast):
+    username = session["username"]
+    user = utilities.get_user_by_username(username, repo_i.repo_instance)
+    if user in podcast.podcast_playlist_users:
+        return True
+    return False
 
 
 def podcast_about(podcast_id: int, repo: AbstractRepository):
@@ -20,7 +33,7 @@ def podcast_about(podcast_id: int, repo: AbstractRepository):
     about["podcast_description"] = podcast.description
     about["podcast_language"] = podcast.language
     about["podcast_website"] = podcast.website
-    about["podcast_in_playlist"] = podcast.podcast_in_playlist
+    about["podcast_in_playlist"] = item_in_playist(podcast)
 
     return about
 

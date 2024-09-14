@@ -95,7 +95,7 @@ class Podcast:
         self.categories = []
         self.episodes = []
         self._reviews = []
-        self._in_playlist = False
+        self._in_playlist_users = []
 
     @property
     def id(self) -> int:
@@ -166,12 +166,12 @@ class Podcast:
         self._reviews = new_reviews
 
     @property
-    def podcast_in_playlist(self):
-        return self._in_playlist
+    def podcast_playlist_users(self):
+        return self._in_playlist_users
 
-    @podcast_in_playlist.setter
-    def podcast_in_playlist(self, new_in_playlist_value):
-        self._in_playlist = new_in_playlist_value
+    @podcast_playlist_users.setter
+    def podcast_playlist_users(self, new_in_playlist_value):
+        self._in_playlist_users = new_in_playlist_value
 
     def add_category(self, category: Category):
         if not isinstance(category, Category):
@@ -214,6 +214,12 @@ class Podcast:
 
     def __hash__(self):
         return hash(self.id)
+
+    def add_playlist_user(self, user: User):
+        self._in_playlist_users.append(user)
+
+    def remove_playlist_user(self, user: User):
+        self._in_playlist_users.remove(user)
 
 
 class Category:
@@ -707,17 +713,17 @@ class Playlist:
             self._episodes.remove(episode)
             episode.episode_in_playlist = False
 
-    def add_podcast_to_playlist(self, podcast: Podcast):
+    def add_podcast_to_playlist(self, podcast: Podcast, user: User):
         if not isinstance(podcast, Podcast):
             raise TypeError("Expected an Episode instance.")
         if podcast not in self._podcasts:
             self._podcasts.append(podcast)
-            podcast.podcast_in_playlist = True
+            podcast.add_playlist_user(user)
 
-    def remove_podcast_from_playlist(self, podcast: Podcast):
+    def remove_podcast_from_playlist(self, podcast: Podcast, user: User):
         if podcast in self._podcasts:
             self._podcasts.remove(podcast)
-            podcast.podcast_in_playlist = False
+            podcast.remove_playlist_user(user)
 
     @property
     def episodes(self) -> [Episode]:
