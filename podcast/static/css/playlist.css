@@ -193,6 +193,10 @@ body {
   display: none;
 }*/
 
+.hide-image-on-hover:hover img {
+    display: none;
+}
+
 .podcast-card-name {
   font-size: 1.2em;
   font-weight: bold;

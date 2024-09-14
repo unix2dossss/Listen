@@ -35,7 +35,7 @@
         <div class="podcast-cards">
           {% for podcast in paginated_items %}
           <div
-            class="podcast-card"
+            class="podcast-card {% if paginated_items|length > 1 %} hide-image-on-hover {% endif %}"
             onclick="window.location.href='{{ url_for('podcast_blueprint.description', id=podcast.id) }}'"
           >
             <a href="{{ url_for('playlist_bp.remove_from_playlist', item_type='podcasts', item_id=podcast.id, podcast_id=podcast.id, page=current_page) }}">
@@ -53,10 +53,11 @@
             <!-- Content -->
 
             <img
-              src="{{ podcast.image_url }}"
-              alt="{{ podcast.podcast_title }}"
+                src="{{ podcast.image_url }}"
+                alt="{{ podcast.podcast_title }}"
             />
-            <div class="info">
+            <div class="info"
+                 style="{% if paginated_items|length == 1 %} white-space: normal; {% endif %}">
               <span class="podcast-card-name">{{ podcast.title }}</span>
               <br />
               <span class="podcast-card-owner">{{ podcast.author }}</span>
