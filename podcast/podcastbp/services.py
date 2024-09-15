@@ -3,7 +3,7 @@ from podcast.adapters.repository import AbstractRepository
 from flask import url_for, session
 import datetime
 import podcast.adapters.repository as repo_i
-
+from podcast.domainmodel.model import Episode
 
 from podcast.utilities import utilities
 
@@ -13,11 +13,15 @@ def get_podcast(podcast_id: int, repo: AbstractRepository):
     return podcast
 
 
-def item_in_playist(podcast: Podcast):
+def item_in_playist(podcast: Podcast = None, episode: Episode = None):
     username = session["username"]
     user = utilities.get_user_by_username(username, repo_i.repo_instance)
-    if user in podcast.podcast_playlist_users:
-        return True
+    if podcast is not None:
+        if user in podcast.podcast_playlist_users:
+            return True
+    else:
+        if user in episode.episode_playlist_users:
+            return True
     return False
 
 
@@ -33,7 +37,7 @@ def podcast_about(podcast_id: int, repo: AbstractRepository):
     about["podcast_description"] = podcast.description
     about["podcast_language"] = podcast.language
     about["podcast_website"] = podcast.website
-    about["podcast_in_playlist"] = item_in_playist(podcast)
+    about["podcast_in_playlist"] = item_in_playist(podcast=podcast)
 
     return about
 
@@ -73,7 +77,7 @@ def podcast_episodes(podcast_id: int, repo: AbstractRepository):
         episode_dict["episode_description"] = episode.episode_description
         episode_dict["episode_date"] = episode.episode_publish_date.strftime("%Y-%m-%d")
         episode_dict["episode_length"] = str(episode.episode_audio_length)
-        episode_dict["episode_in_playlist"] = episode.episode_in_playlist
+        episode_dict["episode_in_playlist"] = item_in_playist(episode=episode)
 
         episodes_list.append(episode_dict)
 

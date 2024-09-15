@@ -439,7 +439,7 @@ class Episode:
         self._episode_audio_length: AudioTime = episode_audio_length
         self._episode_description: str = episode_description
         self._episode_publish_date: datetime = episode_publish_date
-        self._in_playlist: bool = False
+        self._episode_in_playlist_users = []
 
     @property
     def episode_id(self) -> int:
@@ -500,12 +500,12 @@ class Episode:
         self._episode_publish_date = new_episode_publish_date
 
     @property
-    def episode_in_playlist(self):
-        return self._in_playlist
+    def episode_playlist_users(self):
+        return self._episode_in_playlist_users
 
-    @episode_in_playlist.setter
-    def episode_in_playlist(self, new_in_playlist_value):
-        self._in_playlist = new_in_playlist_value
+    @episode_playlist_users.setter
+    def episode_playlist_users(self, new_in_playlist_value):
+        self._episode_in_playlist_users = new_in_playlist_value
 
     def __repr__(self) -> str:
         return f"<Episode {self._episode_id}: {self._episode_title}, {self._episode_audio_length}>"
@@ -533,6 +533,12 @@ class Episode:
 
     def __hash__(self) -> int:
         return hash(self._episode_id)
+
+    def add_playlist_user(self, user: User):
+        self._episode_in_playlist_users.append(user)
+
+    def remove_playlist_user(self, user: User):
+        self._episode_in_playlist_users.remove(user)
 
 
 class Comment:
@@ -700,18 +706,17 @@ class Playlist:
             raise TypeError("User must be a User object.")
         self._user = new_user
 
-    def add_episode(self, episode: Episode):
+    def add_episode(self, episode: Episode, user: User):
         if not isinstance(episode, Episode):
             raise TypeError("Expected an Episode instance.")
         if episode not in self._episodes:
             self._episodes.append(episode)
-            episode.episode_in_playlist = True
-            print('episode in playlist: ', episode.episode_in_playlist)
+            episode.add_playlist_user(user)
 
-    def remove_episode(self, episode: Episode):
+    def remove_episode(self, episode: Episode, user: User):
         if episode in self._episodes:
             self._episodes.remove(episode)
-            episode.episode_in_playlist = False
+            episode.remove_playlist_user(user)
 
     def add_podcast_to_playlist(self, podcast: Podcast, user: User):
         if not isinstance(podcast, Podcast):

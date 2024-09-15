@@ -1,16 +1,20 @@
 from flask import session
 
 from podcast.adapters.repository import AbstractRepository
-from podcast.domainmodel.model import User, Playlist, Podcast
+from podcast.domainmodel.model import User, Playlist, Podcast, Episode
 from podcast.utilities import utilities
 import podcast.adapters.repository as repo_i
 
 
-def item_in_playist(podcast: Podcast):
+def item_in_playist(podcast: Podcast = None, episode: Episode = None):
     username = session["username"]
     user = utilities.get_user_by_username(username, repo_i.repo_instance)
-    if user in podcast.podcast_playlist_users:
-        return True
+    if podcast is not None:
+        if user in podcast.podcast_playlist_users:
+            return True
+    else:
+        if user in episode.episode_playlist_users:
+            return True
     return False
 
 
@@ -24,7 +28,7 @@ def format_podcast_list(podcasts, repo=None):
         about_podcast["author"] = podcasts[i].author.name
         about_podcast["image_url"] = podcasts[i].image
         about_podcast["language"] = podcasts[i].language
-        about_podcast["podcast_in_playlist"] = item_in_playist(podcasts[i])
+        about_podcast["podcast_in_playlist"] = item_in_playist(podcast=podcasts[i])
 
         if repo is not None:
             if len(podcasts[i].episodes) > 0:
@@ -66,7 +70,7 @@ def get_user_playlist_episodes(user: User, repo_instance):
     for episode in playlist_episodes:
         episode_dict = dict()
 
-        episode_dict["episode_in_playlist"] = episode.episode_in_playlist
+        episode_dict["episode_in_playlist"] = item_in_playist(episode=episode)
         episode_dict["podcast_image"] = episode.episode_podcast.image
         episode_dict["episode_id"] = episode.episode_id
         episode_dict["episode_number"] = ep_n
@@ -106,7 +110,7 @@ def add_to_episode_playlist(user: User, episode_id, repo: AbstractRepository):
     playlist: Playlist = get_user_playlist(user, repo)
     print(playlist)
     episode = repo.get_episode(int(episode_id))
-    playlist.add_episode(episode)
+    playlist.add_episode(episode, user)
     print(playlist.episodes)
     return None
 
@@ -114,5 +118,5 @@ def add_to_episode_playlist(user: User, episode_id, repo: AbstractRepository):
 def remove_from_episode_playlist(user, episode_id, repo_instance: AbstractRepository):
     playlist: Playlist = get_user_playlist(user, repo_instance)
     episode = repo_instance.get_episode(int(episode_id))
-    playlist.remove_episode(episode)
+    playlist.remove_episode(episode, user)
     return None
