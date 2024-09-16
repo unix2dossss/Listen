@@ -125,6 +125,15 @@ body {
   margin-bottom: 30px;
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 .podcast-card {
   background-color: #171a18;
   width: calc(25% - 30px);
@@ -135,6 +144,7 @@ body {
   flex-direction: column;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease-in-out;
+  animation: fadeIn 1s ease-in forwards;
 }
 
 .podcast-card:hover {

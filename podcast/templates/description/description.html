@@ -32,7 +32,7 @@
       <div>
         {% if p_about.podcast_in_playlist %}
             <a href="{{ url_for('playlist_bp.add_to_playlist', item_type='podcast', item_id=p_about.podcast_id, podcast_id=p_about.podcast_id, page=current_page, not_remove=False) }}">
-                <button class="add-playlist-btn">Remove Podcast from Playlist</button>
+                <button class="n">Remove Podcast from Playlist</button>
             </a>
         {% else %}
             <a href="{{ url_for('playlist_bp.add_to_playlist', item_type='podcast', item_id=p_about.podcast_id, podcast_id=p_about.podcast_id, page=current_page, not_remove=True) }}">
@@ -56,9 +56,9 @@
     </p>
     <div class="about-tags">
       {% if p_average_rating == None %}
-        <span class="tag"><i class="fa-solid fa-star"></i>None</span>
+        <span class="tag"><i class="fa-solid fa-star star-rating-style"></i>(n/a)</span>
       {% else %}
-        <span class="tag"><i class="fa-solid fa-star"></i>{{ p_average_rating }} ({{ p_review_count }})</span>
+        <span class="tag"><i class="fa-solid fa-star star-rating-style"></i>{{ p_average_rating }} ({{ p_review_count }})</span>
       {% endif %}
 
       {% for category in p_categories %}

@@ -325,12 +325,13 @@ body {
 .episode-header {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Vertically align items */
+  align-items: center;
 }
 
 .episode-title {
   font-size: 1.5em;
   margin-bottom: 10px;
+  width: 75%;
 }
 
 .add-playlist-btn {

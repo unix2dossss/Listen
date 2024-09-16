@@ -43,8 +43,6 @@ def description():
 
     paginated_episodes = p_episodes[(page - 1) * per_page : page * per_page]
 
-    print("PODCAST IN PLAYLIST INFOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-    print(p_about["podcast_in_playlist"])
 
     return render_template(
         "description/description.html",

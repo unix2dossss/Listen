@@ -149,6 +149,18 @@
   font-size: 0.75em;
 }
 
+.tag:first-child {
+  border: outset 1px white;
+}
+
+.tag:first-child:hover {
+  border: inset 1px white;
+}
+
+.star-rating-style {
+    background-color: #353744;
+}
+
 .tag i {
   margin-right: 5px;
 }
@@ -238,12 +250,13 @@
 .episode-header {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Vertically align items */
+  align-items: center;
 }
 
 .episode-title {
   font-size: 1.5em;
   margin-bottom: 10px;
+  width: 70%;
 }
 
 .add-playlist-btn {
