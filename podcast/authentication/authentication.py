@@ -8,7 +8,7 @@ from podcast.authentication import services
 from podcast.utilities import utilities
 from functools import wraps
 
-auth_blueprint = Blueprint("auth_bp", __name__)
+auth_blueprint = Blueprint("auth_bp", __name__, url_prefix='/auth')
 
 
 @auth_blueprint.route("/login", methods=["GET", "POST"])

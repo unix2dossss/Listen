@@ -783,8 +783,9 @@ def test_submit_review_with_invalid_input(client, auth, rating, reviewText, mess
 
 # podcast page e2e tests
 
-def test_podcast_with_valid_id(client):
+def test_podcast_with_valid_id(client, auth):
     # Test valid url
+    auth.login()
     response = client.get('/podcast?id=1')
     assert response.status_code == 200
     assert b'D-Hour Radio Network' in response.data

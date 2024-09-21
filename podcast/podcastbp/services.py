@@ -14,6 +14,8 @@ def get_podcast(podcast_id: int, repo: AbstractRepository):
 
 
 def item_in_playist(podcast: Podcast = None, episode: Episode = None):
+    if "username" not in session:
+        return False
     username = session["username"]
     user = utilities.get_user_by_username(username, repo_i.repo_instance)
     if podcast is not None:
