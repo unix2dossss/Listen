@@ -32,7 +32,7 @@
       <div>
         {% if p_about.podcast_in_playlist %}
             <a href="{{ url_for('playlist_bp.add_to_playlist', item_type='podcast', item_id=p_about.podcast_id, podcast_id=p_about.podcast_id, page=current_page, not_remove=False) }}">
-                <button class="n">Remove Podcast from Playlist</button>
+                <button class="add-playlist-btn">Remove Podcast from Playlist</button>
             </a>
         {% else %}
             <a href="{{ url_for('playlist_bp.add_to_playlist', item_type='podcast', item_id=p_about.podcast_id, podcast_id=p_about.podcast_id, page=current_page, not_remove=True) }}">
