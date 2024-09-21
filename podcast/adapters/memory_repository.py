@@ -284,6 +284,12 @@ class MemoryRepository(AbstractRepository):
 
         return average_rating
 
+    def add_podcast(self, podcast):
+        self._podcasts.append(podcast)
+
+    def add_episode(self, episode):
+        self._episodes.append(episode)
+
 
 def populate(data_path: Path, repo: MemoryRepository):
     # create instance of csvreader

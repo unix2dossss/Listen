@@ -440,6 +440,7 @@ class Episode:
         self._episode_description: str = episode_description
         self._episode_publish_date: datetime = episode_publish_date
         self._episode_in_playlist_users = []
+        self.episode_in_playlist = False
 
     @property
     def episode_id(self) -> int:
