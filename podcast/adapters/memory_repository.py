@@ -77,6 +77,24 @@ class MemoryRepository(AbstractRepository):
     def podcasts_by_category(self, value):
         self._podcasts_by_category = value
 
+    @property
+    def users(self):
+        return self.__users
+
+    # Setter for __users
+    @users.setter
+    def users(self, value):
+        self.__users = value
+
+    @property
+    def playlists(self):
+        return self.__playlists
+
+    # Setter for __playlists
+    @playlists.setter
+    def playlists(self, value):
+        self.__playlists = value
+
     def get_n_podcasts(self, n):
         raise NotImplementedError
 
