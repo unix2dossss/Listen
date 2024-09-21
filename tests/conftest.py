@@ -132,3 +132,93 @@ def client_with_user(client):
         sess['logged_in'] = True
         sess['username'] = 'test_user'
     return client
+
+# Fixtures to reuse in multiple tests
+
+@pytest.fixture
+def setup_data():
+    # Set up the user, playlist, podcast, and episode
+    user = User(user_id=1, username="testuser", password="password123")
+    playlist = Playlist(playlist_id=1, user=user, name="Test Playlist")
+
+    podcast = Podcast(
+        podcast_id=1,
+        author=Author(author_id=1, name="Test Author"),
+        title="Test Podcast"
+    )
+
+    episode = Episode(
+        episode_id=1,
+        episode_podcast=podcast,
+        episode_title="Test Episode",
+        episode_audio_link="http://example.com/audio.mp3",
+        episode_audio_length=AudioTime(0, 5, 0),  # 5 minutes
+        episode_description="Test Description",
+        episode_publish_date=datetime.now()
+    )
+
+    return playlist, podcast, episode, user
+
+
+@pytest.fixture
+def user_playlist_setup():
+    # Set up the user, playlist, podcast, and episodes
+    user = User(user_id=1, username="playlistuser", password="password123")
+    playlist = Playlist(playlist_id=1, user=user, name="User Playlist")
+
+    podcast = Podcast(
+        podcast_id=1,
+        author=Author(author_id=1, name="Podcast Author"),
+        title="Sample Podcast"
+    )
+
+    episode1 = Episode(
+        episode_id=1,
+        episode_podcast=podcast,
+        episode_title="Sample Episode 1",
+        episode_audio_link="http://example.com/ep1.mp3",
+        episode_audio_length=AudioTime(0, 5, 0),  # 5 minutes
+        episode_description="Episode 1 Description",
+        episode_publish_date=datetime.now()
+    )
+
+    episode2 = Episode(
+        episode_id=2,
+        episode_podcast=podcast,
+        episode_title="Sample Episode 2",
+        episode_audio_link="http://example.com/ep2.mp3",
+        episode_audio_length=AudioTime(0, 10, 0),  # 10 minutes
+        episode_description="Episode 2 Description",
+        episode_publish_date=datetime.now()
+    )
+
+    # Add episodes to the playlist
+    playlist.add_episode(episode1, user)
+    playlist.add_episode(episode2, user)
+
+    return playlist, user, [episode1, episode2]
+
+
+@pytest.fixture
+def user_playlist_podcasts_setup():
+    # Set up the user, playlist, and podcasts
+    user = User(user_id=1, username="playlistuser", password="password123")
+    playlist = Playlist(playlist_id=1, user=user, name="User Playlist")
+
+    podcast1 = Podcast(
+        podcast_id=1,
+        author=Author(author_id=1, name="Podcast Author 1"),
+        title="Sample Podcast 1"
+    )
+
+    podcast2 = Podcast(
+        podcast_id=2,
+        author=Author(author_id=2, name="Podcast Author 2"),
+        title="Sample Podcast 2"
+    )
+
+    # Add podcasts to the playlist
+    playlist.add_podcast_to_playlist(podcast1, user)
+    playlist.add_podcast_to_playlist(podcast2, user)
+
+    return playlist, user, [podcast1, podcast2]
