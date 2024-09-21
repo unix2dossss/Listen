@@ -154,3 +154,53 @@ def test_can_retrieve_list_of_new_podcasts(in_memory_repo):
     # Test retrieval of a list of newly added podcasts.
     new_podcasts = in_memory_repo.get_new_podcasts_list()
     assert new_podcasts == in_memory_repo.podcasts[280:292]
+
+
+def test_can_add_new_user(my_user, in_memory_repo):
+    # Test user is added to memory repo
+    in_memory_repo.add_user(my_user)
+    assert my_user in in_memory_repo.users
+
+
+def test_can_add_playlist(my_playlist, in_memory_repo):
+    # Test if playlist can be added to list of playlists
+    in_memory_repo.add_playlist(my_playlist)
+    assert my_playlist in in_memory_repo.playlists
+
+def test_can_get_user(my_user, in_memory_repo):
+    # Test if user does not exist
+    user = in_memory_repo.get_user(my_user.username)
+    assert user == None
+
+    #Add user
+    in_memory_repo.add_user(my_user)
+    user = in_memory_repo.get_user(my_user.username)
+    assert user == my_user
+
+def test_can_get_podcast_reviews(my_podcast, my_review, in_memory_repo):
+    # Test if podcast has no reviews
+    reviews = in_memory_repo.get_reviews_of_podcast(my_podcast.id)
+    assert reviews == []
+
+    # Add review to podcast
+    in_memory_repo.add_review(my_review, my_podcast.id)
+    reviews = in_memory_repo.get_reviews_of_podcast(my_podcast.id)
+    assert len(reviews) == 1
+
+def test_can_add_review(my_review, my_podcast, in_memory_repo):
+    # Test if review is added successfully
+    init_reviews = len(in_memory_repo.get_reviews_of_podcast(my_podcast.id))
+    in_memory_repo.add_review(my_review, my_podcast.id)
+    new_reviews = len(in_memory_repo.get_reviews_of_podcast(my_podcast.id))
+    assert init_reviews + 1 == new_reviews
+
+
+def test_can_add_podcast(my_podcast, in_memory_repo):
+    # Test if podcast is added successfully
+    in_memory_repo.add_podcast(my_podcast)
+    assert my_podcast in in_memory_repo.podcasts
+
+def test_can_add_episode(my_episode, in_memory_repo):
+    # Test if episode is added successfully
+    in_memory_repo.add_episode(my_episode)
+    assert my_episode in in_memory_repo.episodes

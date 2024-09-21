@@ -1,5 +1,3 @@
-from pathlib import Path
-import os
 import pytest
 from datetime import datetime
 from podcast.adapters.datareader.csvdatareader import CSVDataReader
@@ -152,69 +150,6 @@ def test_category_lt():
     assert category3 > category1
     category_list = [category3, category2, category1]
     assert sorted(category_list) == [category1, category2, category3]
-
-
-# Fixtures to reuse in multiple tests
-@pytest.fixture
-def my_author():
-    return Author(1, "Joe Toste")
-
-
-@pytest.fixture
-def my_podcast(my_author):
-    return Podcast(100, my_author, "Joe Toste Podcast - Sales Training Expert")
-
-
-@pytest.fixture
-def my_user():
-    return User(1, "Shyamli", "pw12345")
-
-
-@pytest.fixture
-def my_episode(my_podcast, my_audio_time, my_date_time):
-    return Episode(
-        1,
-        my_podcast,
-        "1: Festive food and farming",
-        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
-        my_audio_time,
-        """
-                       <p>John Bates hosts this festive special from the AHDB consumer insights team looking at how the 
-                       season of goodwill changes what and how we buy, how Brexit might impact our favourite festive 
-                       foods and what farmers and growers need to think about to gear up for Christmas future.</p><p>
-                       <a href="https://ahdb.org.uk/">https://ahdb.org.uk/</a></p><p>Photo by Keenan Loo on Unsplash</p>
-                       """,
-        my_date_time,
-    )
-
-
-@pytest.fixture
-def my_subscription(my_user, my_podcast):
-    return PodcastSubscription(1, my_user, my_podcast)
-
-
-@pytest.fixture
-def my_audio_time():
-    return AudioTime(5, 36, 0)
-
-
-@pytest.fixture
-def my_date_time():
-    return datetime.strptime("2017-12-11 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z")
-
-
-@pytest.fixture
-def my_comment(my_user, my_date_time):
-    return Comment(my_user, "Good!", my_date_time)
-
-
-@pytest.fixture
-def my_csv_data_reader():
-    dir_name = os.path.dirname(os.path.abspath(__file__))
-    podcast_file_name = os.path.join(dir_name, "data/podcasts.csv")
-    episode_file_name = os.path.join(dir_name, "data/episodes.csv")
-
-    return CSVDataReader(testing=True)
 
 
 # noinspection PyTypeChecker
@@ -983,14 +918,14 @@ def test_playlist_add_episode(my_user, my_episode, my_podcast):
     playlist1 = Playlist(1, my_user)
 
     with pytest.raises(TypeError):
-        playlist1.add_episode(my_podcast)
+        playlist1.add_episode(my_podcast, my_user)
 
-    playlist1.add_episode(my_episode)
+    playlist1.add_episode(my_episode, my_user)
     assert my_episode in playlist1._episodes
     assert len(playlist1._episodes) == 1
 
-    playlist1.add_episode(my_episode)
-    playlist1.add_episode(my_episode)
+    playlist1.add_episode(my_episode, my_user)
+    playlist1.add_episode(my_episode, my_user)
     assert len(playlist1._episodes) == 1
 
 
@@ -998,8 +933,8 @@ def test_playlist_remove_episode(
     my_user, my_episode, my_podcast, my_date_time, my_audio_time
 ):
     playlist1 = Playlist(1, my_user)
-    playlist1.add_episode(my_episode)
-    playlist1.remove_episode(my_episode)
+    playlist1.add_episode(my_episode, my_user)
+    playlist1.remove_episode(my_episode, my_user)
     assert len(playlist1._episodes) == 0
 
     episode2 = Episode(
@@ -1011,8 +946,8 @@ def test_playlist_remove_episode(
         "This is a test episode. Episode 2",
         my_date_time,
     )
-    playlist1.add_episode(my_episode)
-    playlist1.remove_episode(episode2)
+    playlist1.add_episode(my_episode, my_user)
+    playlist1.remove_episode(episode2, my_user)
     assert len(playlist1._episodes) == 1
 
 
