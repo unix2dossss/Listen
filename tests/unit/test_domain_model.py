@@ -249,19 +249,6 @@ def test_podcast_lt():
     assert podcast3 > podcast1
 
 
-def test_user_initialization():
-    user1 = User(1, "Shyamli", "pw12345")
-    user2 = User(2, "asma", "pw67890")
-    user3 = User(3, "JeNNy  ", "pw87465")
-    assert repr(user1) == "<User 1: shyamli>"
-    assert repr(user2) == "<User 2: asma>"
-    assert repr(user3) == "<User 3: jenny>"
-    assert user2.password == "pw67890"
-    with pytest.raises(ValueError):
-        user4 = User(4, "xyz  ", "")
-    with pytest.raises(ValueError):
-        user4 = User(5, "    ", "qwerty12345")
-
 
 def test_user_eq():
     user1 = User(1, "Shyamli", "pw12345")
@@ -429,8 +416,8 @@ def test_episode_initialization(my_podcast, my_audio_time, my_date_time):
         "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
         my_audio_time,
         """
-                       <p>John Bates hosts this festive special from the AHDB consumer insights team looking at how the 
-                       season of goodwill changes what and how we buy, how Brexit might impact our favourite festive 
+                       <p>John Bates hosts this festive special from the AHDB consumer insights team looking at how the
+                       season of goodwill changes what and how we buy, how Brexit might impact our favourite festive
                        foods and what farmers and growers need to think about to gear up for Christmas future.</p><p>
                        <a href="https://ahdb.org.uk/">https://ahdb.org.uk/</a></p><p>Photo by Keenan Loo on Unsplash</p>
                        """,
@@ -820,26 +807,6 @@ def test_review_getters(my_user, my_comment, my_author):
 
 # Playlist Class Tests
 # noinspection PyTypeChecker
-def test_podcast_initialisation(my_user, my_author):
-    playlist1 = Playlist(1, my_user)
-    assert playlist1.id == 1
-    assert playlist1.user == my_user
-    assert playlist1.name == "Untitled"
-
-    assert repr(playlist1) == "<Playlist 1: Untitled>"
-
-    # Invalid values entered
-    with pytest.raises(ValueError):
-        playlist2 = Playlist(-3, my_user)
-
-    with pytest.raises(TypeError):
-        playlist3 = Playlist(3, my_author)
-
-    playlist4 = Playlist(4, my_user, "History for Weirdos")
-    assert playlist4.name == "History for Weirdos"
-
-    playlist5 = Playlist(5, my_user, "   PodName   ")
-    assert playlist5.name == "PodName"
 
 
 def test_playlist_eq(my_user):

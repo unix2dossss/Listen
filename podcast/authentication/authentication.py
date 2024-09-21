@@ -16,9 +16,6 @@ def login():
     from_register = request.args.get("from_register")
     from_logout = request.args.get("from_logout")
 
-    print("TUNAKTUNAKTUNAKTUJNAK")
-    print(from_register)
-    print(from_logout)
 
     if request.referrer:
         if (
@@ -28,10 +25,6 @@ def login():
             from_register = True
         else:
             from_register = False
-
-    print("222222TUNAKTUNAKTUNAKTUJNAK")
-    print(from_register)
-    print(from_logout)
 
     form = LoginForm()
     username_error = None
@@ -137,6 +130,16 @@ class UsernameValid:
         except services.UsernameExistsException:
             raise ValidationError(self.message)
 
+class ErrorMessages():
+    def __init__(self):
+        error_messages = []
+
+    def error_check(self):
+        error_messages = ['Your username is required', 'This username is already taken!',
+                          'Your password is required',
+                          'Your password must be at least 8 characters, and contain an upper case letter, lower case letter and a digit',
+                          'This username is already taken!', 'This username is not registered!']
+        return error_messages
 
 class RegisterForm(FlaskForm):
     username = StringField(

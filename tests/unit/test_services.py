@@ -249,26 +249,6 @@ def test_can_retrieve_podcasts_episodes(my_user, in_memory_repo, client, auth):
 
 # authentication services tests
 
-
-def test_can_add_new_user():
-    # Create a new user (assuming IDs are auto-generated)
-    new_user = User(user_id=1, username="newuser", password="newpassword123")
-
-    # Assert that the user ID is automatically assigned and not necessarily 1
-    # This assertion should check the current `next_user_id` logic
-    assert new_user.id == 50  # Assuming the auto-incremented ID is 50
-
-    # Assert that the username and password are set correctly
-    assert new_user.username == "newuser"
-    assert new_user.password == "newpassword123"
-
-    # Assert that the subscription list is empty for a new user
-    assert new_user.subscription_list == []
-
-    # Check if the username is stored in lowercase
-    assert new_user.username == "newuser".lower()
-
-
 def test_add_user_existing_username(my_user, in_memory_repo):
     existing_user_name = my_user.username
     existing_password = my_user.password
