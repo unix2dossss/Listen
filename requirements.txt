@@ -5,3 +5,4 @@ wtforms
 flask-wtf
 password_validator
 beautifulsoup4
+SQLAlchemy==1.4.41

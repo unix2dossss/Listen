@@ -62,6 +62,12 @@ The *project directory/.env* file contains variable settings. They are set with 
 * `SECRET_KEY`: Secret key used to encrypt session data.
 * `TESTING`: Set to False for running the application. Overridden and set to True automatically when testing the application.
 * `WTF_CSRF_SECRET_KEY`: Secret key used by the WTForm library.
+
+These settings are for the database version of the code:
+
+* `SQLALCHEMY_DATABASE_URI`: The URI of the SQlite database, by default it will be created in the root directory of the project.
+* `SQLALCHEMY_ECHO`: If this flag is set to True, SQLAlchemy will print the SQL statements it uses internally to interact with the tables.
+* `REPOSITORY`: This flag allows us to easily switch between using the Memory repository or the SQLAlchemyDatabase repository.
  
 ## Endpoints
 
