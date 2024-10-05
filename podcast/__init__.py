@@ -126,4 +126,16 @@ def create_app(testing_config=None):
 
         app.register_blueprint(playlist.playlist_blueprint)
 
+        # Register a callback the makes sure that database sessions are associated with http requests
+        @app.before_request
+        def before_flask_http_request_function():
+            if isinstance(repo.repo_instance, database_repository.SqlAlchemyRepository):
+                repo.repo_instance.reset_session()
+
+        # Register a tear-down method that will be called after each request has been processed.
+        @app.teardown_appcontext
+        def shutdown_session(exception=None):
+            if isinstance(repo.repo_instance, database_repository.SqlAlchemyRepository):
+                repo.repo_instance.close_session()
+
     return app
