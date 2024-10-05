@@ -4,7 +4,7 @@ from sqlalchemy import (
 from sqlalchemy.orm import registry, relationship
 from datetime import datetime
 
-from podcast.domainmodel.model import Podcast, Author, Category, User, Review, Episode
+from podcast.domainmodel.model import Podcast, Author, Category, User, Review, Episode, Comment
 
 # Global variable giving access to the MetaData (schema) information of the database
 mapper_registry = registry()
@@ -62,12 +62,24 @@ users_table = Table(
 reviews_table = Table(
     'reviews', mapper_registry.metadata,
     Column('review_id', Integer, primary_key=True, autoincrement=True),
-    Column('timestamp', DateTime, nullable=False),
-    Column('review_text', String(255), nullable=False),
-    Column('rating', Integer, nullable=False),
-    Column('podcast_id', ForeignKey('podcasts.podcast_id')),
     Column('user_id', ForeignKey('users.user_id')),
+    Column('podcast_id', ForeignKey('podcasts.podcast_id')),
+    Column('comment', ForeignKey('comments.comment_id')),
+    Column('rating', Integer, nullable=False),
+    Column('timestamp', DateTime, nullable=False),
 )
+
+# Comments should have links to its Review and user through its foreign keys
+comments_table = Table(
+    'comments', mapper_registry.metadata,
+    Column('comment_id', Integer, primary_key=True, autoincrement=True),
+    Column('user_id', ForeignKey('users.user_id')),
+    # Column('timestamp', DateTime, nullable=False),
+    Column('comment_text', String(255), nullable=False),
+    Column('comment_date', DateTime, nullable=False),
+    # Column('review_id', ForeignKey('reviews.review_id')),
+)
+
 
 def map_model_to_tables():
     mapper_registry.map_imperatively(Author, authors_table, properties={
@@ -112,8 +124,17 @@ def map_model_to_tables():
 
     mapper_registry.map_imperatively(Review, reviews_table, properties={
         # '_Review__timestamp': reviews_table.c.timestamp,
-        '_comment': reviews_table.c.review_text,
+        '_id': reviews_table.c.review_id,
+        '_owner': relationship(User),
         '_rating': reviews_table.c.rating,
-        '_owner': relationship(User, back_populates='_reviews'),
+        '_comment': relationship(Comment),
         # '_Review__podcast': relationship(Podcast, back_populates='_Podcast_reviews')
+    })
+
+    mapper_registry.map_imperatively(Comment, comments_table, properties={
+        # '_Review__timestamp': reviews_table.c.timestamp,
+        '_id': comments_table.c.comment_id,
+        '_comment_text': comments_table.c.comment_text,
+        '_comment_date': comments_table.c.comment_date,
+        '_owner': relationship(User),
     })
