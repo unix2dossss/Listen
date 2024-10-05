@@ -1,6 +1,11 @@
+from sqlalchemy.exc import NoResultFound
 from sqlalchemy.orm import scoped_session
 from abc import ABC
+from typing import List, Type
+
+from podcast import Podcast, Author
 from podcast.adapters.repository import AbstractRepository
+from podcast.domainmodel.model import Category, Episode
 
 
 class SessionContextManager:
@@ -46,10 +51,47 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def reset_session(self):
         self._session_cm.reset_session()
 
+    # Methods to populate database
+    def add_multiple_authors(self, authors):
+        with self._session_cm as scm:
+            with scm.session.no_autoflush:
+                for author in authors:
+                    if author is None:
+                        raise ValueError("Author name cannot be None")
+                    scm.session.add(authors[author])
+            scm.commit()
+
+    def add_multiple_categories(self, categories):
+        with self._session_cm as scm:
+            with scm.session.no_autoflush:
+                for category in categories:
+                    scm.session.add(categories[category])
+            scm.commit()
+
+    def add_multiple_podcasts(self, podcasts: List[Podcast]):
+        with self._session_cm as scm:
+            for podcast in podcasts:
+                scm.session.add(podcast)
+            scm.commit()
+
+    def add_multiple_episodes(self, episode: List[Episode]):
+        with self._session_cm as scm:
+            for episode in episode:
+                scm.session.merge(episode)
+            scm.commit()
+
+    # Database implementations (of memory repository methods)
     def get_n_podcasts(self):
         # Your code here that fetches the required number of podcasts
         pass
 
-    def get_podcast(self, podcast_id):
-        # Your code here that fetches a specific podcast by id
-        pass
+    def get_podcast(self, pc_id):
+        podcast = None
+        try:
+            query = self._session_cm.session.query(Podcast).filter(
+                Podcast._id == pc_id)
+            podcast = query.one()
+        except NoResultFound:
+            print(f'Podcast {pc_id} was not found')
+
+        return podcast

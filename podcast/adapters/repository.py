@@ -141,3 +141,19 @@ class AbstractRepository(abc.ABC):
         """ return all the podcasts that have the argument string as part of the podcast title
         """
         raise NotImplementedError
+
+    def add_multiple_authors(self, authors):
+        """add multiple authors to populate repo"""
+        raise NotImplementedError
+
+    def add_multiple_categories(self, categories):
+        """add multiple categories to populate repo"""
+        raise NotImplementedError
+
+    def add_multiple_podcasts(self, podcasts):
+        """add multiple podcasts to populate repo"""
+        raise NotImplementedError
+
+    def add_multiple_episodes(self, episodes):
+        """add multiple episodes to populate repo"""
+        raise NotImplementedError
