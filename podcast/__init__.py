@@ -3,11 +3,11 @@
 from pathlib import Path
 from flask import Flask
 
-
+from podcast.adapters.orm import mapper_registry, map_model_to_tables
 from podcast.domainmodel.model import Podcast, Author
 import podcast.adapters.repository as repo
-from podcast.adapters.memory_repository import MemoryRepository, populate
-from podcast.adapters import memory_repository, database_repository
+from podcast.adapters.memory_repository import MemoryRepository
+from podcast.adapters import memory_repository, database_repository, repository_populate
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, clear_mappers
@@ -45,7 +45,7 @@ def create_app(testing_config=None):
 
         # fill the content of the repository from the provided csv files (has to be done every time we start app!)
         database_mode = False
-        memory_repository.populate(data_path, repo.repo_instance, database_mode)
+        repository_populate.populate(data_path, repo.repo_instance, database_mode)
 
     elif app.config['REPOSITORY'] == 'database':
         # Configure database.
@@ -70,23 +70,20 @@ def create_app(testing_config=None):
             # For testing, or first-time use of the web application, reinitialise the database.
             clear_mappers()
 
-            metadata.create_all(database_engine)  # Conditionally create database tables.
-            for table in reversed(metadata.sorted_tables):  # Remove any data from the tables.
+            mapper_registry.metadata.create_all(database_engine)  # Conditionally create database tables.
+            for table in reversed(mapper_registry.metadata.sorted_tables):  # Remove any data from the tables.
                 database_engine.execute(table.delete())
 
             # Generate mappings that map domain model classes to the database tables.
             map_model_to_tables()
 
             database_mode = True
-            memory_repository.populate(data_path, repo.repo_instance, database_mode)
+            repository_populate.populate(data_path, repo.repo_instance, database_mode)
             print("REPOPULATING DATABASE... FINISHED")
 
         else:
             # Solely generate mappings that map domain model classes to the database tables.
             map_model_to_tables()
-
-
-
 
 
 

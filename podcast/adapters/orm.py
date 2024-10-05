@@ -4,7 +4,7 @@ from sqlalchemy import (
 from sqlalchemy.orm import registry, relationship
 from datetime import datetime
 
-from podcasts.domainmodel.model import Podcast, Author, Category, User, Review, Episode
+from podcast.domainmodel.model import Podcast, Author, Category, User, Review, Episode
 
 # Global variable giving access to the MetaData (schema) information of the database
 mapper_registry = registry()
@@ -89,8 +89,8 @@ def map_model_to_tables():
         '_website': podcast_table.c.website_url,
         '_itunes_id': podcast_table.c.itunes_id,
         '_author': relationship(Author),
-        '_Podcast_episodes': relationship(Episode, back_populates='_Episode__podcast'),
-        '_reviews': relationship(Review, back_populates='_Review__podcast'),
+        '_Podcast_episodes': relationship(Episode, back_populates='episode_podcast'),
+        # '_reviews': relationship(Review, back_populates='_Review__podcast'),
         'categories': relationship(Category, secondary=podcast_categories_table),
     })
 
@@ -107,7 +107,7 @@ def map_model_to_tables():
         '_id': users_table.c.user_id,
         '_username': users_table.c.username,
         '_password': users_table.c.password,
-        # '_reviews': relationship(Review, back_populates='_Review__user')
+        '_reviews': relationship(Review, back_populates='_owner')
     })
 
     mapper_registry.map_imperatively(Review, reviews_table, properties={
