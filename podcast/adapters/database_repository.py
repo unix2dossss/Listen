@@ -95,3 +95,39 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             print(f'Podcast {pc_id} was not found')
 
         return podcast
+
+    def get_popular_categories(self):
+        try:
+            popular_categories = self._session_cm.session.query(Category).filter(
+                Category.id.in_([1, 5, 16])
+            ).all()
+        except NoResultFound:
+            print(f'Categories with ids"{1, 5, 16}" was not found')
+            return []
+
+        return popular_categories
+
+
+    def get_editor_picks(self):
+        try:
+            editor_picks = self._session_cm.session.query(Podcast).filter(
+                Podcast.id.in_([106, 503, 829])
+            ).all()
+        except NoResultFound:
+            print(f'Podcasts with ids"{106, 503, 829}" was not found')
+            return []
+
+        return editor_picks
+
+
+    def get_podcast_search_list(self):
+        try:
+            podcast_search_list = self._session_cm.session.query(Podcast).filter(
+                Podcast.id.in_([288, 162, 799, 317])
+            ).all()
+        except NoResultFound:
+            print(f'Podcasts with ids"{288, 162, 799, 317}" was not found')
+            return []
+
+        return podcast_search_list
+
