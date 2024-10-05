@@ -1,3 +1,4 @@
+from sqlalchemy import func
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.orm import scoped_session
 from abc import ABC
@@ -130,4 +131,118 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             return []
 
         return podcast_search_list
+
+
+    def get_podcasts_in_category(self, category_name):
+        formatted_category_name = category_name.strip()
+
+        try:
+            # Try to query the category by exact name
+            category = self._session_cm.session.query(Category).filter(Category.name == formatted_category_name).first()
+
+            if category:
+                # If the category exists, retrieve the podcasts associated with it
+                return self._session_cm.session.query(Podcast).join(Category).filter(Category.id == category.id).all()
+
+            # If no exact match, perform a case-insensitive partial search
+            categories = self._session_cm.session.query(Category).filter(
+                Category.name.ilike(f"%{formatted_category_name}%")
+            ).all()
+
+            podcasts = []
+            for c in categories:
+                category_podcasts = self._session_cm.session.query(Podcast).join(Category).filter(
+                    Category.id == c.id).all()
+                podcasts.extend(category_podcasts)
+
+            return podcasts
+
+        except Exception as e:
+            print(f"An error occurred while retrieving podcasts: {e}")
+            return []
+
+
+    def get_podcasts_by_author(self, author_name):
+        formatted_author_name = author_name.strip()
+        try:
+            searched_podcasts = self._session_cm.session.query(Podcast).join(Author).filter(
+                func.lower(Author.name).like(f"%{formatted_author_name}%")
+            ).all()
+        except NoResultFound:
+            print(f'Author "{formatted_author_name}" was not found')
+            return []
+
+        return searched_podcasts
+
+
+    def get_all_podcasts(self):
+        podcasts = self._session_cm.session.query(Podcast).all()
+        return podcasts
+
+    def get_all_categories(self):
+        categories = self._session_cm.session.query(Category).all()
+        return categories
+
+    def get_all_authors(self):
+        authors = self._session_cm.session.query(Author).all()
+        return authors
+
+    def get_top_podcasts(self):
+        try:
+            top_podcasts = self._session_cm.session.query(Podcast).filter(
+                Podcast.id.in_([771, 531, 88, 438])
+            ).all()
+        except NoResultFound:
+            print(f'Podcasts with ids "{771, 531, 88, 438}" were not found')
+            return []
+
+        return top_podcasts
+
+    def get_recently_played(self):
+        try:
+            recently_played_podcasts = self._session_cm.session.query(Podcast).filter(
+                Podcast.id.in_([670, 219, 728, 8])
+            ).all()
+        except NoResultFound:
+            print(f'Podcasts with ids "{670, 219, 728, 8}" were not found')
+            return []
+
+        return recently_played_podcasts
+
+
+    def get_new_podcasts(self):
+        try:
+            new_podcasts = self._session_cm.session.query(Podcast).filter(
+                Podcast.id.in_([739, 268, 639, 200])
+            ).all()
+        except NoResultFound:
+            print(f'Podcasts with ids "{739, 268, 639, 200}" were not found')
+            return []
+
+        return new_podcasts
+
+    def get_continue_listening_podcasts(self):
+        try:
+            continue_listening_podcasts = self._session_cm.session.query(Podcast).filter(
+                Podcast.id.in_([546, 823, 908, 675])
+            ).all()
+        except NoResultFound:
+            print(f'Podcasts with ids "{546, 823, 908, 675}" were not found')
+            return []
+
+        return continue_listening_podcasts
+
+
+    # Need to do this
+
+    # def get_total_audio_time(self, audio_times):
+    #     total_time = AudioTime(0, 0, 0)
+    #     for time in audio_times:
+    #         total_time = total_time.add_time(time)
+    #     return total_time
+
+
+
+
+
 
