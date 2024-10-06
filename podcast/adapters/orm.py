@@ -25,7 +25,6 @@ podcast_table = Table(
     Column('website_url', String(255), nullable=True),
     Column('author_id', ForeignKey('authors.author_id')),
     Column('itunes_id', Integer, nullable=True),
-    Column('playlist_id', ForeignKey('playlists.playlist_id')),
 )
 
 # Episodes should have links to its podcast through its foreign keys
@@ -38,7 +37,7 @@ episode_table = Table(
     Column('audio_length', Integer, nullable=True),
     Column('description', String(255), nullable=True),
     Column('pub_date', Text, nullable=True),
-    Column('playlist_id', ForeignKey('playlists.playlist_id')),
+
 )
 
 categories_table = Table(
@@ -99,6 +98,21 @@ playlists_table = Table(
     Column('name', ForeignKey('podcasts.podcast_id')),
 )
 
+playlist_episodes_table = Table(
+    'playlist_episodes', mapper_registry.metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
+    Column('episode_id', ForeignKey('episodes.episode_id')),
+    Column('playlist_id', ForeignKey('playlists.playlist_id')),
+)
+
+playlist_podcasts_table = Table(
+    'playlist_podcasts', mapper_registry.metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
+    Column('podcast_id', ForeignKey('podcasts.podcast_id')),
+    Column('playlist_id', ForeignKey('playlists.playlist_id')),
+)
+
+
 podcast_users_table = Table(
     'podcast_users', mapper_registry.metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
@@ -146,7 +160,7 @@ def map_model_to_tables():
         '_episode_podcast': relationship(Podcast, back_populates='episodes'),
         '_episode_title': episode_table.c.title,
         '_episode_audio_link': episode_table.c.audio_url,
-        '_episode_audio_length': relationship(AudioTime),
+        '_episode_audio_length': relationship(AudioTime, uselist=False),
         '_episode_description': episode_table.c.description,
         '_episode_publish_date': episode_table.c.pub_date,
         '_episode_in_playlist_users': relationship(User, secondary=episode_users_table),
@@ -186,7 +200,7 @@ def map_model_to_tables():
         '_id': playlists_table.c.playlist_id,
         '_name': playlists_table.c.name,
         '_owner': relationship(User),
-        '_episodes': relationship(Episode, secondary=episode_users_table),  # Corrected secondary table
-        '_podcasts': relationship(Podcast, secondary=podcast_users_table),  # Corrected secondary table
+        '_episodes': relationship(Episode, secondary=playlist_episodes_table),
+        '_podcasts': relationship(Podcast, secondary=playlist_podcasts_table),
     })
 

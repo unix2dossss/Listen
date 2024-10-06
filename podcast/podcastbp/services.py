@@ -77,7 +77,8 @@ def podcast_episodes(podcast_id: int, repo: AbstractRepository):
         ep_n += 1
         episode_dict["episode_title"] = episode.episode_title
         episode_dict["episode_description"] = episode.episode_description
-        episode_dict["episode_date"] = episode.episode_publish_date.strftime("%Y-%m-%d")
+        # episode_dict["episode_date"] = episode.episode_publish_date.strftime("%Y-%m-%d")
+        episode_dict["episode_date"] = episode.episode_publish_date
         episode_dict["episode_length"] = str(episode.episode_audio_length)
         episode_dict["episode_in_playlist"] = item_in_playist(episode=episode)
 

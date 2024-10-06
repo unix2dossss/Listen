@@ -5,6 +5,7 @@ from abc import ABC
 from typing import List, Type, Any
 
 from podcast import Podcast, Author
+from podcast.adapters.orm import podcast_categories_table
 from podcast.adapters.repository import AbstractRepository
 from podcast.domainmodel.model import Category, Episode, User, Playlist, Review, AudioTime
 
@@ -132,27 +133,38 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
 
         return podcast_search_list
 
-
     def get_podcasts_in_category(self, category_name: str) -> List[Podcast]:
         formatted_category_name = category_name.strip()
 
         try:
             # Try to query the category by exact name
-            category = self._session_cm.session.query(Category).filter(Category.name == formatted_category_name).first()
+            category = self._session_cm.session.query(Category).filter(
+                Category._name == formatted_category_name).first()
 
             if category:
                 # If the category exists, retrieve the podcasts associated with it
-                return self._session_cm.session.query(Podcast).join(Category).filter(Category.id == category.id).all()
+                return self._session_cm.session.query(Podcast).join(
+                    podcast_categories_table, Podcast._id == podcast_categories_table.c.podcast_id
+                ).join(
+                    Category, podcast_categories_table.c.category_id == Category._id
+                ).filter(
+                    Category._id == category.id
+                ).all()
 
             # If no exact match, perform a case-insensitive partial search
             categories = self._session_cm.session.query(Category).filter(
-                Category.name.ilike(f"%{formatted_category_name}%")
+                Category._name.ilike(f"%{formatted_category_name}%")
             ).all()
 
             podcasts = []
             for c in categories:
-                category_podcasts = self._session_cm.session.query(Podcast).join(Category).filter(
-                    Category._id == c.id).all()
+                category_podcasts = self._session_cm.session.query(Podcast).join(
+                    podcast_categories_table, Podcast._id == podcast_categories_table.c.podcast_id
+                ).join(
+                    Category, podcast_categories_table.c.category_id == Category._id
+                ).filter(
+                    Category._id == c.id
+                ).all()
                 podcasts.extend(category_podcasts)
 
             return podcasts
@@ -161,13 +173,13 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             print(f"An error occurred while retrieving podcasts: {e}")
             return []
 
-
     def get_podcasts_by_author(self, author_name: str) -> List[Podcast]:
         formatted_author_name = author_name.strip()
         try:
             searched_podcasts = self._session_cm.session.query(Podcast).join(Author).filter(
-                func.lower(Author.name).like(f"%{formatted_author_name}%")
+                func.lower(Author._name).like(f"%{formatted_author_name}%")
             ).all()
+            print(searched_podcasts)
         except NoResultFound:
             print(f'Author "{formatted_author_name}" was not found')
             return []
@@ -306,13 +318,18 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         return new_podcasts
 
 
-    def search_podcast_by_title(self, title_string: str) -> List[Podcast]:
+    def get_podcasts_by_title(self, title: str) -> List[Podcast]:
+        if not isinstance(title, str):
+            print(f"Invalid title type: {type(title)}")
+            return []
+
         try:
+            title = title.lower()
             searched_podcasts = self._session_cm.session.query(Podcast).filter(
-                func.lower(Podcast.title).like(f"%{title_string}%")
+                func.lower(Podcast._title).like(f"%{title}%")
             ).all()
         except NoResultFound:
-            print(f'Title "{title_string}" was not found')
+            print(f'Title "{title}" was not found')
             return []
 
         return searched_podcasts
@@ -377,14 +394,14 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             self._session_cm.session.rollback()
 
 
-    # def get_user_playlist(self, user: User):
-    #     try:
-    #         playlist = self._session_cm.session.query(Playlist).filter(Playlist._user._id == user.id).one()
-    #         return playlist
-    #
-    #     except Exception as e:
-    #         print(f"An error occurred while retrieving the user's playlist: {e}")
-    #         return None
+    def get_user_playlist(self, user: User):
+        try:
+            playlist = self._session_cm.session.query(Playlist).filter(Playlist._user._id == user.id).one()
+            return playlist
+
+        except Exception as e:
+            print(f"An error occurred while retrieving the user's playlist: {e}")
+            return None
 
 
     def get_podcast_average_rating(self, podcast_id):
