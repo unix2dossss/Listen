@@ -323,11 +323,11 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             scm.session.add(user)
             scm.commit()
 
-    # # ****** NOT SURE ************
-    # def add_playlist(self, playlist: Playlist):
-    #     with self._session_cm as scm:
-    #         scm.session.add(playlist)
-    #         scm.commit()
+    # ****** NOT SURE ************
+    def add_playlist(self, playlist: Playlist):
+        with self._session_cm as scm:
+            scm.session.add(playlist)
+            scm.commit()
 
 
     def get_user(self, username: str) -> Any | None:

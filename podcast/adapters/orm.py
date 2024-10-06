@@ -4,7 +4,7 @@ from sqlalchemy import (
 from sqlalchemy.orm import registry, relationship
 from datetime import datetime
 
-from podcast.domainmodel.model import Podcast, Author, Category, User, Review, Episode, Comment, AudioTime
+from podcast.domainmodel.model import Podcast, Author, Category, User, Review, Episode, Comment, AudioTime, Playlist
 
 # Global variable giving access to the MetaData (schema) information of the database
 mapper_registry = registry()
@@ -24,7 +24,8 @@ podcast_table = Table(
     Column('language', String(255), nullable=True),
     Column('website_url', String(255), nullable=True),
     Column('author_id', ForeignKey('authors.author_id')),
-    Column('itunes_id', Integer, nullable=True)
+    Column('itunes_id', Integer, nullable=True),
+    Column('playlist_id', ForeignKey('playlists.playlist_id')),
 )
 
 # Episodes should have links to its podcast through its foreign keys
@@ -36,7 +37,8 @@ episode_table = Table(
     Column('audio_url', Text, nullable=True),
     Column('audio_length', Integer, nullable=True),
     Column('description', String(255), nullable=True),
-    Column('pub_date', Text, nullable=True)
+    Column('pub_date', Text, nullable=True),
+    Column('playlist_id', ForeignKey('playlists.playlist_id')),
 )
 
 categories_table = Table(
@@ -90,6 +92,28 @@ audio_times_table = Table(
     Column('episode_id', Integer, ForeignKey('episodes.episode_id')),
 )
 
+playlists_table = Table(
+    'playlists', mapper_registry.metadata,
+    Column('playlist_id', Integer, primary_key=True, autoincrement=True),
+    Column('user_id', ForeignKey('users.user_id')),
+    Column('name', ForeignKey('podcasts.podcast_id')),
+)
+
+podcast_users_table = Table(
+    'podcast_users', mapper_registry.metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
+    Column('podcast_id', ForeignKey('podcasts.podcast_id')),
+    Column('user_id', ForeignKey('users.user_id')),
+)
+
+episode_users_table = Table(
+    'episode_users', mapper_registry.metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
+    Column('episode_id', ForeignKey('episodes.episode_id')),
+    Column('user_id', ForeignKey('users.user_id')),
+)
+
+
 def map_model_to_tables():
     mapper_registry.map_imperatively(Author, authors_table, properties={
         '_id': authors_table.c.author_id,
@@ -114,6 +138,7 @@ def map_model_to_tables():
         'episodes': relationship(Episode, back_populates='_episode_podcast'),
         '_reviews': relationship(Review, back_populates='_podcast'),
         'categories': relationship(Category, secondary=podcast_categories_table),
+        '_in_playlist_users': relationship(User, secondary=podcast_users_table),
     })
 
     mapper_registry.map_imperatively(Episode, episode_table, properties={
@@ -124,6 +149,7 @@ def map_model_to_tables():
         '_episode_audio_length': relationship(AudioTime),
         '_episode_description': episode_table.c.description,
         '_episode_publish_date': episode_table.c.pub_date,
+        '_episode_in_playlist_users': relationship(User, secondary=episode_users_table),
     })
 
     mapper_registry.map_imperatively(User, users_table, properties={
@@ -154,5 +180,13 @@ def map_model_to_tables():
         'audio_hours': audio_times_table.c.audio_hours,
         'audio_minutes': audio_times_table.c.audio_minutes,
         'audio_seconds': audio_times_table.c.audio_seconds,
+    })
+
+    mapper_registry.map_imperatively(Playlist, playlists_table, properties={
+        '_id': playlists_table.c.playlist_id,
+        '_name': playlists_table.c.name,
+        '_owner': relationship(User),
+        '_episodes': relationship(Episode, secondary=episode_users_table),  # Corrected secondary table
+        '_podcasts': relationship(Podcast, secondary=podcast_users_table),  # Corrected secondary table
     })
 
