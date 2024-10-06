@@ -187,50 +187,50 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         authors = self._session_cm.session.query(Author).all()
         return authors
 
-    # def get_top_podcasts(self) -> List[Podcast]:
-    #     try:
-    #         top_podcasts = self._session_cm.session.query(Podcast).filter(
-    #             Podcast._id.in_([771, 531, 88, 438])
-    #         ).all()
-    #     except NoResultFound:
-    #         print(f'Podcasts with ids "{771, 531, 88, 438}" were not found')
-    #         return []
-    #
-    #     return top_podcasts
-    #
-    # def get_recently_played(self) -> List[Podcast]:
-    #     try:
-    #         recently_played_podcasts = self._session_cm.session.query(Podcast).filter(
-    #             Podcast._id.in_([670, 219, 728, 8])
-    #         ).all()
-    #     except NoResultFound:
-    #         print(f'Podcasts with ids "{670, 219, 728, 8}" were not found')
-    #         return []
-    #
-    #     return recently_played_podcasts
-    #
-    #
-    # def get_new_podcasts(self) -> List[Podcast]:
-    #     try:
-    #         new_podcasts = self._session_cm.session.query(Podcast).filter(
-    #             Podcast._id.in_([739, 268, 639, 200])
-    #         ).all()
-    #     except NoResultFound:
-    #         print(f'Podcasts with ids "{739, 268, 639, 200}" were not found')
-    #         return []
-    #
-    #     return new_podcasts
-    #
-    # def get_continue_listening_podcasts(self) -> List[Podcast]:
-    #     try:
-    #         continue_listening_podcasts = self._session_cm.session.query(Podcast).filter(
-    #             Podcast._id.in_([546, 823, 908, 675])
-    #         ).all()
-    #     except NoResultFound:
-    #         print(f'Podcasts with ids "{546, 823, 908, 675}" were not found')
-    #         return []
-    #
-    #     return continue_listening_podcasts
+    def get_top_podcasts(self) -> List[Podcast]:
+        try:
+            top_podcasts = self._session_cm.session.query(Podcast).filter(
+                Podcast._id.in_([771, 531, 88, 438])
+            ).all()
+        except NoResultFound:
+            print(f'Podcasts with ids "{771, 531, 88, 438}" were not found')
+            return []
+
+        return top_podcasts
+
+    def get_recently_played(self) -> List[Podcast]:
+        try:
+            recently_played_podcasts = self._session_cm.session.query(Podcast).filter(
+                Podcast._id.in_([670, 219, 728, 8])
+            ).all()
+        except NoResultFound:
+            print(f'Podcasts with ids "{670, 219, 728, 8}" were not found')
+            return []
+
+        return recently_played_podcasts
+
+
+    def get_new_podcasts(self) -> List[Podcast]:
+        try:
+            new_podcasts = self._session_cm.session.query(Podcast).filter(
+                Podcast._id.in_([739, 268, 639, 200])
+            ).all()
+        except NoResultFound:
+            print(f'Podcasts with ids "{739, 268, 639, 200}" were not found')
+            return []
+
+        return new_podcasts
+
+    def get_continue_listening_podcasts(self) -> List[Podcast]:
+        try:
+            continue_listening_podcasts = self._session_cm.session.query(Podcast).filter(
+                Podcast._id.in_([546, 823, 908, 675])
+            ).all()
+        except NoResultFound:
+            print(f'Podcasts with ids "{546, 823, 908, 675}" were not found')
+            return []
+
+        return continue_listening_podcasts
     #
     #
     # # Need to do this
@@ -242,68 +242,68 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             total_time = total_time.add_time(time)
         return total_time
 
-    # def get_top_authors(self) -> List[Author]:
-    #     try:
-    #         authors = self.get_all_authors()
-    #         top_authors = self._session_cm.session.query(Author).filter(
-    #             Author.id.in_([authors[22].id, authors[45].id, authors[52].id])
-    #         ).all()
-    #     except NoResultFound:
-    #         print('Top authors were not found')
-    #         return []
-    #     except IndexError:
-    #         print('Index out of range for authors')
-    #         return []
-    #
-    #     return top_authors
-    #
-    #
-    # def get_top_podcasts_list(self) -> List[Podcast]:
-    #     try:
-    #         podcasts = self.get_all_podcasts()
-    #         top_podcasts = self._session_cm.session.query(Podcast).filter(
-    #             Podcast._id.in_([podcasts[i].id for i in range(162, 174)])
-    #         ).all()
-    #     except NoResultFound:
-    #         print('Top podcasts were not found')
-    #         return []
-    #     except IndexError:
-    #         print('Index out of range for podcasts')
-    #         return []
-    #
-    #     return top_podcasts
-    #
-    #
-    # def get_recently_played_list(self) -> List[Podcast]:
-    #     try:
-    #         podcasts = self.get_all_podcasts()
-    #         recently_played_podcasts = self._session_cm.session.query(Podcast).filter(
-    #             Podcast._id.in_([podcasts[i].id for i in range(44, 56)])
-    #         ).all()
-    #     except NoResultFound:
-    #         print('Recently played podcasts were not found')
-    #         return []
-    #     except IndexError:
-    #         print('Index out of range for podcasts')
-    #         return []
-    #
-    #     return recently_played_podcasts
-    #
-    #
-    # def get_new_podcasts_list(self) -> List[Podcast]:
-    #     try:
-    #         podcasts = self.get_all_podcasts()  # Retrieve all podcasts
-    #         new_podcasts = self._session_cm.session.query(Podcast).filter(
-    #             Podcast._id.in_([podcasts[i]._id for i in range(280, 292)])
-    #         ).all()
-    #     except NoResultFound:
-    #         print('New podcasts were not found')
-    #         return []
-    #     except IndexError:
-    #         print('Index out of range for podcasts')
-    #         return []
-    #
-    #     return new_podcasts
+    def get_top_authors(self) -> List[Author]:
+        try:
+            authors = self.get_all_authors()
+            top_authors = self._session_cm.session.query(Author).filter(
+                Author._id.in_([authors[22].id, authors[45].id, authors[52].id])
+            ).all()
+        except NoResultFound:
+            print('Top authors were not found')
+            return []
+        except IndexError:
+            print('Index out of range for authors')
+            return []
+
+        return top_authors
+
+
+    def get_top_podcasts_list(self) -> List[Podcast]:
+        try:
+            podcasts = self.get_all_podcasts()
+            top_podcasts = self._session_cm.session.query(Podcast).filter(
+                Podcast._id.in_([podcasts[i].id for i in range(162, 174)])
+            ).all()
+        except NoResultFound:
+            print('Top podcasts were not found')
+            return []
+        except IndexError:
+            print('Index out of range for podcasts')
+            return []
+
+        return top_podcasts
+
+
+    def get_recently_played_list(self) -> List[Podcast]:
+        try:
+            podcasts = self.get_all_podcasts()
+            recently_played_podcasts = self._session_cm.session.query(Podcast).filter(
+                Podcast._id.in_([podcasts[i].id for i in range(44, 56)])
+            ).all()
+        except NoResultFound:
+            print('Recently played podcasts were not found')
+            return []
+        except IndexError:
+            print('Index out of range for podcasts')
+            return []
+
+        return recently_played_podcasts
+
+
+    def get_new_podcasts_list(self) -> List[Podcast]:
+        try:
+            podcasts = self.get_all_podcasts()  # Retrieve all podcasts
+            new_podcasts = self._session_cm.session.query(Podcast).filter(
+                Podcast._id.in_([podcasts[i]._id for i in range(280, 292)])
+            ).all()
+        except NoResultFound:
+            print('New podcasts were not found')
+            return []
+        except IndexError:
+            print('Index out of range for podcasts')
+            return []
+
+        return new_podcasts
 
 
     def search_podcast_by_title(self, title_string: str) -> List[Podcast]:
@@ -323,7 +323,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             scm.session.add(user)
             scm.commit()
 
-    # ****** NOT SURE ************
+    # # ****** NOT SURE ************
     # def add_playlist(self, playlist: Playlist):
     #     with self._session_cm as scm:
     #         scm.session.add(playlist)

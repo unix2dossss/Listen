@@ -12,7 +12,7 @@ mapper_registry = registry()
 authors_table = Table(
     'authors', mapper_registry.metadata,
     Column('author_id', Integer, primary_key=True),
-    Column('name', String(255), nullable=False, unique=True)
+    Column('name', String(255), nullable=False, unique=True),
 )
 
 podcast_table = Table(
@@ -34,7 +34,7 @@ episode_table = Table(
     Column('podcast_id', Integer, ForeignKey('podcasts.podcast_id')),
     Column('title', Text, nullable=True),
     Column('audio_url', Text, nullable=True),
-    Column('audio_length', ForeignKey('audio_times.audio_time_id')),
+    Column('audio_length', Integer, nullable=True),
     Column('description', String(255), nullable=True),
     Column('pub_date', Text, nullable=True)
 )
@@ -75,24 +75,26 @@ comments_table = Table(
     'comments', mapper_registry.metadata,
     Column('comment_id', Integer, primary_key=True, autoincrement=True),
     Column('user_id', ForeignKey('users.user_id')),
-    # Column('timestamp', DateTime, nullable=False),
     Column('comment_text', String(255), nullable=False),
     Column('comment_date', DateTime, nullable=False),
     # Column('review_id', ForeignKey('reviews.review_id')),
 )
 
+
 audio_times_table = Table(
     'audio_times', mapper_registry.metadata,
     Column('audio_time_id', Integer, primary_key=True, autoincrement=True),
-    Column('audio_hours', Integer, nullable=False),
-    Column('audio_minutes', Integer, nullable=False),
-    Column('audio_seconds', Integer, nullable=False),
+    Column('audio_hours', Integer, nullable=True),
+    Column('audio_minutes', Integer, nullable=True),
+    Column('audio_seconds', Integer, nullable=True),
+    Column('episode_id', Integer, ForeignKey('episodes.episode_id')),
 )
 
 def map_model_to_tables():
     mapper_registry.map_imperatively(Author, authors_table, properties={
         '_id': authors_table.c.author_id,
         '_name': authors_table.c.name,
+        'podcast_list': relationship(Podcast, back_populates='_author')
     })
 
     mapper_registry.map_imperatively(Category, categories_table, properties={
@@ -108,20 +110,20 @@ def map_model_to_tables():
         '_language': podcast_table.c.language,
         '_website': podcast_table.c.website_url,
         '_itunes_id': podcast_table.c.itunes_id,
-        '_author': relationship(Author),
-        'episodes': relationship(Episode, back_populates='episode_podcast'),
+        '_author': relationship(Author, back_populates='podcast_list'),
+        'episodes': relationship(Episode, back_populates='_episode_podcast'),
         '_reviews': relationship(Review, back_populates='_podcast'),
         'categories': relationship(Category, secondary=podcast_categories_table),
     })
 
     mapper_registry.map_imperatively(Episode, episode_table, properties={
-        'episode_id': episode_table.c.episode_id,
-        'episode_podcast': relationship(Podcast, back_populates='episodes'),
-        'episode_title': episode_table.c.title,
-        'episode_audio_link': episode_table.c.audio_url,
-        'episode_audio_length': episode_table.c.audio_length,
-        'episode_description': episode_table.c.description,
-        'episode_publish_date': episode_table.c.pub_date,
+        '_episode_id': episode_table.c.episode_id,
+        '_episode_podcast': relationship(Podcast, back_populates='episodes'),
+        '_episode_title': episode_table.c.title,
+        '_episode_audio_link': episode_table.c.audio_url,
+        '_episode_audio_length': relationship(AudioTime),
+        '_episode_description': episode_table.c.description,
+        '_episode_publish_date': episode_table.c.pub_date,
     })
 
     mapper_registry.map_imperatively(User, users_table, properties={
@@ -149,7 +151,8 @@ def map_model_to_tables():
     })
 
     mapper_registry.map_imperatively(AudioTime, audio_times_table, properties={
-        '_audio_hours': audio_times_table.c.audio_hours,
-        '_audio_minutes': audio_times_table.c.audio_minutes,
-        '_audio_seconds': audio_times_table.c.audio_seconds,
+        'audio_hours': audio_times_table.c.audio_hours,
+        'audio_minutes': audio_times_table.c.audio_minutes,
+        'audio_seconds': audio_times_table.c.audio_seconds,
     })
+
