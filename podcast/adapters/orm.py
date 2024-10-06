@@ -4,7 +4,7 @@ from sqlalchemy import (
 from sqlalchemy.orm import registry, relationship
 from datetime import datetime
 
-from podcast.domainmodel.model import Podcast, Author, Category, User, Review, Episode, Comment
+from podcast.domainmodel.model import Podcast, Author, Category, User, Review, Episode, Comment, AudioTime
 
 # Global variable giving access to the MetaData (schema) information of the database
 mapper_registry = registry()
@@ -34,6 +34,7 @@ episode_table = Table(
     Column('podcast_id', Integer, ForeignKey('podcasts.podcast_id')),
     Column('title', Text, nullable=True),
     Column('audio_url', Text, nullable=True),
+    Column('audio_length', ForeignKey('audio_times.audio_time_id')),
     Column('description', String(255), nullable=True),
     Column('pub_date', Text, nullable=True)
 )
@@ -69,7 +70,7 @@ reviews_table = Table(
     Column('timestamp', DateTime, nullable=False),
 )
 
-# Comments should have links to its Review and user through its foreign keys
+# Comments should have links to its user through its foreign keys
 comments_table = Table(
     'comments', mapper_registry.metadata,
     Column('comment_id', Integer, primary_key=True, autoincrement=True),
@@ -80,6 +81,13 @@ comments_table = Table(
     # Column('review_id', ForeignKey('reviews.review_id')),
 )
 
+audio_times_table = Table(
+    'audio_times', mapper_registry.metadata,
+    Column('audio_time_id', Integer, primary_key=True, autoincrement=True),
+    Column('audio_hours', Integer, nullable=False),
+    Column('audio_minutes', Integer, nullable=False),
+    Column('audio_seconds', Integer, nullable=False),
+)
 
 def map_model_to_tables():
     mapper_registry.map_imperatively(Author, authors_table, properties={
@@ -101,16 +109,17 @@ def map_model_to_tables():
         '_website': podcast_table.c.website_url,
         '_itunes_id': podcast_table.c.itunes_id,
         '_author': relationship(Author),
-        '_Podcast_episodes': relationship(Episode, back_populates='episode_podcast'),
-        # '_reviews': relationship(Review, back_populates='_Review__podcast'),
+        'episodes': relationship(Episode, back_populates='episode_podcast'),
+        '_reviews': relationship(Review, back_populates='_podcast'),
         'categories': relationship(Category, secondary=podcast_categories_table),
     })
 
     mapper_registry.map_imperatively(Episode, episode_table, properties={
         'episode_id': episode_table.c.episode_id,
-        'episode_podcast': relationship(Podcast, back_populates='_Podcast_episodes'),
+        'episode_podcast': relationship(Podcast, back_populates='episodes'),
         'episode_title': episode_table.c.title,
         'episode_audio_link': episode_table.c.audio_url,
+        'episode_audio_length': episode_table.c.audio_length,
         'episode_description': episode_table.c.description,
         'episode_publish_date': episode_table.c.pub_date,
     })
@@ -127,8 +136,8 @@ def map_model_to_tables():
         '_id': reviews_table.c.review_id,
         '_owner': relationship(User),
         '_rating': reviews_table.c.rating,
-        '_comment': relationship(Comment),
-        # '_Review__podcast': relationship(Podcast, back_populates='_Podcast_reviews')
+        '_comment': relationship(Comment, uselist=False),  # One-to-one relationship
+        '_podcast': relationship(Podcast, back_populates='_reviews'),
     })
 
     mapper_registry.map_imperatively(Comment, comments_table, properties={
@@ -137,4 +146,10 @@ def map_model_to_tables():
         '_comment_text': comments_table.c.comment_text,
         '_comment_date': comments_table.c.comment_date,
         '_owner': relationship(User),
+    })
+
+    mapper_registry.map_imperatively(AudioTime, audio_times_table, properties={
+        '_audio_hours': audio_times_table.c.audio_hours,
+        '_audio_minutes': audio_times_table.c.audio_minutes,
+        '_audio_seconds': audio_times_table.c.audio_seconds,
     })
