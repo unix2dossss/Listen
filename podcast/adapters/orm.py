@@ -36,8 +36,7 @@ episode_table = Table(
     Column('audio_url', Text, nullable=True),
     Column('audio_length', Integer, nullable=True),
     Column('description', String(255), nullable=True),
-    Column('pub_date', Text, nullable=True),
-
+    Column('pub_date', DateTime, nullable=True),
 )
 
 categories_table = Table(
