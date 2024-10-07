@@ -102,33 +102,33 @@ playlists_table = Table(
     Column('name', ForeignKey('podcasts.podcast_id')),
 )
 
-playlist_episodes_table = Table(
-    'playlist_episodes', mapper_registry.metadata,
-    Column('id', Integer, primary_key=True, autoincrement=True),
-    Column('episode_id', ForeignKey('episodes.episode_id')),
-    Column('playlist_id', ForeignKey('playlists.playlist_id')),
-)
-
-playlist_podcasts_table = Table(
-    'playlist_podcasts', mapper_registry.metadata,
-    Column('id', Integer, primary_key=True, autoincrement=True),
-    Column('podcast_id', ForeignKey('podcasts.podcast_id')),
-    Column('playlist_id', ForeignKey('playlists.playlist_id')),
-)
+# playlist_episodes_table = Table(
+#     'playlist_episodes', mapper_registry.metadata,
+#     Column('id', Integer, primary_key=True, autoincrement=True),
+#     Column('episode_id', ForeignKey('episodes.episode_id')),
+#     Column('playlist_id', ForeignKey('playlists.playlist_id')),
+# )
+#
+# playlist_podcasts_table = Table(
+#     'playlist_podcasts', mapper_registry.metadata,
+#     Column('id', Integer, primary_key=True, autoincrement=True),
+#     Column('podcast_id', ForeignKey('podcasts.podcast_id')),
+#     Column('playlist_id', ForeignKey('playlists.playlist_id')),
+# )
 
 
 podcast_users_table = Table(
     'podcast_users', mapper_registry.metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
-    Column('podcast_id', ForeignKey('podcasts.podcast_id')),
-    Column('user_id', ForeignKey('users.user_id')),
+    Column('podcast_id', Integer, ForeignKey('podcasts.podcast_id')),
+    Column('user_id', Integer, ForeignKey('users.user_id')),
 )
 
 episode_users_table = Table(
     'episode_users', mapper_registry.metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
-    Column('episode_id', ForeignKey('episodes.episode_id')),
-    Column('user_id', ForeignKey('users.user_id')),
+    Column('episode_id', Integer, ForeignKey('episodes.episode_id')),
+    Column('user_id', Integer, ForeignKey('users.user_id')),
 )
 
 
@@ -203,11 +203,29 @@ def map_model_to_tables():
         'audio_seconds': audio_times_table.c.audio_seconds,
     })
 
+    # mapper_registry.map_imperatively(Playlist, playlists_table, properties={
+    #     '_id': playlists_table.c.playlist_id,
+    #     '_name': playlists_table.c.name,
+    #     '_user': relationship(User),
+    #     '_episodes': relationship(Episode, secondary=podcast_users_table),
+    #     '_podcasts': relationship(Podcast, secondary=episode_users_table),
+    # })
+
     mapper_registry.map_imperatively(Playlist, playlists_table, properties={
         '_id': playlists_table.c.playlist_id,
         '_name': playlists_table.c.name,
-        '_owner': relationship(User),
-        '_episodes': relationship(Episode, secondary=playlist_episodes_table),
-        '_podcasts': relationship(Podcast, secondary=playlist_podcasts_table),
+        '_user': relationship(User),
+        '_episodes': relationship(
+            Episode,
+            secondary=episode_users_table,
+            primaryjoin=playlists_table.c.playlist_id == episode_users_table.c.user_id,  # Adjust this join condition
+            secondaryjoin=episode_users_table.c.episode_id == episode_table.c.episode_id
+        ),
+        '_podcasts': relationship(
+            Podcast,
+            secondary=podcast_users_table,
+            primaryjoin=playlists_table.c.playlist_id == podcast_users_table.c.user_id,  # Adjust this join condition
+            secondaryjoin=podcast_users_table.c.podcast_id == podcast_table.c.podcast_id
+        ),
     })
 

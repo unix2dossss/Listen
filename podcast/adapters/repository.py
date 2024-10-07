@@ -133,6 +133,22 @@ class AbstractRepository(abc.ABC):
         """add review to podcast"""
         raise NotImplementedError
 
+    def add_podcast_to_playlist(self, playlist: Playlist, podcast: Podcast, user: User):
+        """add podcast to playlist"""
+        raise NotImplementedError
+
+    def add_episode_to_playlist(self, playlist: Playlist, podcast: Podcast, user: User):
+        """add episode to playlist"""
+        raise NotImplementedError
+
+    def remove_podcast_from_playlist(self, playlist, podcast, user):
+        """remove podcast from playlist"""
+        raise NotImplementedError
+
+    def remove_episode_from_playlist(self, playlist, episode, user):
+        """remove episode from playlist"""
+        raise NotImplementedError
+
     def get_episode(self, param):
         """add review to podcast"""
         raise NotImplementedError

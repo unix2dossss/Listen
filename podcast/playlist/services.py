@@ -77,7 +77,9 @@ def get_user_playlist_episodes(user: User, repo_instance):
         ep_n += 1
         episode_dict["episode_title"] = episode.episode_title
         episode_dict["episode_description"] = episode.episode_description
-        episode_dict["episode_date"] = episode.episode_publish_date.strftime("%Y-%m-%d")
+        # episode_dict["episode_date"] = episode.episode_publish_date.strftime("%Y-%m-%d")
+
+        episode_dict["episode_date"] = "temp date"
         episode_dict["episode_length"] = str(episode.episode_audio_length)
 
         playlist_episodes_out.append(episode_dict)
@@ -86,6 +88,7 @@ def get_user_playlist_episodes(user: User, repo_instance):
 
 
 def get_user_playlist(user: User, repo: AbstractRepository):
+    print("DEBUG MESSAGE")
     return repo.get_user_playlist(user)
 
 
@@ -93,16 +96,9 @@ def add_to_podcast_playlist(user: User, podcast_id, repo: AbstractRepository):
     playlist = get_user_playlist(user, repo)
     print(playlist)
     podcast = repo.get_podcast(int(podcast_id))
-    playlist.add_podcast_to_playlist(podcast, user)
+    # playlist.add_podcast_to_playlist(podcast, user)
+    repo.add_podcast_to_playlist(playlist, podcast, user)
     print(playlist.podcasts)
-    return None
-
-
-def remove_from_podcast_playlist(user, podcast_id, repo_instance: AbstractRepository):
-    playlist = get_user_playlist(user, repo_instance)
-    podcast = repo_instance.get_podcast(int(podcast_id))
-    print(podcast)
-    playlist.remove_podcast_from_playlist(podcast, user)
     return None
 
 
@@ -110,13 +106,25 @@ def add_to_episode_playlist(user: User, episode_id, repo: AbstractRepository):
     playlist: Playlist = get_user_playlist(user, repo)
     print(playlist)
     episode = repo.get_episode(int(episode_id))
-    playlist.add_episode(episode, user)
+    # playlist.add_episode(episode, user)
+    repo.add_episode_to_playlist(playlist, episode, user)
     print(playlist.episodes)
+    return None
+
+
+def remove_from_podcast_playlist(user, podcast_id, repo_instance: AbstractRepository):
+    playlist = get_user_playlist(user, repo_instance)
+    podcast = repo_instance.get_podcast(int(podcast_id))
+    print(podcast)
+    # playlist.remove_podcast_from_playlist(podcast, user)
+    repo_instance.remove_podcast_from_playlist(playlist, podcast, user)
     return None
 
 
 def remove_from_episode_playlist(user, episode_id, repo_instance: AbstractRepository):
     playlist: Playlist = get_user_playlist(user, repo_instance)
     episode = repo_instance.get_episode(int(episode_id))
-    playlist.remove_episode(episode, user)
+    # playlist.remove_episode(episode, user)
+    repo_instance.remove_episode_from_playlist(playlist, episode, user)
     return None
+

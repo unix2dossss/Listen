@@ -270,6 +270,12 @@ class MemoryRepository(AbstractRepository):
             if playlist.user == user:
                 return playlist
 
+    def add_podcast_to_playlist(self, playlist: Playlist, podcast: Podcast, user: User):
+        playlist.add_podcast_to_playlist(podcast, user)
+
+    def add_episode_to_playlist(self, playlist: Playlist, episode: Episode, user: User):
+        playlist.add_episode(episode, user)
+
     def get_podcast_average_rating(self, podcast_id):
         podcast = self.get_podcast(podcast_id)
         average_rating = None

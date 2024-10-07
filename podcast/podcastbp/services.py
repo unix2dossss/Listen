@@ -1,7 +1,7 @@
 from podcast import Podcast
 from podcast.adapters.repository import AbstractRepository
 from flask import url_for, session
-import datetime
+from datetime import datetime
 import podcast.adapters.repository as repo_i
 from podcast.domainmodel.model import Episode
 
@@ -78,7 +78,8 @@ def podcast_episodes(podcast_id: int, repo: AbstractRepository):
         episode_dict["episode_title"] = episode.episode_title
         episode_dict["episode_description"] = episode.episode_description
         # episode_dict["episode_date"] = episode.episode_publish_date.strftime("%Y-%m-%d")
-        episode_dict["episode_date"] = episode.episode_publish_date
+
+        episode_dict["episode_date"] = "temp date"
         episode_dict["episode_length"] = str(episode.episode_audio_length)
         episode_dict["episode_in_playlist"] = item_in_playist(episode=episode)
 

@@ -1,11 +1,11 @@
-from sqlalchemy import func
+from sqlalchemy import func, delete
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.orm import scoped_session
 from abc import ABC
 from typing import List, Type, Any
 
 from podcast import Podcast, Author
-from podcast.adapters.orm import podcast_categories_table
+from podcast.adapters.orm import podcast_categories_table, podcast_users_table, episode_users_table
 from podcast.adapters.repository import AbstractRepository
 from podcast.domainmodel.model import Category, Episode, User, Playlist, Review, AudioTime
 
@@ -97,6 +97,17 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             print(f'Podcast {pc_id} was not found')
 
         return podcast
+
+    def get_episode(self, ep_id):
+        episode = None
+        try:
+            query = self._session_cm.session.query(Episode).filter(
+                Episode._episode_id == ep_id)
+            episode = query.one()
+        except NoResultFound:
+            print(f'Podcast {ep_id} was not found')
+
+        return episode
 
     def get_popular_categories(self) -> List[Category]:
         try:
@@ -402,14 +413,56 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             self._session_cm.session.rollback()
 
 
+# _ .
+# . _
+# . .
+# _ _
+
     def get_user_playlist(self, user: User):
         try:
-            playlist = self._session_cm.session.query(Playlist).filter(Playlist._user._id == user.id).one()
+            playlist = self._session_cm.session.query(Playlist).filter(Playlist.user_id == user.id).one()
             return playlist
 
         except Exception as e:
             print(f"An error occurred while retrieving the user's playlist: {e}")
             return None
+
+    def add_podcast_to_playlist(self, playlist: Playlist, podcast: Podcast, user: User):
+        stmt = podcast_users_table.insert().values(
+            podcast_id=podcast._id,
+            user_id=user._id
+        )
+
+        # Execute the statement and commit the changes to the database
+        self._session_cm.session.execute(stmt)
+        self._session_cm.session.commit()
+
+    def add_episode_to_playlist(self, playlist: Playlist, episode: Episode, user: User):
+        stmt = episode_users_table.insert().values(
+            episode_id=episode._episode_id,
+            user_id=user._id
+        )
+
+        self._session_cm.session.execute(stmt)
+        self._session_cm.session.commit()
+
+    def remove_podcast_from_playlist(self, playlist: Playlist, podcast: Podcast, user: User):
+        stmt = delete(podcast_users_table).where(
+            podcast_users_table.c.podcast_id == podcast._id,
+            podcast_users_table.c.user_id == user._id
+        )
+
+        self._session_cm.session.execute(stmt)
+        self._session_cm.session.commit()
+
+    def remove_episode_from_playlist(self, playlist: Playlist, episode: Episode, user: User):
+        stmt = delete(episode_users_table).where(
+            episode_users_table.c.episode_id == episode._episode_id,
+            episode_users_table.c.user_id == user._id
+        )
+
+        self._session_cm.session.execute(stmt)
+        self._session_cm.session.commit()
 
 
     def get_podcast_average_rating(self, podcast_id):
@@ -442,9 +495,3 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         with self._session_cm as scm:
             scm.session.merge(episode)
             scm.commit()
-
-
-
-
-
-
