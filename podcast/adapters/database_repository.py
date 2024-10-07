@@ -124,10 +124,10 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def get_editor_picks(self) -> List[Podcast]:
         try:
             editor_picks = self._session_cm.session.query(Podcast).filter(
-                Podcast._id.in_([106, 503, 829])
+                Podcast._id.in_([107, 504, 830])
             ).all()
         except NoResultFound:
-            print(f'Podcasts with ids"{106, 503, 829}" was not found')
+            print(f'Podcasts with ids"{107, 504, 830}" was not found')
             return []
 
         return editor_picks
@@ -136,10 +136,10 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def get_podcast_search_list(self) -> List[Podcast]:
         try:
             podcast_search_list = self._session_cm.session.query(Podcast).filter(
-                Podcast._id.in_([288, 162, 799, 317])
+                Podcast._id.in_([289, 163, 800, 318])
             ).all()
         except NoResultFound:
-            print(f'Podcasts with ids"{288, 162, 799, 317}" was not found')
+            print(f'Podcasts with ids"{289, 163, 800, 318}" was not found')
             return []
 
         return podcast_search_list
@@ -213,10 +213,10 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def get_top_podcasts(self) -> List[Podcast]:
         try:
             top_podcasts = self._session_cm.session.query(Podcast).filter(
-                Podcast._id.in_([771, 531, 88, 438])
+                Podcast._id.in_([772, 532, 89, 439])
             ).all()
         except NoResultFound:
-            print(f'Podcasts with ids "{771, 531, 88, 438}" were not found')
+            print(f'Podcasts with ids "{772, 532, 89, 439}" were not found')
             return []
 
         return top_podcasts
@@ -224,10 +224,10 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def get_recently_played(self) -> List[Podcast]:
         try:
             recently_played_podcasts = self._session_cm.session.query(Podcast).filter(
-                Podcast._id.in_([670, 219, 728, 8])
+                Podcast._id.in_([671, 220, 729, 9])
             ).all()
         except NoResultFound:
-            print(f'Podcasts with ids "{670, 219, 728, 8}" were not found')
+            print(f'Podcasts with ids "{671, 220, 729, 9}" were not found')
             return []
 
         return recently_played_podcasts
@@ -236,10 +236,10 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def get_new_podcasts(self) -> List[Podcast]:
         try:
             new_podcasts = self._session_cm.session.query(Podcast).filter(
-                Podcast._id.in_([739, 268, 639, 200])
+                Podcast._id.in_([740, 269, 640, 201])
             ).all()
         except NoResultFound:
-            print(f'Podcasts with ids "{739, 268, 639, 200}" were not found')
+            print(f'Podcasts with ids "{740, 269, 640, 201}" were not found')
             return []
 
         return new_podcasts
@@ -247,10 +247,10 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def get_continue_listening_podcasts(self) -> List[Podcast]:
         try:
             continue_listening_podcasts = self._session_cm.session.query(Podcast).filter(
-                Podcast._id.in_([546, 823, 908, 675])
+                Podcast._id.in_([547, 824, 909, 676])
             ).all()
         except NoResultFound:
-            print(f'Podcasts with ids "{546, 823, 908, 675}" were not found')
+            print(f'Podcasts with ids "{547, 824, 909, 676}" were not found')
             return []
 
         return continue_listening_podcasts
