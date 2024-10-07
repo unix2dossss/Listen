@@ -384,6 +384,14 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             ).one()
             podcast.add_review(review)
 
+            # Step 2: Add the Comment first if it exists in the Review
+            if review.comment:
+                self._session_cm.session.add(review.comment)  # Add comment to the session first
+                self._session_cm.session.flush()  # Ensure the comment is written to the database and assigned an ID
+
+                # Step 3: Set the review's comment_id to the persisted comment's ID
+                review.comment_id = review.comment.id  # Make sure the foreign key is set
+
             self._session_cm.session.add(review)
             self._session_cm.session.commit()
 

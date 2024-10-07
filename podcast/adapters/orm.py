@@ -66,9 +66,12 @@ reviews_table = Table(
     Column('review_id', Integer, primary_key=True, autoincrement=True),
     Column('user_id', ForeignKey('users.user_id')),
     Column('podcast_id', ForeignKey('podcasts.podcast_id')),
-    Column('comment', ForeignKey('comments.comment_id')),
+    # Column('comment', ForeignKey('comments.comment_id')),
+    # Column('comment', Integer),  # Keep this as an integer to store the comment ID
+    # Column('comment', ForeignKey('comments.comment_id')),  # This sets the foreign key correctly
+    Column('comment_id', ForeignKey('comments.comment_id')),
     Column('rating', Integer, nullable=False),
-    Column('timestamp', DateTime, nullable=False),
+    # Column('timestamp', DateTime, nullable=False),
 )
 
 # Comments should have links to its user through its foreign keys
@@ -179,7 +182,11 @@ def map_model_to_tables():
         '_id': reviews_table.c.review_id,
         '_owner': relationship(User, back_populates='_reviews'),
         '_rating': reviews_table.c.rating,
-        '_comment': relationship(Comment),
+        # '_comment': relationship(Comment),
+        # '_comment': relationship(Comment, foreign_keys=[reviews_table.c.comment]),
+        # '_comment': relationship(Comment, backref='review', viewonly=True),  # Backref allows reverse access from Comment to Review
+        '_comment': relationship(Comment, foreign_keys=[reviews_table.c.comment_id], backref='review', viewonly=True),
+
     })
 
     mapper_registry.map_imperatively(Comment, comments_table, properties={
