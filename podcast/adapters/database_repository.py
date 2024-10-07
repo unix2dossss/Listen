@@ -112,10 +112,10 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def get_popular_categories(self) -> List[Category]:
         try:
             popular_categories = self._session_cm.session.query(Category).filter(
-                Category._id.in_([1, 5, 16])
+                Category._id.in_([2, 6, 17])
             ).all()
         except NoResultFound:
-            print(f'Categories with ids"{1, 5, 16}" was not found')
+            print(f'Categories with ids"{2, 6, 17}" was not found')
             return []
 
         return popular_categories
@@ -177,6 +177,8 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
                     Category._id == c.id
                 ).all()
                 podcasts.extend(category_podcasts)
+
+            podcasts = list(set(podcasts))
 
             return podcasts
 
