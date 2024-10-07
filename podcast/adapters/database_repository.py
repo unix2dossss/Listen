@@ -350,7 +350,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def get_user(self, username: str) -> Any | None:
         try:
             user = self._session_cm.session.query(User).filter(
-                User.username == username.lower()
+                User._username == username.lower()
             ).one()
         except NoResultFound:
             return None

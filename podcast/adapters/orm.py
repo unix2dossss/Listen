@@ -88,7 +88,8 @@ audio_times_table = Table(
     Column('audio_hours', Integer, nullable=True),
     Column('audio_minutes', Integer, nullable=True),
     Column('audio_seconds', Integer, nullable=True),
-    Column('episode_id', Integer, ForeignKey('episodes.episode_id')),
+    # Column('episode_id', Integer, ForeignKey('episodes.episode_id')),
+    Column('episode_id', Integer, ForeignKey('episodes.episode_id', ondelete='CASCADE'), unique=True),
 )
 
 playlists_table = Table(
@@ -150,7 +151,7 @@ def map_model_to_tables():
         '_itunes_id': podcast_table.c.itunes_id,
         '_author': relationship(Author, back_populates='podcast_list'),
         'episodes': relationship(Episode, back_populates='_episode_podcast'),
-        '_reviews': relationship(Review, back_populates='_podcast'),
+        '_reviews': relationship(Review),
         'categories': relationship(Category, secondary=podcast_categories_table),
         '_in_playlist_users': relationship(User, secondary=podcast_users_table),
     })
@@ -170,16 +171,15 @@ def map_model_to_tables():
         '_id': users_table.c.user_id,
         '_username': users_table.c.username,
         '_password': users_table.c.password,
-        '_reviews': relationship(Review, back_populates='_owner')
+        '_reviews': relationship(Review)
     })
 
     mapper_registry.map_imperatively(Review, reviews_table, properties={
         # '_Review__timestamp': reviews_table.c.timestamp,
         '_id': reviews_table.c.review_id,
-        '_owner': relationship(User),
+        '_owner': relationship(User, back_populates='_reviews'),
         '_rating': reviews_table.c.rating,
-        '_comment': relationship(Comment, uselist=False),  # One-to-one relationship
-        '_podcast': relationship(Podcast, back_populates='_reviews'),
+        '_comment': relationship(Comment),
     })
 
     mapper_registry.map_imperatively(Comment, comments_table, properties={
