@@ -276,6 +276,12 @@ class MemoryRepository(AbstractRepository):
     def add_episode_to_playlist(self, playlist: Playlist, episode: Episode, user: User):
         playlist.add_episode(episode, user)
 
+    def remove_podcast_from_playlist(self, playlist, podcast, user):
+        playlist.remove_podcast_from_playlist(podcast, user)
+
+    def remove_episode_from_playlist(self, playlist, episode, user):
+        playlist.remove_episode(episode, user)
+
     def get_podcast_average_rating(self, podcast_id):
         podcast = self.get_podcast(podcast_id)
         average_rating = None
