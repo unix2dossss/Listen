@@ -353,7 +353,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             scm.session.add(user)
             scm.commit()
 
-    # ****** NOT SURE ************
     def add_playlist(self, playlist: Playlist):
         with self._session_cm as scm:
             scm.session.add(playlist)
@@ -413,12 +412,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         except Exception as e:
             print(f"An error occurred: {e}")
             self._session_cm.session.rollback()
-
-
-# _ .
-# . _
-# . .
-# _ _
 
     def get_user_playlist(self, user: User):
         try:
