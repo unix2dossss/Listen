@@ -1,6 +1,6 @@
 import pytest
 
-from podcast import MemoryRepository, populate, create_app
+from podcast import MemoryRepository, repository_populate, create_app
 from pathlib import Path
 from datetime import datetime
 import os
@@ -25,7 +25,8 @@ from podcast.domainmodel.model import (
 def in_memory_repo():
     repo = MemoryRepository()
     data_path = Path("podcast") / "adapters" / "data"
-    populate(data_path, repo)
+    database_mode = False
+    repository_populate.populate(data_path, repo, database_mode)
     return repo
 
 @pytest.fixture
