@@ -9,7 +9,7 @@ from podcast.adapters.orm import mapper_registry, map_model_to_tables
 from utils import get_project_root
 
 TEST_DATA_PATH_DATABASE_FULL = get_project_root() / "podcast" / "adapters" / "data"
-TEST_DATA_PATH_DATABASE_LIMITED = get_project_root() / "tests" / "data"
+TEST_DATA_PATH_DATABASE_LIMITED = get_project_root() / "podcast" / "adapters" / "data" / "test_data"
 
 TEST_DATABASE_URI_IN_MEMORY = 'sqlite://'
 TEST_DATABASE_URI_FILE = 'sqlite:///podcasts-test.db'
