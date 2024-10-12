@@ -54,7 +54,7 @@ def insert_author(empty_session, values=None):
 
     empty_session.execute('INSERT INTO authors (author_id, name) VALUES (:author_id, :name)',
                           {'author_id': new_id, 'name': new_name})
-    row = empty_session.execute('SELECT id from authors where name = :name',
+    row = empty_session.execute('SELECT author_id from authors where name = :name',
                                 {'name': new_name}).fetchone()
     return row[0]
 
@@ -63,7 +63,7 @@ def insert_authors(empty_session, values):
     for value in values:
         empty_session.execute('INSERT INTO authors (author_id, name) VALUES (:author_id, :name)',
                               {'author_id': value[0], 'name': value[1]})
-    rows = list(empty_session.execute('SELECT id from authors'))
+    rows = list(empty_session.execute('SELECT author_id from authors'))
     keys = tuple(row[0] for row in rows)
     return keys
 
@@ -144,6 +144,40 @@ def test_saving_of_users_with_common_user_name(empty_session):
         empty_session.add(user)
         empty_session.commit()
 
+# Author Tests
+
+def test_loading_of_authors(empty_session):
+    authors = list()
+    authors.append((1, "Shaymli"))
+    authors.append((2, "Asma"))
+    insert_authors(empty_session, authors)
+
+    expected = [
+        Author(1, "Shaymli"),
+        Author(2, "Asma")
+    ]
+
+    assert empty_session.query(Author).all() == expected
+
+
+def test_saving_of_authors(empty_session):
+    author = make_author()
+    empty_session.add(author)
+    empty_session.commit()
+
+    rows = list(empty_session.execute('SELECT author_id, name FROM authors'))
+
+    assert rows == [(1, 'Joe Toste')]
+
+
+def test_saving_of_authors_with_common_name(empty_session):
+    insert_author(empty_session, (1, 'Joe Toste'))
+    empty_session.commit()
+
+    with pytest.raises(IntegrityError):
+        author = Author(1,'Joe Toste')
+        empty_session.add(author)
+        empty_session.commit()
 
 # Podcast Tests
 
@@ -164,4 +198,8 @@ def test_saving_of_podcast(empty_session):
     rows = list(empty_session.execute('SELECT podcast_id, title, image_url, description, language, website_url FROM podcasts'))
 
     assert rows == [(100, 'Joe Toste Podcast - Sales Training Expert', None, '', 'Unspecified', '')]
+
+
+
+
 
