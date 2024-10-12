@@ -9,12 +9,10 @@ from podcast.domainmodel.model import (
     Podcast,
     Category,
     User,
-    PodcastSubscription,
     Episode,
-    AudioTime,
     Comment,
     Review,
-    Playlist,
+    Playlist, AudioTime,
 )
 
 
@@ -85,7 +83,7 @@ def insert_categories(empty_session):
     empty_session.execute(
         'INSERT INTO categories (category_name) VALUES ("Society & Culture"), ("Professional")'
     )
-    rows = list(empty_session.execute('SELECT id from categories'))
+    rows = list(empty_session.execute('SELECT category_id from categories'))
     keys = tuple(row[0] for row in rows)
     return keys
 
@@ -94,6 +92,19 @@ def insert_podcast_categories_associations(empty_session, podcast_key, category_
     stmt = 'INSERT INTO podcast_categories (podcast_id, category_id) VALUES (:podcast_id, :category_id)'
     for category_key in category_keys:
         empty_session.execute(stmt, {'podcast_id': podcast_key, 'category_id': category_key})
+
+
+def insert_episode(empty_session):
+    empty_session.execute(
+        'INSERT INTO episodes (episode_id, title, audio_url, audio_length, description, pub_date) VALUES '
+        '(100, "Joe Toste Podcast - Sales Training Expert", '
+        '"https://www.stuff.co.nz/national/health/119899280/ministry-of-health-gives-latest-update-on-novel-coronavirus", '
+        '"The first case of coronavirus has been confirmed in New Zealand  and authorities are now scrambling to track down people who may have come into contact with the patient.", '
+        '"https://www.stuff.co.nz/national/health/119899280/ministry-of-health-gives-latest-update-on-novel-coronavirus", '
+        '"https://resources.stuff.co.nz/content/dam/images/1/z/e/3/w/n/image.related.StuffLandscapeSixteenByNine.1240x700.1zduvk.png/1583369866749.jpg")'
+    )
+    row = empty_session.execute('SELECT episode_id from episodes').fetchone()
+    return row[0]
 
 
 def make_user():
@@ -107,6 +118,26 @@ def make_author():
 def make_podcast():
     my_author = make_author()
     return Podcast(100, my_author, "Joe Toste Podcast - Sales Training Expert")
+
+
+def make_episode():
+    my_podcast = make_podcast()
+    my_audio_time = AudioTime(5, 36, 0)
+    my_date_time = datetime.datetime.strptime("2017-12-11 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z")
+    return Episode(
+        1,
+        my_podcast,
+        "1: Festive food and farming",
+        "https://audioboom.com/posts/6546476.mp3?source=rss&stitched=1",
+        my_audio_time,
+        """
+                       <p>John Bates hosts this festive special from the AHDB consumer insights team looking at how the 
+                       season of goodwill changes what and how we buy, how Brexit might impact our favourite festive 
+                       foods and what farmers and growers need to think about to gear up for Christmas future.</p><p>
+                       <a href="https://ahdb.org.uk/">https://ahdb.org.uk/</a></p><p>Photo by Keenan Loo on Unsplash</p>
+                       """,
+        my_date_time,
+    )
 
 
 # ORM Tests
@@ -140,9 +171,10 @@ def test_saving_of_users_with_common_user_name(empty_session):
     empty_session.commit()
 
     with pytest.raises(IntegrityError):
-        user = User(1,"shyamli", "Testing111")
+        user = User(1, "shyamli", "Testing111")
         empty_session.add(user)
         empty_session.commit()
+
 
 # Author Tests
 
@@ -175,9 +207,10 @@ def test_saving_of_authors_with_common_name(empty_session):
     empty_session.commit()
 
     with pytest.raises(IntegrityError):
-        author = Author(1,'Joe Toste')
+        author = Author(1, 'Joe Toste')
         empty_session.add(author)
         empty_session.commit()
+
 
 # Podcast Tests
 
@@ -195,11 +228,28 @@ def test_saving_of_podcast(empty_session):
     empty_session.add(podcast)
     empty_session.commit()
 
-    rows = list(empty_session.execute('SELECT podcast_id, title, image_url, description, language, website_url FROM podcasts'))
+    rows = list(
+        empty_session.execute('SELECT podcast_id, title, image_url, description, language, website_url FROM podcasts'))
 
     assert rows == [(100, 'Joe Toste Podcast - Sales Training Expert', None, '', 'Unspecified', '')]
 
 
+# Episode Tests
 
+def test_loading_of_episodes(empty_session):
+    episode_key = insert_episode(empty_session)
+    expected_episode = make_episode()
+    fetched_episode = empty_session.query(Episode).one()
 
+    assert expected_episode == fetched_episode
+    assert episode_key == fetched_episode.episode_id
 
+# def test_saving_of_podcast(empty_session):
+#     podcast = make_podcast()
+#     empty_session.add(podcast)
+#     empty_session.commit()
+#
+#     rows = list(
+#         empty_session.execute('SELECT podcast_id, title, image_url, description, language, website_url FROM podcasts'))
+#
+#     assert rows == [(100, 'Joe Toste Podcast - Sales Training Expert', None, '', 'Unspecified', '')]
