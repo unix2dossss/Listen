@@ -77,7 +77,7 @@ def insert_podcast(empty_session):
         '"https://www.stuff.co.nz/national/health/119899280/ministry-of-health-gives-latest-update-on-novel-coronavirus", '
         '"https://resources.stuff.co.nz/content/dam/images/1/z/e/3/w/n/image.related.StuffLandscapeSixteenByNine.1240x700.1zduvk.png/1583369866749.jpg")'
     )
-    row = empty_session.execute('SELECT id from podcasts').fetchone()
+    row = empty_session.execute('SELECT podcast_id from podcasts').fetchone()
     return row[0]
 
 
@@ -143,3 +143,25 @@ def test_saving_of_users_with_common_user_name(empty_session):
         user = User(1,"shyamli", "Testing111")
         empty_session.add(user)
         empty_session.commit()
+
+
+# Podcast Tests
+
+def test_loading_of_podcasts(empty_session):
+    podcast_key = insert_podcast(empty_session)
+    expected_podcast = make_podcast()
+    fetched_podcast = empty_session.query(Podcast).one()
+
+    assert expected_podcast == fetched_podcast
+    assert podcast_key == fetched_podcast.id
+
+
+def test_saving_of_podcast(empty_session):
+    podcast = make_podcast()
+    empty_session.add(podcast)
+    empty_session.commit()
+
+    rows = list(empty_session.execute('SELECT podcast_id, title, image_url, description, language, website_url FROM podcasts'))
+
+    assert rows == [(100, 'Joe Toste Podcast - Sales Training Expert', None, '', 'Unspecified', '')]
+
