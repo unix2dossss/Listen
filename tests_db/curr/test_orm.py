@@ -18,6 +18,8 @@ from podcast.domainmodel.model import (
 )
 
 
+# ORM Tests Config
+
 def insert_user(empty_session, values=None):
     new_name = "Meow"
     new_password = "Testing235"
@@ -26,18 +28,18 @@ def insert_user(empty_session, values=None):
         new_name = values[0]
         new_password = values[1]
 
-    empty_session.execute('INSERT INTO users (user_name, password) VALUES (:user_name, :password)',
-                          {'user_name': new_name, 'password': new_password})
-    row = empty_session.execute('SELECT id from users where user_name = :user_name',
-                                {'user_name': new_name}).fetchone()
+    empty_session.execute('INSERT INTO users (username, password) VALUES (:username, :password)',
+                          {'username': new_name, 'password': new_password})
+    row = empty_session.execute('SELECT user_id from users where username = :username',
+                                {'username': new_name}).fetchone()
     return row[0]
 
 
 def insert_users(empty_session, values):
     for value in values:
-        empty_session.execute('INSERT INTO users (user_name, password) VALUES (:user_name, :password)',
-                              {'user_name': value[0], 'password': value[1]})
-    rows = list(empty_session.execute('SELECT id from users'))
+        empty_session.execute('INSERT INTO users (username, password) VALUES (:username, :password)',
+                              {'username': value[0], 'password': value[1]})
+    rows = list(empty_session.execute('SELECT user_id from users'))
     keys = tuple(row[0] for row in rows)
     return keys
 
@@ -95,14 +97,49 @@ def insert_podcast_categories_associations(empty_session, podcast_key, category_
 
 
 def make_user():
-    return User(1, "Shyamli", "pw12345")
+    return User(1, "Shyamli", "Testing235")
+
 
 def make_author():
     return Author(1, "Joe Toste")
+
 
 def make_podcast():
     my_author = make_author()
     return Podcast(100, my_author, "Joe Toste Podcast - Sales Training Expert")
 
 
+# ORM Tests
 
+# User Tests
+
+def test_loading_of_users(empty_session):
+    users = list()
+    users.append((1, "Shaymli", "Testing235"))
+    users.append((2, "Asma", "Testing111"))
+    insert_users(empty_session, users)
+
+    expected = [
+        User(1, "Shaymli", "Testing235"),
+        User(2, "Asma", "Testing111")
+    ]
+    assert empty_session.query(User).all() == expected
+
+
+def test_saving_of_users(empty_session):
+    user = make_user()
+    empty_session.add(user)
+    empty_session.commit()
+
+    rows = list(empty_session.execute('SELECT username, password FROM users'))
+    assert rows == [("shyamli", "Testing235")]
+
+
+def test_saving_of_users_with_common_user_name(empty_session):
+    insert_user(empty_session, ("shyamli", "Testing1234"))
+    empty_session.commit()
+
+    with pytest.raises(IntegrityError):
+        user = User(1,"shyamli", "Testing111")
+        empty_session.add(user)
+        empty_session.commit()
