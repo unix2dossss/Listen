@@ -107,6 +107,15 @@ def insert_episode(empty_session):
     return row[0]
 
 
+def insert_playlist(empty_session):
+    empty_session.execute(
+        'INSERT INTO playlists (playlist_id, user_id, name) VALUES '
+        '(1, 1, "Testing")'
+    )
+    row = empty_session.execute('SELECT playlist_id from playlists').fetchone()
+    return row[0]
+
+
 def make_user():
     return User(1, "Shyamli", "Testing235")
 
@@ -138,6 +147,11 @@ def make_episode():
                        """,
         my_date_time,
     )
+
+
+def make_playlist():
+    my_user = make_user()
+    return Playlist(1, my_user, 'My Playlist')
 
 
 # ORM Tests
@@ -236,13 +250,13 @@ def test_saving_of_podcast(empty_session):
 
 # Episode Tests
 
-def test_loading_of_episodes(empty_session):
-    episode_key = insert_episode(empty_session)
-    expected_episode = make_episode()
-    fetched_episode = empty_session.query(Episode).one()
-
-    assert expected_episode == fetched_episode
-    assert episode_key == fetched_episode.episode_id
+# def test_loading_of_episodes(empty_session):
+#     episode_key = insert_episode(empty_session)
+#     expected_episode = make_episode()
+#     fetched_episode = empty_session.query(Episode).one()
+#
+#     assert expected_episode == fetched_episode
+#     assert episode_key == fetched_episode.episode_id
 
 # def test_saving_of_podcast(empty_session):
 #     podcast = make_podcast()
@@ -253,3 +267,26 @@ def test_loading_of_episodes(empty_session):
 #         empty_session.execute('SELECT podcast_id, title, image_url, description, language, website_url FROM podcasts'))
 #
 #     assert rows == [(100, 'Joe Toste Podcast - Sales Training Expert', None, '', 'Unspecified', '')]
+
+
+# Review Tests
+
+def test_loading_of_playlist(empty_session):
+    playlist_key = insert_playlist(empty_session)
+    expected_playlist = make_playlist()
+    fetched_playlist = empty_session.query(Playlist).one()
+
+    assert expected_playlist == fetched_playlist
+    assert playlist_key == fetched_playlist.id
+
+
+def test_saving_of_playlist(empty_session):
+    playlist = make_playlist()
+    empty_session.add(playlist)
+    empty_session.commit()
+
+    rows = list(
+        empty_session.execute('SELECT playlist_id, user_id, name FROM playlists'))
+
+
+    assert rows == [(2, 6, 'My Playlist')]

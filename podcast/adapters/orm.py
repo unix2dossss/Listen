@@ -65,9 +65,6 @@ reviews_table = Table(
     Column('review_id', Integer, primary_key=True, autoincrement=True),
     Column('user_id', ForeignKey('users.user_id')),
     Column('podcast_id', ForeignKey('podcasts.podcast_id')),
-    # Column('comment', ForeignKey('comments.comment_id')),
-    # Column('comment', Integer),  # Keep this as an integer to store the comment ID
-    # Column('comment', ForeignKey('comments.comment_id')),  # This sets the foreign key correctly
     Column('comment_id', ForeignKey('comments.comment_id')),
     Column('rating', Integer, nullable=False),
     # Column('timestamp', DateTime, nullable=False),
