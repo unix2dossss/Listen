@@ -215,13 +215,15 @@ def map_model_to_tables():
             Episode,
             secondary=episode_users_table,
             primaryjoin=playlists_table.c.playlist_id == episode_users_table.c.user_id,  # Adjust this join condition
-            secondaryjoin=episode_users_table.c.episode_id == episode_table.c.episode_id
+            secondaryjoin=episode_users_table.c.episode_id == episode_table.c.episode_id,
+            overlaps="_episode_in_playlist_users"
         ),
         '_podcasts': relationship(
             Podcast,
             secondary=podcast_users_table,
             primaryjoin=playlists_table.c.playlist_id == podcast_users_table.c.user_id,  # Adjust this join condition
-            secondaryjoin=podcast_users_table.c.podcast_id == podcast_table.c.podcast_id
+            secondaryjoin=podcast_users_table.c.podcast_id == podcast_table.c.podcast_id,
+            overlaps="_in_playlist_users"
         ),
     })
 

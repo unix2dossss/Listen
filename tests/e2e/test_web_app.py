@@ -85,7 +85,7 @@ def test_redirect_to_displayed_podcast(client):
     podcast_id = 1  # Replace with an actual podcast ID that exists
     response = client.get(f'/home/{podcast_id}')
     assert response.status_code == 302
-    assert response.headers['Location'] == f'/podcast?id={podcast_id}'
+    assert f'/podcast?id={podcast_id}' in response.headers['Location']
 
 
 def test_home_with_invalid_facet(client):

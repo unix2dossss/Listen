@@ -157,138 +157,133 @@ def make_playlist():
 # ORM Tests
 
 # User Tests
+def test_loading_of_users(empty_session):
+    users = list()
+    users.append((1, "Shaymli", "Testing235"))
+    users.append((2, "Asma", "Testing111"))
+    insert_users(empty_session, users)
 
-# def test_loading_of_users(empty_session):
-#     users = list()
-#     users.append((1, "Shaymli", "Testing235"))
-#     users.append((2, "Asma", "Testing111"))
-#     insert_users(empty_session, users)
-#
-#     expected = [
-#         User(1, "Shaymli", "Testing235"),
-#         User(2, "Asma", "Testing111")
-#     ]
-#
-#     assert empty_session.query(User).all()[0].id == 1
-#     assert empty_session.query(User).all()[1].id == 2
-#
-#
-# def test_saving_of_users(empty_session):
-#     user = make_user()
-#     empty_session.add(user)
-#     empty_session.commit()
-#
-#     rows = list(empty_session.execute('SELECT username, password FROM users'))
-#     assert rows == [("shyamli", "Testing235")]
-#
-#
-# def test_saving_of_users_with_common_user_name(empty_session):
-#     insert_user(empty_session, ("shyamli", "Testing1234"))
-#     empty_session.commit()
-#
-#     with pytest.raises(IntegrityError):
-#         user = User(1, "shyamli", "Testing111")
-#         empty_session.add(user)
-#         empty_session.commit()
-#
-#
-# # Author Tests
-#
-# def test_loading_of_authors(empty_session):
-#     authors = list()
-#     authors.append((1, "Shaymli"))
-#     authors.append((2, "Asma"))
-#     insert_authors(empty_session, authors)
-#
-#     expected = [
-#         Author(1, "Shaymli"),
-#         Author(2, "Asma")
-#     ]
-#
-#     assert empty_session.query(Author).all() == expected
-#
-#
-# def test_saving_of_authors(empty_session):
-#     author = make_author()
-#     empty_session.add(author)
-#     empty_session.commit()
-#
-#     rows = list(empty_session.execute('SELECT author_id, name FROM authors'))
-#
-#     assert rows == [(1, 'Joe Toste')]
-#
-#
-# def test_saving_of_authors_with_common_name(empty_session):
-#     insert_author(empty_session, (1, 'Joe Toste'))
-#     empty_session.commit()
-#
-#     with pytest.raises(IntegrityError):
-#         author = Author(1, 'Joe Toste')
-#         empty_session.add(author)
-#         empty_session.commit()
-#
-#
-# # Podcast Tests
-#
-# def test_loading_of_podcasts(empty_session):
-#     podcast_key = insert_podcast(empty_session)
-#     expected_podcast = make_podcast()
-#     fetched_podcast = empty_session.query(Podcast).one()
-#
-#     assert expected_podcast == fetched_podcast
-#     assert podcast_key == fetched_podcast.id
-#
-#
-# def test_saving_of_podcast(empty_session):
-#     podcast = make_podcast()
-#     empty_session.add(podcast)
-#     empty_session.commit()
-#
-#     rows = list(
-#         empty_session.execute('SELECT podcast_id, title, image_url, description, language, website_url FROM podcasts'))
-#
-#     assert rows == [(100, 'Joe Toste Podcast - Sales Training Expert', None, '', 'Unspecified', '')]
+    expected = [
+        User(1, "Shaymli", "Testing235"),
+        User(2, "Asma", "Testing111")
+    ]
+
+    assert empty_session.query(User).all()[0].id == 1
+    assert empty_session.query(User).all()[1].id == 2
+
+
+def test_saving_of_users(empty_session):
+    user = make_user()
+    empty_session.add(user)
+    empty_session.commit()
+
+    rows = list(empty_session.execute('SELECT username, password FROM users'))
+    assert rows == [("shyamli", "Testing235")]
+
+
+def test_saving_of_users_with_common_user_name(empty_session):
+    insert_user(empty_session, ("shyamli", "Testing1234"))
+    empty_session.commit()
+
+    with pytest.raises(IntegrityError):
+        user = User(1, "shyamli", "Testing111")
+        empty_session.add(user)
+        empty_session.commit()
+
+
+# Author Tests
+
+def test_loading_of_authors(empty_session):
+    authors = list()
+    authors.append((1, "Shaymli"))
+    authors.append((2, "Asma"))
+    insert_authors(empty_session, authors)
+
+    expected = [
+        Author(1, "Shaymli"),
+        Author(2, "Asma")
+    ]
+
+    assert empty_session.query(Author).all() == expected
+
+
+def test_saving_of_authors(empty_session):
+    author = make_author()
+    empty_session.add(author)
+    empty_session.commit()
+
+    rows = list(empty_session.execute('SELECT author_id, name FROM authors'))
+
+    assert rows == [(1, 'Joe Toste')]
+
+
+def test_saving_of_authors_with_common_name(empty_session):
+    insert_author(empty_session, (1, 'Joe Toste'))
+    empty_session.commit()
+
+    with pytest.raises(IntegrityError):
+        author = Author(1, 'Joe Toste')
+        empty_session.add(author)
+        empty_session.commit()
+
+
+# Podcast Tests
+def test_loading_of_podcasts(empty_session):
+    podcast_key = insert_podcast(empty_session)
+    expected_podcast = make_podcast()
+    fetched_podcast = empty_session.query(Podcast).one()
+
+    assert expected_podcast == fetched_podcast
+    assert podcast_key == fetched_podcast.id
+
+
+def test_saving_of_podcast(empty_session):
+    podcast = make_podcast()
+    empty_session.add(podcast)
+    empty_session.commit()
+
+    rows = list(
+        empty_session.execute('SELECT podcast_id, title, image_url, description, language, website_url FROM podcasts'))
+
+    assert rows == [(100, 'Joe Toste Podcast - Sales Training Expert', None, '', 'Unspecified', '')]
 
 
 # Episode Tests
-
 def test_loading_of_episodes(empty_session):
     episode_key = insert_episode(empty_session)
     expected_episode = make_episode()
     fetched_episode = empty_session.query(Episode).one()
 
-
     assert expected_episode == fetched_episode
     assert episode_key == fetched_episode.episode_id
 
-# def test_saving_of_podcast(empty_session):
-#     podcast = make_podcast()
-#     empty_session.add(podcast)
-#     empty_session.commit()
-#
-#     rows = list(
-#         empty_session.execute('SELECT podcast_id, title, image_url, description, language, website_url FROM podcasts'))
-#
-#     assert rows == [(100, 'Joe Toste Podcast - Sales Training Expert', None, '', 'Unspecified', '')]
+
+def test_saving_of_podcast(empty_session):
+    podcast = make_podcast()
+    empty_session.add(podcast)
+    empty_session.commit()
+
+    rows = list(
+        empty_session.execute('SELECT podcast_id, title, image_url, description, language, website_url FROM podcasts'))
+
+    assert rows == [(100, 'Joe Toste Podcast - Sales Training Expert', None, '', 'Unspecified', '')]
 
 
 # Playlist Tests
+def test_loading_of_playlist(empty_session):
+    playlist_key = insert_playlist(empty_session)
+    expected_playlist = make_playlist()
+    fetched_playlist = empty_session.query(Playlist).one()
 
-# def test_loading_of_playlist(empty_session):
-#     playlist_key = insert_playlist(empty_session)
-#     expected_playlist = make_playlist()
-#     fetched_playlist = empty_session.query(Playlist).one()
-#
-#     assert expected_playlist.id == fetched_playlist.id
-#
-#
-# def test_saving_of_playlist(empty_session):
-#     playlist = make_playlist()
-#     empty_session.add(playlist)
-#     empty_session.commit()
-#
-#     rows = list(
-#         empty_session.execute('SELECT playlist_id, user_id, name FROM playlists'))
-#
-#
-#     assert rows[0].name == 'My Playlist'
+    assert expected_playlist.id == fetched_playlist.id
+
+
+def test_saving_of_playlist(empty_session):
+    playlist = make_playlist()
+    empty_session.add(playlist)
+    empty_session.commit()
+
+    rows = list(
+        empty_session.execute('SELECT playlist_id, user_id, name FROM playlists'))
+
+    assert rows[0].name == 'My Playlist'
