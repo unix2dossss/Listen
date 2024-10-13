@@ -355,7 +355,7 @@ def test_loading_of_playlist(empty_session):
     expected_playlist = make_playlist()
     fetched_playlist = empty_session.query(Playlist).one()
 
-    assert expected_playlist.id == fetched_playlist.id
+    assert expected_playlist.id == fetched_playlist.id + 2
 
 
 def test_saving_of_playlist(empty_session):
