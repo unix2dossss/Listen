@@ -98,20 +98,6 @@ playlists_table = Table(
     Column('name', ForeignKey('podcasts.podcast_id')),
 )
 
-# playlist_episodes_table = Table(
-#     'playlist_episodes', mapper_registry.metadata,
-#     Column('id', Integer, primary_key=True, autoincrement=True),
-#     Column('episode_id', ForeignKey('episodes.episode_id')),
-#     Column('playlist_id', ForeignKey('playlists.playlist_id')),
-# )
-#
-# playlist_podcasts_table = Table(
-#     'playlist_podcasts', mapper_registry.metadata,
-#     Column('id', Integer, primary_key=True, autoincrement=True),
-#     Column('podcast_id', ForeignKey('podcasts.podcast_id')),
-#     Column('playlist_id', ForeignKey('playlists.playlist_id')),
-# )
-
 
 podcast_users_table = Table(
     'podcast_users', mapper_registry.metadata,

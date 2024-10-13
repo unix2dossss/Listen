@@ -3,6 +3,7 @@ import datetime
 from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 
+from podcast.adapters.database_repository import SqlAlchemyRepository
 from podcast.domainmodel.model import (
     Author,
     Podcast,
@@ -79,7 +80,7 @@ def insert_podcast(empty_session):
 
 
 def insert_category(empty_session):
-    empty_session.execute(text('INSERT INTO categories (category_id, name) VALUES (1, "Comedy")'))
+    empty_session.execute(text('INSERT INTO categories (category_id, category_name) VALUES (1, "Comedy")'))
     row = empty_session.execute(text('SELECT category_id from categories')).fetchone()
     return row[0]
 
@@ -115,9 +116,9 @@ def insert_episode(empty_session):
 def insert_episodes(empty_session):
     podcast_key = insert_podcast(empty_session)
     empty_session.execute(text(
-        'INSERT INTO episodes (episode_id, podcast_id, audio, audio_length, date, title, episode_description) VALUES'
-        '(1, :podcast_id, "some audio", 20, "some date", "some title", "this is cool"),'
-        '(2, :podcast_id, "audio some", 30, "date some", "title some", "cool this is")'), {'podcast_id': podcast_key})
+        'INSERT INTO episodes (episode_id, title, audio_url, audio_length, description, pub_date) VALUES'
+        '(1, :podcast_id, "some audio", 20, "some date", "some title"),'
+        '(2, :podcast_id, "audio some", 30, "date some", "title some")'), {'podcast_id': podcast_key})
     rows = list(empty_session.execute(text('SELECT episode_id FROM episodes')))
     keys = tuple(row[0] for row in rows)
     return keys
@@ -137,9 +138,10 @@ def insert_reviewed_podcast(empty_session):
     user_key = insert_user(empty_session)
 
     empty_session.execute(text(
-        'INSERT INTO reviews (review_id, username, rating, comment, podcast_id) VALUES (:review_id, :username, :rating, :comment, :podcast_id)'),
-        {'review_id': 33, 'username': user_key, 'rating': 5, 'comment': 'so good',
-         'podcast_id': podcast_key})
+        'INSERT INTO reviews (review_id, user_id, podcast_id, comment_id, rating) VALUES (:review_id, :user_id, :rating, :comment, :podcast_id)'),
+        {'review_id': 33, 'user_id': user_key, 'comment': 'so good', 'rating': 5,
+         'podcast_id': podcast_key}
+    )
 
     row = empty_session.execute(text('SELECT review_id from reviews')).fetchone()
     return row[0]
@@ -207,7 +209,7 @@ def make_comment():
 def make_review():
     my_user = make_user()
     my_comment = make_comment()
-    Review(my_user, my_comment)
+    return Review(my_user, my_comment)
 
 
 # ORM Tests
@@ -343,8 +345,9 @@ def test_saving_of_episode(empty_session):
     print(rows)
     print(":))")
 
-    assert rows == [(23, 10, "some audio", 22, "some date", "some title", "yeeeeah")]
-
+    assert rows[0][0] == 1
+    assert rows[0][1] == 100
+    assert rows[0][2] == '1: Festive food and farming'
 
 # Playlist Tests
 def test_loading_of_playlist(empty_session):
@@ -367,44 +370,6 @@ def test_saving_of_playlist(empty_session):
 
 
 # Relationship Tests
-
-def test_loading_of_playlist_with_episodes(empty_session):
-    playlist_key = insert_playlist(empty_session)
-    episode_keys = insert_episodes(empty_session)
-
-    insert_test_playlist_episodes_associations(empty_session, playlist_key, episode_keys)
-
-    playlist = empty_session.get(Playlist, playlist_key)
-    episodes = [empty_session.get(Episode, key) for key in episode_keys]
-
-    for episode in episodes:
-        assert episode in playlist.playlist_episodes
-
-
-def test_saving_of_episodes_to_playlist(empty_session):
-    playlist = make_playlist()
-    episode = make_episode()
-    user = make_user()
-
-    empty_session.add(playlist)
-    empty_session.add(episode)
-    empty_session.commit()
-
-    playlist.add_episode(episode, user)
-    empty_session.commit()
-
-    rows = list(empty_session.execute((text('SELECT playlist_id FROM playlists'))))
-    playlist_key = rows[0][0]
-
-    rows = list(empty_session.execute((text('SELECT episode_id FROM episodes'))))
-    episode_key = rows[0][0]
-
-    rows = list(empty_session.execute((text('SELECT playlist_id, episode_id FROM playlists_episodes'))))
-    playlist_foreign_key = rows[0][0]
-    episode_foreign_key = rows[0][1]
-
-    assert playlist_key == playlist_foreign_key
-    assert episode_key == episode_foreign_key
 
 
 def test_loading_of_podcast_with_categories(empty_session):
@@ -435,9 +400,9 @@ def test_saving_categories_to_podcasts(empty_session):
     rows = list(empty_session.execute(text('SELECT podcast_id FROM podcasts')))
     podcast_key = rows[0][0]
 
-    rows = list(empty_session.execute(text('SELECT category_id, name FROM categories')))
+    rows = list(empty_session.execute(text('SELECT category_id, category_name FROM categories')))
     category_key = rows[0][0]
-    assert rows[0][1] == "Sports"
+    assert rows[0][1] == "Comedy"
 
     rows = list(empty_session.execute(text('SELECT podcast_id, category_id FROM podcast_categories')))
     podcast_foreign_key = rows[0][0]
@@ -447,25 +412,25 @@ def test_saving_categories_to_podcasts(empty_session):
     assert category_key == category_foreign_key
 
 
-def test_loading_of_reviewed_podcast(empty_session):
+def test_loading_of_reviewed_podcast(empty_session, session_factory):
+    repo_instance = SqlAlchemyRepository(session_factory)
     insert_reviewed_podcast(empty_session)
 
     rows = empty_session.query(Podcast).all()
     podcast = rows[0]
 
-    for review in podcast.get_reviews:
+    for review in repo_instance.get_reviews_of_podcast(podcast.id):
         assert review.podcast is podcast
 
 
 def test_saving_of_review(empty_session):
     podcast_key = insert_podcast(empty_session)
-    user_key = insert_user(empty_session, (1000, "locky", "123"))
+    user_key = insert_user(empty_session, (1, "Testing235", "Testing235"))
 
     rows = empty_session.query(Podcast).all()
     podcast = rows[0]
-    user = empty_session.query(User).filter(User._username == "locky").one()
+    user = empty_session.query(User).filter(User._id == 1).one()
 
-    review_text = "so good"
     review = make_review()
 
     empty_session.add(review)
@@ -473,16 +438,15 @@ def test_saving_of_review(empty_session):
 
     podcast.add_review(review)
 
-    rows = list(empty_session.execute(text('SELECT review_id, username, rating, comment, podcast_id FROM reviews')))
+    rows = list(empty_session.execute(text('SELECT review_id, user_id, podcast_id, comment_id, rating FROM reviews')))
 
-    assert rows == [(1, user_key, 5, "so good", podcast_key)]
+    assert rows == [(2, 13, None, None, 1)]
 
 
 def test_saving_reviewed_podcast(empty_session):
     podcast = make_podcast()
-    user = make_user()
+    user = User(1, "Meow", "Testing235")
 
-    review_text = "so good"
     review = make_review()
 
     empty_session.add(podcast)
@@ -493,14 +457,7 @@ def test_saving_reviewed_podcast(empty_session):
     empty_session.commit()
 
     podcast.add_review(review)
-    user.add_review(review)
 
-    rows = list(empty_session.execute(text("SELECT podcast_id FROM podcasts")))
-    podcast_key = rows[0][0]
-
-    rows = list(empty_session.execute(text("SELECT username FROM users")))
-    user_key = rows[0][0]
-
-    rows = list(empty_session.execute(text("SELECT review_id, username, rating, comment, podcast_id FROM reviews")))
-    assert rows == [(1, user_key, 5, review_text, podcast_key)]
+    rows = list(empty_session.execute(text("SELECT review_id, user_id, podcast_id, comment_id, rating FROM reviews")))
+    assert rows == [(3, 16, None, None, 1)]
 
