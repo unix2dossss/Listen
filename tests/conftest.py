@@ -19,6 +19,7 @@ from podcast.domainmodel.model import (
     Playlist,
 )
 
+
 # Fixtures to reuse in multiple tests
 
 @pytest.fixture
@@ -28,6 +29,7 @@ def in_memory_repo():
     database_mode = False
     repository_populate.populate(data_path, repo, database_mode)
     return repo
+
 
 @pytest.fixture
 def my_author():
@@ -90,6 +92,7 @@ def my_csv_data_reader():
 
     return CSVDataReader(testing=True)
 
+
 @pytest.fixture
 def my_playlist(my_user):
     return Playlist(1, my_user, 'My Playlist')
@@ -104,11 +107,13 @@ def my_review(my_user, my_comment):
 def client():
     my_app = create_app({
         'TESTING': True,
+        'REPOSITORY': 'memory',
         'TEST_DATA_PATH': Path("podcast") / "adapters" / "data",
         'WTF_CSRF_ENABLED': False
     })
 
     return my_app.test_client()
+
 
 class AuthenticationManager:
     def __init__(self, client):
@@ -119,6 +124,7 @@ class AuthenticationManager:
             'auth/login',
             data={'user_name': user_name, 'password': password}
         )
+
     def logout(self):
         return self.__client.get('/auth/logout')
 
@@ -127,12 +133,14 @@ class AuthenticationManager:
 def auth(client):
     return AuthenticationManager(client)
 
+
 @pytest.fixture
 def client_with_user(client):
     with client.session_transaction() as sess:
         sess['logged_in'] = True
         sess['username'] = 'test_user'
     return client
+
 
 # Fixtures to reuse in multiple tests
 

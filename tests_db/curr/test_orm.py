@@ -1,7 +1,6 @@
 import pytest
-
 import datetime
-
+from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 
 from podcast.domainmodel.model import (
@@ -79,6 +78,12 @@ def insert_podcast(empty_session):
     return row[0]
 
 
+def insert_category(empty_session):
+    empty_session.execute(text('INSERT INTO categories (category_id, name) VALUES (1, "Comedy")'))
+    row = empty_session.execute(text('SELECT category_id from categories')).fetchone()
+    return row[0]
+
+
 def insert_categories(empty_session):
     empty_session.execute(
         'INSERT INTO categories (category_name) VALUES ("Society & Culture"), ("Professional")'
@@ -107,13 +112,49 @@ def insert_episode(empty_session):
     return row[0]
 
 
+def insert_episodes(empty_session):
+    podcast_key = insert_podcast(empty_session)
+    empty_session.execute(text(
+        'INSERT INTO episodes (episode_id, podcast_id, audio, audio_length, date, title, episode_description) VALUES'
+        '(1, :podcast_id, "some audio", 20, "some date", "some title", "this is cool"),'
+        '(2, :podcast_id, "audio some", 30, "date some", "title some", "cool this is")'), {'podcast_id': podcast_key})
+    rows = list(empty_session.execute(text('SELECT episode_id FROM episodes')))
+    keys = tuple(row[0] for row in rows)
+    return keys
+
+
 def insert_playlist(empty_session):
     empty_session.execute(
         'INSERT INTO playlists (playlist_id, user_id, name) VALUES '
-        '(3, 1, "Testing")'
+        '(1, 1, "Testing")'
     )
     row = empty_session.execute('SELECT playlist_id from playlists').fetchone()
     return row[0]
+
+
+def insert_reviewed_podcast(empty_session):
+    podcast_key = insert_podcast(empty_session)
+    user_key = insert_user(empty_session)
+
+    empty_session.execute(text(
+        'INSERT INTO reviews (review_id, username, rating, comment, podcast_id) VALUES (:review_id, :username, :rating, :comment, :podcast_id)'),
+        {'review_id': 33, 'username': user_key, 'rating': 5, 'comment': 'so good',
+         'podcast_id': podcast_key})
+
+    row = empty_session.execute(text('SELECT review_id from reviews')).fetchone()
+    return row[0]
+
+
+def insert_test_podcast_categories_associations(empty_session, podcast_key, category_keys):
+    stmt = 'INSERT INTO podcast_categories (podcast_id, category_id) VALUES (:podcast_id, :category_id)'
+    for category_key in category_keys:
+        empty_session.execute(text(stmt), {'podcast_id': podcast_key, 'category_id': category_key})
+
+
+def insert_test_playlist_episodes_associations(empty_session, playlist_key, episode_keys):
+    stmt = 'INSERT INTO playlists_episodes (playlist_id, episode_id) VALUES (:playlist_id, :episode_id)'
+    for episode_key in episode_keys:
+        empty_session.execute(text(stmt), {'playlist_id': playlist_key, 'episode_id': episode_key})
 
 
 def make_user():
@@ -127,6 +168,11 @@ def make_author():
 def make_podcast():
     my_author = make_author()
     return Podcast(100, my_author, "Joe Toste Podcast - Sales Training Expert")
+
+
+def make_category():
+    category = Category(1, "Comedy")
+    return category
 
 
 def make_episode():
@@ -152,6 +198,16 @@ def make_episode():
 def make_playlist():
     my_user = make_user()
     return Playlist(1, my_user, 'My Playlist')
+
+def make_comment():
+    my_user = make_user()
+    my_date_time = datetime.datetime.strptime("2017-12-11 15:00:00+0000", "%Y-%m-%d %H:%M:%S%z")
+    return Comment(my_user, "Good!", my_date_time)
+
+def make_review():
+    my_user = make_user()
+    my_comment = make_comment()
+    Review(my_user, my_comment)
 
 
 # ORM Tests
@@ -248,6 +304,24 @@ def test_saving_of_podcast(empty_session):
     assert rows == [(100, 'Joe Toste Podcast - Sales Training Expert', None, '', 'Unspecified', '')]
 
 
+# Category Tests
+
+def test_loading_of_categories(empty_session):
+    insert_category(empty_session)
+
+    expected = [Category(1, "Comedy")]
+    assert empty_session.query(Category).all() == expected
+
+
+def test_saving_of_categories(empty_session):
+    category = make_category()
+    empty_session.add(category)
+    empty_session.commit()
+
+    rows = list(empty_session.execute(text('SELECT category_id, category_name FROM categories')).all())
+    assert rows == [(1, "Comedy")]
+
+
 # Episode Tests
 def test_loading_of_episodes(empty_session):
     episode_key = insert_episode(empty_session)
@@ -258,15 +332,18 @@ def test_loading_of_episodes(empty_session):
     assert episode_key == fetched_episode.episode_id
 
 
-def test_saving_of_podcast(empty_session):
-    podcast = make_podcast()
-    empty_session.add(podcast)
+def test_saving_of_episode(empty_session):
+    episode = make_episode()
+    empty_session.add(episode)
     empty_session.commit()
 
-    rows = list(
-        empty_session.execute('SELECT podcast_id, title, image_url, description, language, website_url FROM podcasts'))
+    rows = list(empty_session.execute(text(
+        'SELECT episode_id, podcast_id, title, audio_url, description, pub_date FROM episodes')).all())
 
-    assert rows == [(100, 'Joe Toste Podcast - Sales Training Expert', None, '', 'Unspecified', '')]
+    print(rows)
+    print(":))")
+
+    assert rows == [(23, 10, "some audio", 22, "some date", "some title", "yeeeeah")]
 
 
 # Playlist Tests
@@ -287,3 +364,143 @@ def test_saving_of_playlist(empty_session):
         empty_session.execute('SELECT playlist_id, user_id, name FROM playlists'))
 
     assert rows[0].name == 'My Playlist'
+
+
+# Relationship Tests
+
+def test_loading_of_playlist_with_episodes(empty_session):
+    playlist_key = insert_playlist(empty_session)
+    episode_keys = insert_episodes(empty_session)
+
+    insert_test_playlist_episodes_associations(empty_session, playlist_key, episode_keys)
+
+    playlist = empty_session.get(Playlist, playlist_key)
+    episodes = [empty_session.get(Episode, key) for key in episode_keys]
+
+    for episode in episodes:
+        assert episode in playlist.playlist_episodes
+
+
+def test_saving_of_episodes_to_playlist(empty_session):
+    playlist = make_playlist()
+    episode = make_episode()
+    user = make_user()
+
+    empty_session.add(playlist)
+    empty_session.add(episode)
+    empty_session.commit()
+
+    playlist.add_episode(episode, user)
+    empty_session.commit()
+
+    rows = list(empty_session.execute((text('SELECT playlist_id FROM playlists'))))
+    playlist_key = rows[0][0]
+
+    rows = list(empty_session.execute((text('SELECT episode_id FROM episodes'))))
+    episode_key = rows[0][0]
+
+    rows = list(empty_session.execute((text('SELECT playlist_id, episode_id FROM playlists_episodes'))))
+    playlist_foreign_key = rows[0][0]
+    episode_foreign_key = rows[0][1]
+
+    assert playlist_key == playlist_foreign_key
+    assert episode_key == episode_foreign_key
+
+
+def test_loading_of_podcast_with_categories(empty_session):
+    podcast_key = insert_podcast(empty_session)
+    category_keys = insert_categories(empty_session)
+
+    insert_test_podcast_categories_associations(empty_session, podcast_key, category_keys)
+
+    podcast = empty_session.get(Podcast, podcast_key)
+    categories = [empty_session.get(Category, key) for key in category_keys]
+
+    for category in categories:
+        assert category in podcast.categories
+
+
+def test_saving_categories_to_podcasts(empty_session):
+    podcast = make_podcast()
+    category = make_category()
+
+    empty_session.add(podcast)
+    empty_session.commit()
+    empty_session.add(category)
+    empty_session.commit()
+
+    podcast.add_category(category)
+    empty_session.commit()
+
+    rows = list(empty_session.execute(text('SELECT podcast_id FROM podcasts')))
+    podcast_key = rows[0][0]
+
+    rows = list(empty_session.execute(text('SELECT category_id, name FROM categories')))
+    category_key = rows[0][0]
+    assert rows[0][1] == "Sports"
+
+    rows = list(empty_session.execute(text('SELECT podcast_id, category_id FROM podcast_categories')))
+    podcast_foreign_key = rows[0][0]
+    category_foreign_key = rows[0][1]
+
+    assert podcast_key == podcast_foreign_key
+    assert category_key == category_foreign_key
+
+
+def test_loading_of_reviewed_podcast(empty_session):
+    insert_reviewed_podcast(empty_session)
+
+    rows = empty_session.query(Podcast).all()
+    podcast = rows[0]
+
+    for review in podcast.get_reviews:
+        assert review.podcast is podcast
+
+
+def test_saving_of_review(empty_session):
+    podcast_key = insert_podcast(empty_session)
+    user_key = insert_user(empty_session, (1000, "locky", "123"))
+
+    rows = empty_session.query(Podcast).all()
+    podcast = rows[0]
+    user = empty_session.query(User).filter(User._username == "locky").one()
+
+    review_text = "so good"
+    review = make_review()
+
+    empty_session.add(review)
+    empty_session.commit()
+
+    podcast.add_review(review)
+
+    rows = list(empty_session.execute(text('SELECT review_id, username, rating, comment, podcast_id FROM reviews')))
+
+    assert rows == [(1, user_key, 5, "so good", podcast_key)]
+
+
+def test_saving_reviewed_podcast(empty_session):
+    podcast = make_podcast()
+    user = make_user()
+
+    review_text = "so good"
+    review = make_review()
+
+    empty_session.add(podcast)
+    empty_session.commit()
+    empty_session.add(user)
+    empty_session.commit()
+    empty_session.add(review)
+    empty_session.commit()
+
+    podcast.add_review(review)
+    user.add_review(review)
+
+    rows = list(empty_session.execute(text("SELECT podcast_id FROM podcasts")))
+    podcast_key = rows[0][0]
+
+    rows = list(empty_session.execute(text("SELECT username FROM users")))
+    user_key = rows[0][0]
+
+    rows = list(empty_session.execute(text("SELECT review_id, username, rating, comment, podcast_id FROM reviews")))
+    assert rows == [(1, user_key, 5, review_text, podcast_key)]
+
